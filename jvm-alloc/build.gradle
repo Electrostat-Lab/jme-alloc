@@ -11,14 +11,14 @@ plugins {
     id 'java-library'
 }
 
-version = '0.1-A'
+final String version = "0.1-A"
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile) { // compile-time options:
+tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
     //options.compilerArgs << '-Xlint:deprecation' // to show deprecation warnings
     options.compilerArgs << '-Xlint:unchecked'
     options.compilerArgs += ["-h", "${project.rootDir}/native-alloc/src/main/include"]
@@ -28,6 +28,14 @@ tasks.withType(JavaCompile) { // compile-time options:
     }
 }
 
+tasks.withType(Jar) { // assemble jar options [java -jar]
+    manifest {
+        attributes 'Project': 'jme-alloc',
+                   'Implementation-Version': "${version}",
+                   'Automatic-Module-Name': "${project.name.replace("-", ".")}",
+                   'Compiled-by': JavaVersion.current()
+    }
+}	
 
 repositories {
     // Use Maven Central for resolving dependencies.
