@@ -12,3 +12,5 @@ An initiator template for the jme-alloc project providing a native allocation ap
 - [ ] Packaging java and natives in a jar.
 - [ ] Native extraction according to the system variant (OS + architecture).
 - [ ] Dynamic linking code.
+- [ ] Handling different variants build.
+- [ ] Github-actions.
