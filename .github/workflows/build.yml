@@ -44,9 +44,9 @@ jobs:
             path: ./native-alloc/src/main/include/
 
     compile-natives:
-        needs: compile-java
         # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
+        needs: compile-java
         strategy:
           matrix:
             os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
@@ -72,9 +72,9 @@ jobs:
               path: ./native-alloc/build/
   
     assemble:
-        needs: compile-natives
-          # runner images with architectures (variants)
+        # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
+        needs: compile-natives
         strategy:
           matrix:
             os: [ 'ubuntu-latest' ]
