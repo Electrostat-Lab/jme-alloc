@@ -14,7 +14,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   compile-java:
     # runner images with architectures (variants)
     runs-on: ${{ matrix.os }}
@@ -45,86 +44,86 @@ jobs:
           path: ./native-alloc/src/main/include/
 
   compile-natives:
-    needs: compile-java
-    # runner images with architectures (variants)
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
-        architecture: [ 'x64', 'x86' ]
-    name: Compile natives on ${{ matrix.os }}_${{ matrix.architecture }}
-    
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Download jni headers
-      - uses: actions/download-artifact@v3
-        with:
-          name: jni-headers
-      
-      - name: Compiling native code into a shared object file
-        run: ./gradlew :native-alloc:build
-        
-      - name: Archive libjmealloc.so
-        uses: actions/upload-artifact@v3
-        with:
-          name: libjmealloc-${{ matrix.os }}_${{ matrix.architecture }}
-          path: ./native-alloc/build/
+      needs: compile-java
+      # runner images with architectures (variants)
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
+          architecture: [ 'x64', 'x86' ]
+      name: Compile natives on ${{ matrix.os }}_${{ matrix.architecture }}
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Download jni headers
+        - uses: actions/download-artifact@v3
+          with:
+            name: jni-headers
+
+        - name: Compiling native code into a shared object file
+          run: ./gradlew :native-alloc:build
+
+        - name: Archive libjmealloc.so
+          uses: actions/upload-artifact@v3
+          with:
+            name: libjmealloc-${{ matrix.os }}_${{ matrix.architecture }}
+            path: ./native-alloc/build/
   
   assemble:
-    needs: compile-natives
-      # runner images with architectures (variants)
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ 'ubuntu-latest' ]
-        jdk: [8]
-        architecture: [ 'x64' ]
-    name: Assemble jme-alloc
-    
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v3
+      needs: compile-natives
+        # runner images with architectures (variants)
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ 'ubuntu-latest' ]
+          jdk: [8]
+          architecture: [ 'x64' ]
+      name: Assemble jme-alloc
 
-      - name: Downloading libjmealloc-ubuntu-latest_x86 
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-ubuntu-latest_x86
-          
-      - name: Downloading libjmealloc-ubuntu-latest_x64 
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-ubuntu-latest_x64
-          
-      - name: Downloading libjmealloc-macos-latest_x64
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-macos-latest_x64
-          
-      - name: Downloading libjmealloc-macos-latest_x86
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-macos-latest_x86
-          
-      - name: Downloading libjmealloc-windows-latest_x64
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-windows-latest_x64
-          
-      - name: Downloading libjmealloc-windows-latest_x86
-      - uses: actions/download-artifact@v3
-        with:
-          name: libjmealloc-windows-latest_x86
-      
-      - name: Downloading byte code
-      - uses: actions/download-artifact@v3
-        with:
-          name: byte-code
-          
-      - name: Copying natives
-        run: ./gradlew :native-alloc:copyNatives
-        
-      - name: Assemble 
-        run: ./gradlew :jvm-alloc:assemble
-    
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Downloading libjmealloc-ubuntu-latest_x86 
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-ubuntu-latest_x86
+
+        - name: Downloading libjmealloc-ubuntu-latest_x64 
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-ubuntu-latest_x64
+
+        - name: Downloading libjmealloc-macos-latest_x64
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-macos-latest_x64
+
+        - name: Downloading libjmealloc-macos-latest_x86
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-macos-latest_x86
+
+        - name: Downloading libjmealloc-windows-latest_x64
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-windows-latest_x64
+
+        - name: Downloading libjmealloc-windows-latest_x86
+        - uses: actions/download-artifact@v3
+          with:
+            name: libjmealloc-windows-latest_x86
+
+        - name: Downloading byte code
+        - uses: actions/download-artifact@v3
+          with:
+            name: byte-code
+
+        - name: Copying natives
+          run: ./gradlew :native-alloc:copyNatives
+
+        - name: Assemble 
+          run: ./gradlew :jvm-alloc:assemble
+  
