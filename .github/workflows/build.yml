@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
+      - name: compiling native code into a shared object file
         run: |
               chmod +rwx ./helper-scripts/compile.sh
               source ./helper-scripts/compile.sh
