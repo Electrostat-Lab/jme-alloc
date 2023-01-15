@@ -20,7 +20,7 @@ jobs:
       strategy:
         matrix:
           os: [ 'ubuntu-latest' ]
-          java: ['8']
+          java: ['17']
           architecture: [ 'x64' ]
       name: Compile java 
 
@@ -50,7 +50,7 @@ jobs:
         strategy:
           matrix:
             os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
-            architecture: [ 'x64', 'x86' ]
+            architecture: [ 'x64' ]
         name: Compile natives on ${{ matrix.os }}_${{ matrix.architecture }}
 
         # Steps represent a sequence of tasks that will be executed as part of the job
@@ -78,7 +78,7 @@ jobs:
         strategy:
           matrix:
             os: [ 'ubuntu-latest' ]
-            jdk: [8]
+            java: ['17']
             architecture: [ 'x64' ]
         name: Assemble jme-alloc
 
