@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [ 'ubuntu-latest' ]
-        jdk: ['8']
+        java: ['8']
         architecture: [ 'x64' ]
     name: Compile java 
     
