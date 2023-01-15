@@ -127,12 +127,12 @@ jobs:
             with:
               name: byte-code
               path: jvm-alloc/build/classes/java/main/
-
-          - name: List build
-            run: tree jvm-alloc/build/classes/java/main/
             
           - name: Copying natives
             run: ./gradlew :native-alloc:copyNatives
+            
+          - name: List build
+            run: tree jvm-alloc/build/classes/java/main/
 
           - name: Assemble 
             run: ./gradlew :jvm-alloc:assemble
