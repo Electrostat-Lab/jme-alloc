@@ -9,7 +9,7 @@ An initiator template for the jme-alloc project providing a native allocation ap
 ### WIP:
 - [x] Separate jvm and native modules.
 - [x] Generating header files for java sources.
-- [ ] Packaging java and natives in a jar.
+- [x] Packaging java and natives in a jar [PR#1](https://github.com/Software-Hardware-Codesign/jme-alloc/pull/1).
 - [ ] Native extraction according to the system variant (OS + architecture).
 - [ ] Dynamic linking code.
 - [ ] Handling different variants build.
