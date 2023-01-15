@@ -35,13 +35,13 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: byte-code
-            path: ./jvm-alloc/build/classes/java/main/
+            path: jvm-alloc/build/classes/java/main/
 
         - name: Archive jni headers
           uses: actions/upload-artifact@v3
           with:
             name: jni-headers
-            path: ./native-alloc/src/main/include/
+            path: native-alloc/src/main/include/
 
     compile-natives:
         # runner images with architectures (variants)
@@ -61,6 +61,7 @@ jobs:
             uses: actions/download-artifact@v3
             with:
               name: jni-headers
+              path: native-alloc/src/main/include/
 
           - name: Compiling native code into a shared object file
             run: ./gradlew :native-alloc:build
@@ -69,7 +70,7 @@ jobs:
             uses: actions/upload-artifact@v3
             with:
               name: libjmealloc-${{ matrix.os }}_${{ matrix.architecture }}
-              path: ./native-alloc/build/
+              path: native-alloc/build/
     assemble:
         # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
@@ -89,46 +90,52 @@ jobs:
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-ubuntu-latest_x86
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading libjmealloc-ubuntu-latest_x64 
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-ubuntu-latest_x64
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading libjmealloc-macos-latest_x64
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-macos-latest_x64
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading libjmealloc-macos-latest_x86
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-macos-latest_x86
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading libjmealloc-windows-latest_x64
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-windows-latest_x64
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading libjmealloc-windows-latest_x86
             uses: actions/download-artifact@v3
             with:
               name: libjmealloc-windows-latest_x86
-              path: ./native-alloc/build/
+              path: native-alloc/build/
 
           - name: Downloading byte code
             uses: actions/download-artifact@v3
             with:
               name: byte-code
-              path: ./jvm-alloc/build/classes/java/main/
+              path: jvm-alloc/build/classes/java/main/
 
+          - name: List build
+            run: tree jvm-alloc/build/classes/java/main/
+            
           - name: Copying natives
             run: ./gradlew :native-alloc:copyNatives
 
           - name: Assemble 
             run: ./gradlew :jvm-alloc:assemble
+
+          - name: Log jar
+            run: tree jvm-alloc/build/libs/
