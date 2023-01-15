@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build jme-alloc
 
 # Controls when the workflow will run
 on:
@@ -21,7 +21,7 @@ jobs:
       matrix:
         os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
         architecture: [ 'x64', 'x86' ]
-    name: compile natives on ${{ matrix.os }}_${{ matrix.architecture }}
+    name: Compile natives on ${{ matrix.os }}_${{ matrix.architecture }}
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,3 +29,9 @@ jobs:
 
       - name: Compiling native code into a shared object file
         run: ./gradlew :native-alloc:build
+        
+      - name: Archive libjmealloc.so
+        uses: actions/upload-artifact@v3
+        with:
+          name: libjmealloc-${{ matrix.os }}_${{ matrix.architecture }}
+          path: ./native-alloc/build/
