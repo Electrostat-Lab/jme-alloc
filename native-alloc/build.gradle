@@ -11,12 +11,20 @@ plugins {
     id 'cpp-library'
 }
 
-version = '0.1-A'
+final String version = "0.1-A"
+final String buildDirectory="${project.rootDir}/jvm-alloc/build/classes/java/main/"
+final String nativeObjects="${project.rootDir}/native-alloc/build/lib/main/debug/"
+
+task copyNatives(type: Copy) {
+    from "${nativeObjects}"
+    into "${buildDirectory}"
+}
 
 library {
     privateHeaders.from file('src/include')
     publicHeaders.from file('src/include')
     source.from file('src')
+    baseName = "jmealloc"
 
     linkage = [Linkage.STATIC, Linkage.SHARED]
 
