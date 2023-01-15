@@ -32,13 +32,13 @@ jobs:
         run: ./gradlew :jvm-alloc:compileJava
         
       - name: Archive byte code 
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
           name: byte-code
           path: ./jvm-alloc/build/classes/java/main/
 
       - name: Archive jni headers
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
           name: jni-headers
           path: ./native-alloc/src/main/include/
@@ -66,7 +66,7 @@ jobs:
           run: ./gradlew :native-alloc:build
 
         - name: Archive libjmealloc.so
-          uses: actions/upload-artifact@v3
+        - uses: actions/upload-artifact@v3
           with:
             name: libjmealloc-${{ matrix.os }}_${{ matrix.architecture }}
             path: ./native-alloc/build/
@@ -126,4 +126,3 @@ jobs:
 
         - name: Assemble 
           run: ./gradlew :jvm-alloc:assemble
-  
