@@ -139,3 +139,9 @@ jobs:
 
           - name: Log jar
             run: tree jvm-alloc/build/libs/
+          
+          - name: Archive release
+            uses: actions/upload-artifact@v3
+            with:
+              name: release-archive
+              path: jvm-alloc/build/libs/*.jar
