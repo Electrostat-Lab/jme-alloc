@@ -74,7 +74,7 @@ jobs:
               fi
           
           - name: Compiling x86 on ${{ matrix.os }}
-            run: bash `chmod +rwx ./helper-scripts/compile-x86.sh` && bash `./helper-scripts/compile-x86.sh`
+            run: bash `./gradlew :jme3-alloc-native:compileX86`
           
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
