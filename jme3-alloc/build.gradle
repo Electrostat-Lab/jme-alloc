@@ -21,7 +21,7 @@ tasks.named('test') {
 tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
     //options.compilerArgs << '-Xlint:deprecation' // to show deprecation warnings
     options.compilerArgs << '-Xlint:unchecked'
-    options.compilerArgs += ["-h", "${project.rootDir}/native-alloc/src/main/include"]
+    options.compilerArgs += ["-h", "${project.rootDir}/jme3-alloc-native/src/include/"]
     options.encoding = 'UTF-8'
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_1_10)) {
         options.release = 8
