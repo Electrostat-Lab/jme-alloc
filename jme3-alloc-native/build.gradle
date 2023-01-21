@@ -20,6 +20,10 @@ task copyNatives(type: Copy) {
     into "${buildDirectory}"
 }
 
+task compileX86() {
+    Runtime.getRuntime().exec(new String[] {"./helper-scripts/compile-x86.sh"});
+}
+
 library {
     privateHeaders.from file('src/include')
     publicHeaders.from file('src/include')
