@@ -63,9 +63,12 @@ jobs:
               name: jni-headers
               path: jme3-alloc-native/src/include/
 
-          - name: Compiling native code into a shared object file
-            run: ./gradlew :jme3-alloc-native:build && ./gradlew :jme3-alloc-native:compileX86
-
+          - name: Compiling x86-64 on ${{ matrix.os }}
+            run: ./gradlew :jme3-alloc-native:build 
+          
+          - name: Compiling x86 on ${{ matrix.os }}
+            run: ./gradlew :jme3-alloc-native:compileX86
+          
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
             with:
