@@ -21,7 +21,18 @@ task copyNatives(type: Copy) {
 }
 
 task compileX86() {
-    Runtime.getRuntime().exec(new String[] {"./helper-scripts/compile-x86.sh"});
+    String command = "bash";
+    final String[] chmod = new String[] { "chmod", "+rwx" };
+    final String compileX86 = "./helper-scripts/compile-x86.sh";
+    final String system = System.getProperty("os.name");
+    
+    if (system.equals("Windows")) {
+        command += ".exe";
+    }
+    
+    /* execute the shell script in a unix process that inheirt from the current environment */
+    Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], compileX86 });
+    Runtime.getRuntime().exec(new String[] { command, compileX86 });
 }
 
 library {
