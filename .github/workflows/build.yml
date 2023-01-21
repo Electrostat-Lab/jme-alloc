@@ -68,6 +68,7 @@ jobs:
           
           - name: Install gcc-multilib 
             run: | 
+              #!/bin/bash
               if [[ `uname` == "Linux" ]]; then
                   sudo apt-get install gcc-multilib
               fi
