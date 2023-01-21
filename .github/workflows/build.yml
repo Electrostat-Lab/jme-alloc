@@ -67,8 +67,11 @@ jobs:
             run: ./gradlew :jme3-alloc-native:build 
           
           - name: Install gcc-multilib 
-            if: ${{ matrix.os }} == 'ubuntu-latest'
-            run: sudo apt-get install gcc-multilib
+            run: | 
+              if [[ ! `uname` -eq "Linux" ]]; then
+                  exit 1
+              fi
+              sudo apt-get install gcc-multilib
           
           - name: Compiling x86 on ${{ matrix.os }}
             run: bash `chmod +rwx ./helper-scripts/compile-x86.sh` && bash `./helper-scripts/compile-x86.sh`
