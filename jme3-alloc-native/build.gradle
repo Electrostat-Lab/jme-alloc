@@ -12,8 +12,8 @@ plugins {
 }
 
 final String version = "0.1-A"
-final String buildDirectory="${project.rootDir}/jvm-alloc/build/classes/java/main/"
-final String nativeObjects="${project.rootDir}/native-alloc/build/lib/main/debug/"
+final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
+final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/lib/main/debug/"
 
 task copyNatives(type: Copy) {
     from "${nativeObjects}"

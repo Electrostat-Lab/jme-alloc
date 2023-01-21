@@ -8,5 +8,5 @@
  */
 
 rootProject.name = 'jme-alloc'
-include('jvm-alloc')
-include('native-alloc')
+include('jme3-alloc')
+include('jme3-alloc-native')
