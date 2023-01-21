@@ -68,10 +68,9 @@ jobs:
           
           - name: Install gcc-multilib 
             run: | 
-              if [[ `uname` != "Linux" ]]; then
-                  exit 1
+              if [[ `uname` == "Linux" ]]; then
+                  sudo apt-get install gcc-multilib
               fi
-              sudo apt-get install gcc-multilib
           
           - name: Compiling x86 on ${{ matrix.os }}
             run: bash `chmod +rwx ./helper-scripts/compile-x86.sh` && bash `./helper-scripts/compile-x86.sh`
