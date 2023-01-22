@@ -47,6 +47,5 @@ abstract class UnixScriptRunner extends DefaultTask {
         run = null;
         command = null;
         chmod = null;
-        system = null;
     }
 }
