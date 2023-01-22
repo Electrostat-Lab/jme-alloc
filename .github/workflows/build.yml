@@ -29,7 +29,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Compiling native code into a shared object file
-          run: ./gradlew :jme3-alloc:compileJava
+          run: ./gradlew --info :jme3-alloc:compileJava
 
         - name: Archive byte code 
           uses: actions/upload-artifact@v3
@@ -64,13 +64,13 @@ jobs:
               path: jme3-alloc-native/src/include/
 
           - name: Compiling x86-64 on ${{ matrix.os }}
-            run: ./gradlew :jme3-alloc-native:build 
+            run: ./gradlew --info :jme3-alloc-native:build 
           
           - name: Install gcc-multilib 
             run: bash ./helper-scripts/install-gcc-multilib.sh
           
           - name: Compiling x86 on ${{ matrix.os }}
-            run: ./gradlew :jme3-alloc-native:compileX86
+            run: ./gradlew --info :jme3-alloc-native:compileX86
           
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
@@ -117,13 +117,13 @@ jobs:
               path: jme3-alloc/build/classes/java/main/
             
           - name: Copying natives
-            run: ./gradlew :jme3-alloc-native:copyNatives
+            run: ./gradlew --info :jme3-alloc-native:copyNatives
             
           - name: List build
             run: tree jme3-alloc/build/classes/java/main/
 
           - name: Assemble 
-            run: ./gradlew :jme3-alloc:assemble
+            run: ./gradlew --info :jme3-alloc:assemble
 
           - name: Log jar
             run: tree jme3-alloc/build/libs/
