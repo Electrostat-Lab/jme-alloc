@@ -50,6 +50,7 @@ jobs:
         strategy:
           matrix:
             os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
+            name: [ 'Linux', 'Windows', 'Macos' ]
             architecture: [ 'x64' ]
         name: Compile natives on ${{ matrix.os }} for x86-64 and x86
 
@@ -64,13 +65,13 @@ jobs:
               path: jme3-alloc-native/src/include/
 
           - name: Compiling x86-64 on ${{ matrix.os }}
-            run: ./gradlew --info :jme3-alloc-native:build 
+            run: ./gradlew --info :jme3-alloc-native:assembleDebugShared${{ matrix.name }}x86-64 
           
           - name: Install gcc-multilib 
             run: bash ./helper-scripts/install-gcc-multilib.sh
           
           - name: Compiling x86 on ${{ matrix.os }}
-            run: ./gradlew --info :jme3-alloc-native:compileX86
+            run: ./gradlew --info :jme3-alloc-native:assembleDebugShared${{ matrix.name }}x86
           
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
