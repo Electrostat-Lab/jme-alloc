@@ -39,7 +39,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         permissioning.destroy(); 
         permissioning = null;
         
-        Process run = Runtime.getRuntime().exec(new String[] { command, script.get() });
+        Process run = Runtime.getRuntime().exec(new String[] { command, "-c", script.get() });
         
         while (run.getInputStream().read() == 0); /* block until the terminal output (Process input) is received */
         
