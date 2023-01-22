@@ -62,9 +62,12 @@ jobs:
             with:
               name: jni-headers
               path: jme3-alloc-native/src/include/
-
+          
+          - name: Prepare build directory
+            run: ./gradlew --info :jme3-alloc-native:prepareOutputDirectory
+          
           - name: Compiling x86-64 on ${{ matrix.os }}
-            run: ./gradlew --info :jme3-alloc-native:build 
+            run: ./gradlew --info :jme3-alloc-native:compileX86_64 
           
           - name: Install gcc-multilib 
             run: bash ./helper-scripts/install-gcc-multilib.sh
