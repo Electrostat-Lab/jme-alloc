@@ -29,7 +29,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Compiling native code into a shared object file
-          run: ./gradlew --info :jme3-alloc:compileJava
+          run: ./gradlew :jme3-alloc:compileJava
 
         - name: Archive byte code 
           uses: actions/upload-artifact@v3
@@ -62,18 +62,19 @@ jobs:
             with:
               name: jni-headers
               path: jme3-alloc-native/src/include/
-          
-          - name: Prepare build directory
-            run: chmod +rwx ./helper-scripts/prepare-output-directory.sh && bash ./helper-scripts/prepare-output-directory.sh 
-          
+
           - name: Compiling x86-64 on ${{ matrix.os }}
-            run: chmod +rwx ./helper-scripts/compile-x86-64.sh && bash ./helper-scripts/compile-x86-64.sh 
+            run: ./gradlew :jme3-alloc-native:build 
           
           - name: Install gcc-multilib 
-            run: bash ./helper-scripts/install-gcc-multilib.sh
+            run: | 
+              #!/bin/bash
+              if [[ `uname` == "Linux" ]]; then
+                  sudo apt-get install gcc-multilib
+              fi
           
           - name: Compiling x86 on ${{ matrix.os }}
-            run: chmod +rwx ./helper-scripts/compile-x86.sh && bash ./helper-scripts/compile-x86.sh 
+            run: bash `chmod +rwx ./helper-scripts/compile-x86.sh` && bash `./helper-scripts/compile-x86.sh`
           
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
@@ -120,13 +121,13 @@ jobs:
               path: jme3-alloc/build/classes/java/main/
             
           - name: Copying natives
-            run: ./gradlew --info :jme3-alloc-native:copyNatives
+            run: ./gradlew :jme3-alloc-native:copyNatives
             
           - name: List build
             run: tree jme3-alloc/build/classes/java/main/
 
           - name: Assemble 
-            run: ./gradlew --info :jme3-alloc:assemble
+            run: ./gradlew :jme3-alloc:assemble
 
           - name: Log jar
             run: tree jme3-alloc/build/libs/
