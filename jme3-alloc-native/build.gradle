@@ -8,21 +8,21 @@ task copyNatives(type: Copy) {
     into "${buildDirectory}"
 }
 
-tasks.register("prepareOutputDirectory", UnixScript) {
+tasks.register("prepareOutputDirectory", UnixScriptRunner) {
    script = "./helper-scripts/prepare-output-directory.sh"
 }
 
-tasks.register("compileX86", UnixScript) {
+tasks.register("compileX86", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
    script = "./helper-scripts/compile-x86.sh"
 }
 
-tasks.register("compileX86_64", UnixScript) {
+tasks.register("compileX86_64", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
    script = "./helper-scripts/compile-x86-64.sh"
 }
 
-abstract class UnixScript extends DefaultTask {
+abstract class UnixScriptRunner extends DefaultTask {
     @Input
     abstract Property<String> getScript()
 
