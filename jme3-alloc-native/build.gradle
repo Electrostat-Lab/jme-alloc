@@ -29,15 +29,17 @@ abstract class UnixScriptRunner extends DefaultTask {
     @TaskAction
     def execute() {
         String command = "bash";
+        String[] envp = null;
         String[] chmod = new String[] { "chmod", "+rwx" };
         
         if (System.getProperty("os.name").equals("Windows")) {
             command += ".exe"
+            envp = new String[] { "path=%PATH%;C:/cygwin/bin/" };
         }
         
         /* execute the shell script in a unix process that inheirt from the current environment */
         Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
-        
+        println(System.getenv())
         if (permissioning.waitFor()) {
             println("Permissioning Failed !")
         }
@@ -45,7 +47,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         permissioning.destroy(); 
         permissioning = null;
         
-        Process run = Runtime.getRuntime().exec(new String[] { command, script.get() });
+        Process run = Runtime.getRuntime().exec(new String[] { command, script.get() }, envp, null);
         
         if (run.waitFor()) {
             println("Run Failed !")
