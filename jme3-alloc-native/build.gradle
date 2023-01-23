@@ -30,14 +30,14 @@ abstract class UnixScriptRunner extends DefaultTask {
     def execute() {
         String command = "bash";
         String[] chmod = new String[] { "chmod", "+rwx" };
-        
+        println(System.getProperty("os.name"))
         if (System.getProperty("os.name").equals("Windows")) {
-            command = "gitbash.exe"
+            command += ".exe"
         }
         
         /* execute the shell script in a unix process that inheirt from the current environment */
         Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
-        println(System.getenv())
+
         if (permissioning.waitFor()) {
             println("Permissioning Failed !")
         }
