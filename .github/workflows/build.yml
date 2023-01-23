@@ -28,7 +28,7 @@ jobs:
       steps:
         - uses: actions/checkout@v3
 
-        - name: Compiling native code into a shared object file
+        - name: Compiling java
           run: ./gradlew --console="verbose" :jme3-alloc:compileJava
 
         - name: Archive byte code 
