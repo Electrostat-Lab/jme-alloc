@@ -36,17 +36,15 @@ abstract class UnixScriptRunner extends DefaultTask {
         
         if (permissioning.waitFor()) {
             println("Permissioning Failed !")
-            System.exit(1)
         }
         
         permissioning.destroy(); 
         permissioning = null;
         
-        Process run = Runtime.getRuntime().exec(new String[] { command, "-c", script.get() });
+        Process run = Runtime.getRuntime().exec(new String[] { command, script.get() });
         
         if (run.waitFor()) {
             println("Run Failed !")
-            System.exit(1)
         }
         
         run.destroy();
