@@ -48,7 +48,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         
         Process run = Runtime.getRuntime().exec(new String[] { command, script.get() });
         
-        if (run.waitFor(20, TimeUnit.SECONDS)) {
+        if (run.waitFor()) {
             println("Run Failed !")
         }
         
