@@ -34,7 +34,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         
         if (System.getProperty("os.name").equals("Windows")) {
             command += ".exe"
-            envp = new String[] { "path=%PATH%;C:\cygwin\bin\" };
+            envp = new String[] { "path=%PATH%;C:\\cygwin\\bin\\" };
         }
         
         /* execute the shell script in a unix process that inheirt from the current environment */
