@@ -73,7 +73,7 @@ jobs:
             run: bash ./helper-scripts/install-gcc-multilib.sh
           
           - name: Compiling x86 on ${{ matrix.os }}
-            run: echo x86
+            run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86
           
           - name: Archive libjmealloc.so
             uses: actions/upload-artifact@v3
