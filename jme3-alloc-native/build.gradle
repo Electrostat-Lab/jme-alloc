@@ -32,7 +32,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         String[] chmod = new String[] { "chmod", "+rwx" };
         
         if (System.getProperty("os.name").equals("Windows")) {
-            command = "C:\Program Files\Git\bin\bash.exe"
+            command = "C:\ProgramFiles\Git\bin\bash.exe"
         }
         
         /* execute the shell script in a unix process that inheirt from the current environment */
