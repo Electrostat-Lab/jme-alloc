@@ -31,17 +31,27 @@ abstract class UnixScriptRunner extends DefaultTask {
         String command = "bash";
         String[] chmod = new String[] { "chmod", "+rwx" };
         
+        if (System.getProperty("os.name").equals("Windows")) {
+            command += ".exe"
+        }
+        
         /* execute the shell script in a unix process that inheirt from the current environment */
         Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
-
-        while (permissioning.getInputStream().read() == 0); /* block until the terminal output is received */
+        
+        if (permissioning.waitFor()) {
+            println("Permissioning Failed !")
+            System.exit(1)
+        }
         
         permissioning.destroy(); 
         permissioning = null;
         
         Process run = Runtime.getRuntime().exec(new String[] { command, "-c", script.get() });
         
-        while (run.getInputStream().read() == 0); /* block until the terminal output (Process input) is received */
+        if (run.waitFor()) {
+            println("Run Failed !")
+            System.exit(1)
+        }
         
         run.destroy();
         run = null;
