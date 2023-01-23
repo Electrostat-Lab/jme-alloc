@@ -30,9 +30,10 @@ abstract class UnixScriptRunner extends DefaultTask {
     def execute() {
         String command = "bash";
         String[] chmod = new String[] { "chmod", "+rwx" };
-        println(System.getProperty("os.name"))
+
         if (System.getProperty("os.name").contains("Windows")) {
-            command += ".exe"
+            println(System.getProperty("os.name"))
+            command = "C:\\Program Files\\Git\\bin\\bash.exe"
         }
         
         /* execute the shell script in a unix process that inheirt from the current environment */
