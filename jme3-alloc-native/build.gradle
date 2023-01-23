@@ -31,7 +31,7 @@ abstract class UnixScriptRunner extends DefaultTask {
         String command = "bash";
         String[] chmod = new String[] { "chmod", "+rwx" };
         println(System.getProperty("os.name"))
-        if (System.getProperty("os.name").equals("Windows")) {
+        if (System.getProperty("os.name").contains("Windows")) {
             command += ".exe"
         }
         
