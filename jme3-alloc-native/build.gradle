@@ -46,7 +46,6 @@ tasks.register("compileX86_64", UnixScriptRunner) {
 
 abstract class UnixScriptRunner extends DefaultTask {
     @Input
-    @Optional
     abstract Property<String> getScript()
 
     @TaskAction
