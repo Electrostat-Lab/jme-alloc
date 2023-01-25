@@ -1,4 +1,3 @@
-
 final String version = "0.1-A"
 final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
 final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/"
@@ -14,7 +13,28 @@ tasks.register("prepareOutputDirectory", UnixScriptRunner) {
 
 tasks.register("compileX86", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
-   script = "./helper-scripts/compile-x86.sh"
+ 
+   boolean isWindows = System.getProperty("os.name").contains("Windows");
+   boolean isMacos = System.getProperty("os.name").contains("Mac");
+   boolean isLinux = System.getProperty("os.name").contains("Linux");
+   
+   boolean isCompileWindowsX86 = compileWindowsX86 == "true"
+   boolean isCompileMacX86 = compileMacX86 == "true"
+   boolean isCompileLinuxX86 = compileLinuxX86 == "true"
+   
+   if (isWindows && isCompileWindowsX86) {
+       /* compile x86 for Windows */
+       println("Compiling X86 Binary for Windows")
+       script = "./helper-scripts/compile-x86.sh"
+   } else if (isMacos && isCompileMacX86) {
+       /* compile x86 for MacOSx */
+       println("Compiling X86 Binary for MacOS")
+       script = "./helper-scripts/compile-x86.sh"
+   } else if (isLinux) {
+       /* compile for linux */
+       println("Compiling X86 Binary for Linux")
+       script = "./helper-scripts/compile-x86.sh"
+   }
 }
 
 tasks.register("compileX86_64", UnixScriptRunner) {
@@ -43,6 +63,7 @@ abstract class UnixScriptRunner extends DefaultTask {
             println("Permissioning Failed !")
         }
         
+        /* release resources */
         permissioning.destroy(); 
         permissioning = null;
         
@@ -52,6 +73,7 @@ abstract class UnixScriptRunner extends DefaultTask {
             println("Run Failed !")
         }
         
+        /* release resources */
         run.destroy();
         run = null;
         command = null;
