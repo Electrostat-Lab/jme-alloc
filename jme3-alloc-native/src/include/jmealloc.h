@@ -10,7 +10,6 @@
 #define _JME_ALLOC
 
 #include<stdlib.h>
-#include<malloc.h>
 #include<string.h>
 #include<stdio.h>
 #include<inttypes.h>
