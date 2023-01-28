@@ -3,7 +3,7 @@
 module="jme3-alloc-native"
 lib="libjmealloc"
 
-native_sources="./${module}/src/c/"
+native_sources="./${module}/src/lib/"
 native_headers="./${module}/src/include/"
 output="./${module}/build/libs"
 
