@@ -49,14 +49,6 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAlloc
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    reAllocArray
- * Signature: (Ljava/nio/Buffer;JJ)Ljava/nio/Buffer;
- */
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAllocArray
-  (JNIEnv *, jclass, jobject, jlong, jlong);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    alignedAlloc
  * Signature: (JJ)Ljava/nio/Buffer;
  */
@@ -77,22 +69,6 @@ JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAllocInf
  * Signature: (Ljava/nio/Buffer;)V
  */
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    getBufferCapacity
- * Signature: (Ljava/nio/Buffer;)J
- */
-JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getBufferCapacity
-  (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    getBufferSize
- * Signature: (Ljava/nio/Buffer;)J
- */
-JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getBufferSize
   (JNIEnv *, jclass, jobject);
 
 /*

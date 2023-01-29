@@ -26,14 +26,9 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAlloc
     return reAlloc(env, &buffer, size);
 }
 
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAllocArray
-  (JNIEnv* env, jclass clazz, jobject buffer, jlong count, jlong size) {
-    return reAllocArray(env, &buffer, count, size);
-}
-
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_alignedAlloc
   (JNIEnv* env, jclass clazz, jlong alignment, jlong size) {
-    return alignedAlloc(env, alignment, size);
+    return 0;
 }
 
 JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAllocInfo

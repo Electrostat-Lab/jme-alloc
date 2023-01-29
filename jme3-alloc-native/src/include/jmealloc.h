@@ -53,14 +53,14 @@ static inline jobject reAlloc(JNIEnv* env, jobject* buffer, size_t size) {
 	return (*env)->NewDirectByteBuffer(env, newBuffer, size);
 }
 
-static inline jobject reAllocArray(JNIEnv* env, jobject* buffer, size_t count, size_t size) {
-	void* newBuffer = ((void*) reallocarray(getMemoryAddress(env, buffer), count, size));
-	return (*env)->NewDirectByteBuffer(env, newBuffer, size);
+static inline jobject alignedAlloc(JNIEnv* env, size_t alignment, size_t size) {
+	/* Not implemented yet */
+	return 0;
 }
 
-static inline jobject alignedAlloc(JNIEnv* env, size_t alignment, size_t size) {
-	void* buffer = aligned_alloc(alignment, size);
-	return (*env)->NewDirectByteBuffer(env, buffer, size);
+static inline int memoryAllocInfo(JNIEnv* env, int options, const char* outputPath) {
+	/* not implemented yet */
+	return 0;
 }
 
 /**
@@ -73,11 +73,6 @@ static inline void destroy(JNIEnv* env, jobject* buffer) {
 	void* memoryAddress = getMemoryAddress(env, buffer);
 	free(memoryAddress);
 	memoryAddress = NULL;
-}
-
-static inline int memoryAllocInfo(JNIEnv* env, int options, const char* outputPath) {
-	/* not implemented yet */
-	return 0;
 }
 
 /**

@@ -70,17 +70,6 @@ public final class NativeBufferUtils {
     public static native Buffer reAlloc(final Buffer buffer, final long size);
 
     /**
-     * Change the size of buffer blocks previously allocated by {@link NativeBufferUtils#calloc(long, long)} 
-     * to [count * size] bytes as with {@link NativeBufferUtils#realloc(Buffer, long)}.
-     * 
-     * @param buffer a java-nio buffer to re-size it
-     * @param count the number of memory blocks to re-allocate
-     * @param size the new size to assign to each memory block
-     * @return a newly re-sized java-nio buffer
-     */
-    public static native Buffer reAllocArray(final Buffer buffer, final long count, final long size);
-
-    /**
      * Allocates a block of size bytes whose address is a multiple of alignment. 
      * The alignment must be a power of two and size must be a multiple of alignment.
      * 
