@@ -99,11 +99,6 @@ public final class NativeBufferUtils {
      */
     public static native void destroy(final Buffer buffer);
 
-    
-    public static native long getBufferCapacity(final Buffer buffer);
-
-    public static native long getBufferSize(final Buffer buffer);
-
     /**
      * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#malloc(long)} in integers.
      * 

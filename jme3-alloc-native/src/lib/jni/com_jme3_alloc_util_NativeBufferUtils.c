@@ -46,16 +46,6 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
     destroy(env, &buffer);
 }
 
-JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getBufferCapacity
-  (JNIEnv* env, jclass clazz, jobject buffer) {
-    return getBufferCapacity(env, &buffer);
-}
-
-JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getBufferSize
-  (JNIEnv* env, jclass clazz, jobject buffer) {
-    return getBufferSize(env, &buffer);
-}
-
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
   (JNIEnv* env, jclass clazz, jobject buffer) {
     return *((long*) getMemoryAddress(env, &buffer));

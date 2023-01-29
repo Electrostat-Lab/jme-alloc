@@ -63,14 +63,6 @@ static inline jobject alignedAlloc(JNIEnv* env, size_t alignment, size_t size) {
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
-static inline jlong getBufferCapacity(JNIEnv* env, jobject* buffer) {
-	return (*env)->GetDirectBufferCapacity(env, *buffer);
-}
-
-static inline jlong getBufferSize(JNIEnv* env, jobject* buffer) {
-	return sizeof(getMemoryAddress(env, buffer));
-}
-
 /**
  * Destroys a java nio buffer.
  * 
