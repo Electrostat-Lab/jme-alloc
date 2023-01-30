@@ -25,6 +25,7 @@
         "com_jme3_alloc_util_nativeenvironment.h": "c",
         "inlined-jni.h": "c",
         "com_jme3_alloc_util_nativebufferutils.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdio.h": "c"
     }
 }
