@@ -33,8 +33,7 @@ tasks.withType(Jar) { // assemble jar options [java -jar]
         attributes 'Project': 'jme-alloc',
                    'Implementation-Version': "${version}",
                    'Automatic-Module-Name': "${project.name.replace("-", ".")}",
-                   'Compiled-by': JavaVersion.current(),
-                   'Main-Class': "com.jme3.alloc.TestLibrary"
+                   'Compiled-by': JavaVersion.current()
     }
 }	
 
