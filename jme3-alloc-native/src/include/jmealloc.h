@@ -4,7 +4,7 @@
  * @author pavl_g
  * @note For more, refer to GNU libc-stdlib and the java.nio documentations.
  * @copyright 
- * Copyright (c) 2009-2022 jMonkeyEngine
+ * Copyright (c) 2009-2023 jMonkeyEngine
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
