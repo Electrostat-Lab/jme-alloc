@@ -52,7 +52,7 @@ public final class NativeBufferUtils {
      * @return the java-nio byte buffer for chained invocations
      * @see NativeBufferUtils#memoryMove(Buffer, Buffer, long)
      */
-    public static native Buffer memorySet(final Buffer buffer, final byte value, final long size); 
+    public static native Buffer memorySet(final Buffer buffer, final int value, final long size); 
 
     /**
      * Manipulate the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.
