@@ -41,6 +41,14 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
+ * Method:    memoryCopy
+ * Signature: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;J)V
+ */
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryCopy
+  (JNIEnv *, jclass, jobject, jobject, jlong);
+
+/*
+ * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    destroy
  * Signature: (Ljava/nio/ByteBuffer;)V
  */

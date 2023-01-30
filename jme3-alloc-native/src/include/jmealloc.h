@@ -98,6 +98,20 @@ static inline void memoryMove(JNIEnv* env, jobject* to, jobject* from, size_t si
 }
 
 /**
+ * Copies the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.
+ * 
+ * @param env the local JNIEnv pointer 
+ * @param to the destination direct java.nio.ByteBuffer
+ * @param from the source direct java.nio.ByteBuffer
+ * @param size the number of elements to move starting from the buffers addresses
+ */
+static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t size) {
+	void* toMemAddress = getMemoryAddress(env, to);
+	void* fromMemAddress = getMemoryAddress(env, from);
+	memcpy(toMemAddress, fromMemAddress, size);
+}
+
+/**
  * Allocates a direct [java.nio.ByteBuffer] object on the native heap with [size] bytes and initializes its elements to zero.
  * 
  * @param env the local JNIEnv pointer 

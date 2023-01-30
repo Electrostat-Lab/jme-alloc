@@ -52,6 +52,11 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
     memoryMove(env, &to, &from, size);
 }
 
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryCopy
+  (JNIEnv* env, jclass clazz, jobject to, jobject from, jlong size) {
+    memoryCopy(env, &to, &from, size);
+}
+
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
   (JNIEnv* env, jclass clazz, jlong size) {
     return clearAlloc(env, size);
