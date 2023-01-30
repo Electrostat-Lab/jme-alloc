@@ -17,10 +17,18 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    memorySet
- * Signature: (Ljava/nio/Buffer;IJ)V
+ * Method:    clearAlloc
+ * Signature: (J)Ljava/nio/Buffer;
  */
-JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jme3_alloc_util_NativeBufferUtils
+ * Method:    memorySet
+ * Signature: (Ljava/nio/Buffer;IJ)Ljava/nio/Buffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
   (JNIEnv *, jclass, jobject, jint, jlong);
 
 /*
@@ -30,38 +38,6 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
  */
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
   (JNIEnv *, jclass, jobject, jobject, jlong);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    clearAlloc
- * Signature: (J)Ljava/nio/Buffer;
- */
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    reAlloc
- * Signature: (Ljava/nio/Buffer;J)Ljava/nio/Buffer;
- */
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAlloc
-  (JNIEnv *, jclass, jobject, jlong);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    alignedAlloc
- * Signature: (JJ)Ljava/nio/Buffer;
- */
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_alignedAlloc
-  (JNIEnv *, jclass, jlong, jlong);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    memoryAllocInfo
- * Signature: (ILjava/lang/String;)I
- */
-JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAllocInfo
-  (JNIEnv *, jclass, jint, jstring);
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
@@ -78,14 +54,6 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
  */
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
   (JNIEnv *, jclass, jobject);
-
-/*
- * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    mallocStats
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_mallocStats
-  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

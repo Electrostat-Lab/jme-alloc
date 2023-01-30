@@ -17,9 +17,10 @@
 #include<jni.h>
 
 /**
- * Fetches and returns the starting address of the memory region referenced by the given direct java.nio.Buffer.
+ * Fetches and returns the starting address of the memory region referenced by the given direct java.nio.ByteBuffer.
  * This function allows native code to access the same memory region that is accessible to Java code via the buffer object.
  * 
+ * @param env the local JNIEnv pointer 
  * @param buffer the java nio buffer object native pointer
  * @return the same memory region that is accessible to Java code via the buffer object
  */
@@ -27,14 +28,21 @@ static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
     return (*env)->GetDirectBufferAddress(env, *buffer);
 }
 
+/**
+ * Allocates a direct [java.nio.ByteBuffer] object on the native heap with [size] bytes.
+ * 
+ * @param env the local JNIEnv pointer 
+ * @param size the size or the capacity of the bytebuffer
+ */
 static inline jobject memoryAlloc(JNIEnv* env, size_t size) {
 	void* buffer = malloc(size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
-static inline void memorySet(JNIEnv* env, jobject* buffer, int value, size_t size) {
+static inline jobject* memorySet(JNIEnv* env, jobject* buffer, int value, size_t size) {
 	void* memAddress = getMemoryAddress(env, buffer);
 	memset(memAddress, value, size);
+	return buffer;
 }
 
 static inline void memoryMove(JNIEnv* env, jobject* to, jobject* from, size_t size) {
@@ -46,21 +54,6 @@ static inline void memoryMove(JNIEnv* env, jobject* to, jobject* from, size_t si
 static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 	void* buffer = calloc(1, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
-}
-
-static inline jobject reAlloc(JNIEnv* env, jobject* buffer, size_t size) {
-	void* newBuffer = ((void*) realloc(getMemoryAddress(env, buffer), size));
-	return (*env)->NewDirectByteBuffer(env, newBuffer, size);
-}
-
-static inline jobject alignedAlloc(JNIEnv* env, size_t alignment, size_t size) {
-	/* Not implemented yet */
-	return 0;
-}
-
-static inline int memoryAllocInfo(JNIEnv* env, int options, const char* outputPath) {
-	/* not implemented yet */
-	return 0;
 }
 
 /**

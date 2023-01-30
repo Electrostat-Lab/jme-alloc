@@ -6,9 +6,9 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
     return memoryAlloc(env, size);
 }
 
-JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
   (JNIEnv* env, jclass clazz, jobject buffer, jint value, jlong size) {
-    memorySet(env, &buffer, value, size);
+    return *(memorySet(env, &buffer, value, size));
 }
 
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
@@ -21,21 +21,6 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
     return clearAlloc(env, size);
 }
 
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_reAlloc
-  (JNIEnv* env, jclass clazz, jobject buffer, jlong size) {
-    return reAlloc(env, &buffer, size);
-}
-
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_alignedAlloc
-  (JNIEnv* env, jclass clazz, jlong alignment, jlong size) {
-    return 0;
-}
-
-JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAllocInfo
-  (JNIEnv* env, jclass clazz, jint options, jstring outputpath) {
-    return 0;
-}
-
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
   (JNIEnv* env, jclass clazz, jobject buffer) {
     destroy(env, &buffer);
@@ -44,9 +29,4 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
   (JNIEnv* env, jclass clazz, jobject buffer) {
     return *((long*) getMemoryAddress(env, &buffer));
-}
-
-JNIEXPORT jint JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_mallocStats
-  (JNIEnv* env, jclass clazz) {
-    return 0;
 }

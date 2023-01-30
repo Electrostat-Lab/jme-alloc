@@ -24,77 +24,60 @@ public final class NativeBufferUtils {
     }
 
     /**
-     * Allocates a buffer of size bytes.
+     * Allocates a buffer of [size] bytes using [void* malloc(size_t)] provided by GNU stdlib.
+     * Note: Maximum size is 32-bit for 32-bit architectures and 64-bit for 64-bit architectures.
      * 
-     * @param size the size of the newly created buffer in bytes (max = 32-bit or 4 bytes)
-     * @return a new java-nio buffer object
+     * @param size the size of the newly created buffer in bytes 
+     * @return a newly created un-initialized java-nio buffer object
+     * @see NativeBufferUtils#clearAlloc(long)
      */
     public static native Buffer memoryAlloc(final long size);
 
     /**
-     * Copies the value [value] into each of the first [size] bytes of the object beginning at the 
-     * memory address of [buffer].
+     * Allocates a buffer block of [size] bytes using [void* calloc(size_t)] provided by GNU stdlib, and initializes its elements to zero.
+     * Note: Maximum size is 32-bit for 32-bit architectures and 64-bit for 64-bit architectures.
      * 
-     * @param buffer a buffer block to start from
-     * @param value the value to set the memory blocks with starting from the buffer
-     * @param size the size to extend after the buffer address
-     * @return the buffer block
-     */
-    public static native void memorySet(final Buffer buffer, final int value, final long size); 
-
-    /**
-     * 
-     * @param to
-     * @param from
-     * @param size
-     * @return
-     */
-    public static native void memoryMove(final Buffer to, final Buffer from, final long size);
-
-    /**
-     * Allocates a buffer block of size = [size] bytes using {@link NativeBufferUtils#malloc(long)}, and sets its contents to zero.
-     * 
-     * @param size the size of the single memory block
-     * @return a newly created zeroed java-nio buffer with the size of [count * size]
+     * @param size the size of the byte buffer in bytes units
+     * @return a newly created zeroed java-nio buffer with the [size] bytes
+     * @see NativeBufferUtils#memoryAlloc(long)
      */
     public static native Buffer clearAlloc(final long size);
 
     /**
-     * Make a buffer block previously allocated by {@link NativeBufferUtils#malloc(long)} larger or smaller, possibly by 
-     * copying it to a new location.
+     * Copies the value [value] into [size] byte elements starting from the [buffer] address.
      * 
-     * @param buffer a java nio buffer to re-size it
-     * @param size a new size to assign to the buffer
-     * @return a newly re-sized java-nio buffer
+     * @param buffer a buffer block to set its elements
+     * @param value an 8-bit value to set the memory blocks (buffer elements) with, starting from the buffer address
+     * @param size the number of byte elements to set
+     * @return the java-nio byte buffer for chained invocations
+     * @see NativeBufferUtils#memoryMove(Buffer, Buffer, long)
      */
-    public static native Buffer reAlloc(final Buffer buffer, final long size);
+    public static native Buffer memorySet(final Buffer buffer, final byte value, final long size); 
 
     /**
-     * Allocates a block of size bytes whose address is a multiple of alignment. 
-     * The alignment must be a power of two and size must be a multiple of alignment.
+     * Manipulate the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.
      * 
-     * @param alignment
-     * @param size
-     * @return
+     * @param to the destination byte-buffer
+     * @param from the source byte-buffer
+     * @param size the number of elements to move
+     * @see NativeBufferUtils#memorySet(Buffer, int, long) 
      */
-    public static native Buffer alignedAlloc(final long alignment, final long size);
-
-    public static native int memoryAllocInfo(final int options, final String outputPath);
+    public static native void memoryMove(final Buffer to, final Buffer from, final long size);
 
     /**
-     * Frees a buffer previously allocated by {@link NativeBufferUtils#malloc(long)} and destroys (nullifies) the memory reference. 
+     * Frees a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
      * 
      * @param buffer a java nio buffer to destroy
+     * @see NativeBufferUtils#memoryAlloc(long)
+     * @see NativeBufferUtils#clearAlloc(long)
      */
     public static native void destroy(final Buffer buffer);
 
     /**
-     * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#malloc(long)} in integers.
+     * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} in integers.
      * 
      * @param buffer a java nio buffer to retrieve its memory address
-     * @return an integer representing the memory address of the specified buffer
+     * @return a 32-bit or 64-bit integer (depending on the architecture) representing the memory address of the specified buffer
      */
     public static native long getMemoryAdress(final Buffer buffer);
-
-    public static native int mallocStats();
 }
