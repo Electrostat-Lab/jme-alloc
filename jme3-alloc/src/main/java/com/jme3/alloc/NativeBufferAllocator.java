@@ -22,7 +22,7 @@ public final class NativeBufferAllocator {
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
     public static ByteBuffer createDirectByteBuffer(final long capacity) {
-        return (ByteBuffer) NativeBufferUtils.clearAlloc(capacity);
+        return NativeBufferUtils.clearAlloc(capacity);
     }
     
     /**
