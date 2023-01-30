@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    memoryAlloc
- * Signature: (J)Ljava/nio/Buffer;
+ * Signature: (J)Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
   (JNIEnv *, jclass, jlong);
@@ -18,7 +18,7 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    clearAlloc
- * Signature: (J)Ljava/nio/Buffer;
+ * Signature: (J)Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
   (JNIEnv *, jclass, jlong);
@@ -26,7 +26,7 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    memorySet
- * Signature: (Ljava/nio/Buffer;IJ)Ljava/nio/Buffer;
+ * Signature: (Ljava/nio/ByteBuffer;IJ)Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
   (JNIEnv *, jclass, jobject, jint, jlong);
@@ -34,7 +34,7 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    memoryMove
- * Signature: (Ljava/nio/Buffer;Ljava/nio/Buffer;J)V
+ * Signature: (Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;J)V
  */
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
   (JNIEnv *, jclass, jobject, jobject, jlong);
@@ -42,7 +42,7 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    destroy
- * Signature: (Ljava/nio/Buffer;)V
+ * Signature: (Ljava/nio/ByteBuffer;)V
  */
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
   (JNIEnv *, jclass, jobject);
@@ -50,7 +50,7 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    getMemoryAdress
- * Signature: (Ljava/nio/Buffer;)J
+ * Signature: (Ljava/nio/ByteBuffer;)J
  */
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
   (JNIEnv *, jclass, jobject);
