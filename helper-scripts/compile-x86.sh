@@ -11,4 +11,6 @@ function compileX86() {
     return $?    
 }
 
+printInfo "x86" "${java_home}"
+
 compileX86

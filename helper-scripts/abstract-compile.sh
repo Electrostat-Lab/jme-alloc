@@ -15,6 +15,19 @@ function getCurrentSystem() {
     return $?
 }
 
+function printInfo() {
+    os_name=`uname -o`
+    os_arch=`uname -m`
+
+    local target_binary=$1
+    local java_home=$2
+    
+    printf "%s:%s\n" "OS-Name" "${os_name}"
+    printf "%s:%s\n" "OS-Arch" "${os_arch}"
+    printf "%s:%s\n" "Target-Binary" "${target_binary}"
+    printf "%s:%s\n" "Java-Home" "${java_home}"
+}
+
 function prepareRootDirectory() {
     local output=$1
     if [[ -e $output ]]; then

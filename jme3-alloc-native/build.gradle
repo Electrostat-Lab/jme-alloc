@@ -65,7 +65,6 @@ abstract class UnixScriptRunner extends DefaultTask {
             command = "C:\\Program Files\\Git\\bin\\bash.exe"
         }
         
-        println(getJavaHome().get())
         Process run = Runtime.getRuntime().exec(new String[] { command, script.get(), getJavaHome().get() });
         
         if (run.waitFor()) {
