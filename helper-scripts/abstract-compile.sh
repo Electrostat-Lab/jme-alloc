@@ -16,7 +16,7 @@ function getCurrentSystem() {
 }
 
 function printInfo() {
-    os_name=`uname -o`
+    os_name=`uname`
     os_arch=`uname -m`
 
     local target_binary=$1
