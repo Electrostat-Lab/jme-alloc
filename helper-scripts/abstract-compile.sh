@@ -22,10 +22,10 @@ function printInfo() {
     local target_binary=$1
     local java_home=$2
     
-    printf "%s:%s\n" "OS-Name" "${os_name}"
-    printf "%s:%s\n" "OS-Arch" "${os_arch}"
-    printf "%s:%s\n" "Target-Binary" "${target_binary}"
-    printf "%s:%s\n" "Java-Home" "${java_home}"
+    echo -e "OS-Name: ${os_name}" 
+    echo -e "OS-Arch: ${os_arch}"
+    echo -e "Target-Binary: ${target_binary}"
+    echo -e "Java-Home: ${java_home}"
 }
 
 function prepareRootDirectory() {
