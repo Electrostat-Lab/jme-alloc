@@ -56,7 +56,7 @@ public final class NativeBufferUtils {
 
     /**
      * Allocates a buffer of [size] bytes using [void* malloc(size_t)] provided by GNU stdlib.
-     * Note: Maximum size is 32-bit for 32-bit architectures and 64-bit for 64-bit architectures.
+     * Note: Maximum size is (2^32) for 32-bit architectures and (2^64) for 64-bit architectures.
      * 
      * @param size the size of the newly created buffer in bytes 
      * @return a newly created un-initialized {@link java.nio.ByteBuffer} object
@@ -66,7 +66,7 @@ public final class NativeBufferUtils {
 
     /**
      * Allocates a buffer block of [size] bytes using [void* calloc(size_t)] provided by GNU stdlib, and initializes its elements to zero.
-     * Note: Maximum size is 32-bit for 32-bit architectures and 64-bit for 64-bit architectures.
+     * Note: Maximum size is (2^32) for 32-bit architectures and (2^64) for 64-bit architectures.
      * 
      * @param size the size of the byte buffer in bytes units
      * @return a newly created zeroed {@link java.nio.ByteBuffer} with the [size] bytes
