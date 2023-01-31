@@ -41,20 +41,26 @@ function compile() {
     local native_sources=$2
     local compiler_options=$3
     local native_headers=$4
-    local output_lib=$5
- 
+    local java_home=$5
+    local output_lib=$6
+    
+    local jni_headers0="${java_home}/include"
+    
     if [[ `uname` == "Darwin" ]]; then 
         local shared_lib="${output_lib}.dylb"
+        local jni_headers1="${jni_headers0}/darwin"
     elif [[ `uname` == "Linux" ]]; then 
         local shared_lib="${output_lib}.so"
+        local jni_headers1="${jni_headers0}/linux"
     else
         local shared_lib="${output_lib}.dll"
+        local jni_headers1="${jni_headers0}/win32"
     fi 
  
     # find sources and compile them
     local src=`find $native_sources -name "*.c" -o -name "*.c++" -o -name "*.cxx" -o -name "*.cpp"`
     # compile as a shared native files
-    `$compiler $src $compiler_options -I"${native_headers}" -o $shared_lib`
+    `$compiler $src $compiler_options -I"${native_headers}" -I"${jni_headers0}" -I"${jni_headers1}" -o $shared_lib`
     return $?    
 }
 

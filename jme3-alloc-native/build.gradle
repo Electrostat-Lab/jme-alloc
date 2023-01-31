@@ -8,12 +8,15 @@ task copyNatives(type: Copy) {
 }
 
 tasks.register("prepareOutputDirectory", UnixScriptRunner) {
+   javaHome = System.getProperty("java.home")
    script = "./helper-scripts/prepare-output-directory.sh"
 }
 
 tasks.register("compileX86", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
- 
+   
+   javaHome = System.getProperty("java.home")
+
    boolean isWindows = System.getProperty("os.name").contains("Windows");
    boolean isMacos = System.getProperty("os.name").contains("Mac");
    boolean isLinux = System.getProperty("os.name").contains("Linux");
@@ -41,6 +44,7 @@ tasks.register("compileX86", UnixScriptRunner) {
 
 tasks.register("compileX86_64", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
+   javaHome = System.getProperty("java.home")
    script = "./helper-scripts/compile-x86-64.sh"
 }
 
@@ -48,37 +52,68 @@ abstract class UnixScriptRunner extends DefaultTask {
     @Input
     abstract Property<String> getScript()
 
+    @Input
+    abstract Property<String> getJavaHome()
+
     @TaskAction
     def execute() {
         String command = "bash";
-        String[] chmod = new String[] { "chmod", "+rwx" };
+
+        permissionizeScript(getScript())
 
         if (System.getProperty("os.name").contains("Windows")) {
-            println(System.getProperty("os.name"))
             command = "C:\\Program Files\\Git\\bin\\bash.exe"
         }
         
-        /* execute the shell script in a unix process that inheirt from the current environment */
-        Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
-
-        if (permissioning.waitFor()) {
-            println("Permissioning Failed !")
-        }
-        
-        /* release resources */
-        permissioning.destroy(); 
-        permissioning = null;
-        
-        Process run = Runtime.getRuntime().exec(new String[] { command, script.get() });
+        println(getJavaHome().get())
+        Process run = Runtime.getRuntime().exec(new String[] { command, script.get(), getJavaHome().get() });
         
         if (run.waitFor()) {
             println("Run Failed !")
         }
-        
+
+        printConsoleInput(run)
+        printConsoleError(run)
+
         /* release resources */
         run.destroy();
         run = null;
         command = null;
+    }
+
+    void permissionizeScript(final Property<String> script) {
+        String[] chmod = new String[] { "chmod", "+rwx" };
+        /* execute the shell script in a unix process that inheirt from the current environment */
+        Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
+
+        permissioning.waitFor();
+
+        printConsoleInput(permissioning)
+        printConsoleError(permissioning)
+        
+        /* release resources */
+        permissioning.destroy(); 
+        permissioning = null;
         chmod = null;
+    }
+
+    void printConsoleInput(final Process process) {
+        printInputStream(process.getInputStream())
+    }
+
+    void printConsoleError(final Process process) {
+        printInputStream(process.getErrorStream());
+    }
+
+    void printInputStream(final InputStream in) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        try {
+            for (String out = null; (out = reader.readLine()) != null;) {
+                System.err.println(out)
+            }
+        } finally {
+            reader.close()
+            reader = null
+        }
     }
 }
