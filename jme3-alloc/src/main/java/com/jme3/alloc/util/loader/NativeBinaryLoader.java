@@ -31,10 +31,12 @@
  */
 package com.jme3.alloc.util.loader;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
+import java.lang.UnsatisfiedLinkError;
 
 /**
  * Helper utility for loading native binaries.
@@ -45,7 +47,6 @@ public final class NativeBinaryLoader {
     
     private static final ReentrantLock LOCK = new ReentrantLock();
     private static final int EOF = -1;
-    private static boolean isLoaded = false;
 	
     private NativeBinaryLoader() {
     }
@@ -62,42 +63,85 @@ public final class NativeBinaryLoader {
 
     private static void loadLinux() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
-            extractBinary(NativeDynamicLibrary.LINUX_x86_64);
+            incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86_64);
         } else {
-            extractBinary(NativeDynamicLibrary.LINUX_x86);
+            incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86);
         }
     }
 
     private static void loadWindows() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
-            extractBinary(NativeDynamicLibrary.WIN_x86_64);
+            incrementalExtractBinary(NativeDynamicLibrary.WIN_x86_64);
         } else {
-            extractBinary(NativeDynamicLibrary.WIN_x86);
+            incrementalExtractBinary(NativeDynamicLibrary.WIN_x86);
         }
     }
 
     private static void loadMac() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
-            extractBinary(NativeDynamicLibrary.MAC_x86_64);
+            incrementalExtractBinary(NativeDynamicLibrary.MAC_x86_64);
         } else {
-            extractBinary(NativeDynamicLibrary.MAC_x86);
+            incrementalExtractBinary(NativeDynamicLibrary.MAC_x86);
         }
     }
 
+    private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
+        return System.getProperty("user.dir") + "/" + library.getLibrary();
+    }
+
+    private static boolean isExtracted(final NativeDynamicLibrary library) {
+        return new File(getAbsoluteLibraryDirectory(library)).exists();
+    }
+
     /**
-     * Extracts an appropriate system-based native binary from sources and loads the binary using {@link System#load(String)}.
+     * Loads a binary with a retry criteria.
      * 
-     * @param library the library to extract to the user directory and load
+     * @params library the native library to load
+     * @params criteria a retry criteria, default is {@link RetryCriteria#RETRY_WITH_CLEAN_EXTRACTION}
+     * @throws IOException in case the binary to be extracted is not found on the output jar
      */
-    private static void extractBinary(final NativeDynamicLibrary library) throws IOException {        
-        if (isLoaded) {
+    private static void loadBinary(final NativeDynamicLibrary library, final RetryCriteria criteria) throws IOException {
+        try {
+            System.load(getAbsoluteLibraryDirectory(library));
+        } catch (final UnsatisfiedLinkError error) {
+            switch (criteria) {
+                case RETRY_WITH_INCREMENTAL_EXTRACTION:
+                    incrementalExtractBinary(library);
+                    break;
+                
+                default:
+                    cleanExtractBinary(library);
+                    break;
+            }
+        }
+    }
+    
+
+    /**
+     * Incrementally extracts and loads the native binary to the current [user.dir] with a retry binary load criteria.
+     * The retry criteria utilizes the {@link java.lang.UnsatisfiedLinkError} to cleanly re-extract and re-load the binary in case of 
+     * broken binaries.
+     * 
+     * @params library the native library to extract and load
+     * @throws IOException in case the binary to be extracted is not found on the output jar
+     */
+    private static void incrementalExtractBinary(final NativeDynamicLibrary library) throws IOException {        
+        if (isExtracted(library)) {
+            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
             return;
         }
+        cleanExtractBinary(library);
+    }
 
-        LOCK.lock();
-        
+    /**
+     * Cleanly extracts and loads the native binary to the current [user.dir].
+     * 
+     * @params library the library to extract and load
+     * @throws IOException in case the binary to be extracted is not found on the output jar
+     */
+    private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
-
+        LOCK.lock();
         final String workingDirectory = System.getProperty("user.dir");
         final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
         final String extractionLocation = workingDirectory + "/" + library.getLibrary();
@@ -109,8 +153,7 @@ public final class NativeBinaryLoader {
                 /* use the bytes as the buffer length to write valid data */
                 fos.write(buffer, 0, bytes);
             }
-            System.load(extractionLocation);
-            isLoaded = true;
+            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
         } finally {
             nativeLib.close();
             fos.close();
