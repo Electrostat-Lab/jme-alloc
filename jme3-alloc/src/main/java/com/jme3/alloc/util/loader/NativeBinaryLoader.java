@@ -51,6 +51,11 @@ public final class NativeBinaryLoader {
     private NativeBinaryLoader() {
     }
 
+    /**
+     * Extracts and loads the system and the architecture specific library from the output jar to the [user.dir].
+     * 
+     * @throws IOException if the library to extract is not present in the jar file
+     */
     public static void loadLibrary() throws IOException {
         if (NativeVariant.NAME.getData().contains(NativeVariant.Linux)) {
             loadLinux();
@@ -61,6 +66,13 @@ public final class NativeBinaryLoader {
         }
     }
 
+    /**
+     * Extracts and loads the architecture specific library from [libs/linux] from the output jar to the [user.dir].
+     * 
+     * @throws IOException if the binary to extract is not present in the jar file
+     * @see NativeDynamicLibrary#LINUX_x86
+     * @see NativeDynamicLibrary#LINUX_x86_64
+     */
     private static void loadLinux() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86_64);
@@ -69,6 +81,13 @@ public final class NativeBinaryLoader {
         }
     }
 
+    /**
+     * Extracts and loads the architecture specific library from [libs/windows] from the output jar to the [user.dir].
+     * 
+     * @throws IOException if the binary to extract is not present in the jar file
+     * @see NativeDynamicLibrary#WIN_x86
+     * @see NativeDynamicLibrary#WIN_x86_64
+     */
     private static void loadWindows() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86_64);
@@ -77,6 +96,13 @@ public final class NativeBinaryLoader {
         }
     }
 
+    /**
+     * Extracts and loads the architecture specific library from [libs/macos] from the output jar to the [user.dir].
+     * 
+     * @throws IOException if the binary to extract is not present in the jar file
+     * @see NativeDynamicLibrary#MAC_x86
+     * @see NativeDynamicLibrary#MAC_x86_64
+     */
     private static void loadMac() throws IOException {
         if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86_64);
@@ -85,10 +111,22 @@ public final class NativeBinaryLoader {
         }
     }
 
+    /**
+     * Retrieves the absolute path for the native library as supposed to be on the current user dir.
+     * 
+     * @param library the native library
+     * @return the absolute path composed of the current user directory and the library name and system specific extension
+     */
     private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
         return System.getProperty("user.dir") + "/" + library.getLibrary();
     }
 
+    /**
+     * Tests whether the native library is extracted to the current user dir.
+     * 
+     * @param library the native library
+     * @return true if the library has been extracted before, false otherwise
+     */
     private static boolean isExtracted(final NativeDynamicLibrary library) {
         return new File(getAbsoluteLibraryDirectory(library)).exists();
     }
