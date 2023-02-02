@@ -191,7 +191,10 @@ public final class NativeBinaryLoader {
             }
             loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
         } finally {
-            nativeLib.close();
+            /* added this null-safety statement for macos */
+            if (nativeLib != null) {
+                nativeLib.close();
+            }
             fos.close();
             LOCK.unlock();
             /* CRITICAL SECTION ENDS */
