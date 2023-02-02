@@ -17,12 +17,16 @@ $ ./gradlew clean && \
   ./gradlew :jme3-alloc:assemble
 ```
 Notice: change between `task compileX86_64` and `task compileX86` depending on your system architecture.
+
 5) Test the library by running the examples using: 
 ```bash
 $ ./gradlew :jme3-alloc-examples:run
 ```
+
 6) Add your changes and commit:
 ```bash
 $ git add ./jme3-alloc-examples && git commit -m 'file: changes made' \
   && git push origin 'feature-branch'
 ```
+
+7) If you run a windows a machine, make sure to install [gitbash](https://git-scm.com/download/win) first.
