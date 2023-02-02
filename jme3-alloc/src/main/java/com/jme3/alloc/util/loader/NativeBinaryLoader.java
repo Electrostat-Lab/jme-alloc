@@ -118,7 +118,6 @@ public final class NativeBinaryLoader {
      * @return the absolute path composed of the current user directory and the library name and system specific extension
      */
     private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
-        System.out.println(System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary());
         return System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary();
     }
 
@@ -140,9 +139,19 @@ public final class NativeBinaryLoader {
      * @throws IOException in case the binary to be extracted is not found on the output jar
      */
     private static void loadBinary(final NativeDynamicLibrary library, final RetryCriteria criteria) throws IOException {
-       
+        try {
             System.load(getAbsoluteLibraryDirectory(library));
-       
+        } catch (final UnsatisfiedLinkError error) {
+            switch (criteria) {
+                case RETRY_WITH_INCREMENTAL_EXTRACTION:
+                    incrementalExtractBinary(library);
+                    break;
+                
+                default:
+                    cleanExtractBinary(library);
+                    break;
+            }
+        }
     }
     
 
@@ -171,8 +180,7 @@ public final class NativeBinaryLoader {
     private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
         LOCK.lock();
-        final InputStream nativeLib = ClassLoader.getSystemResourceAsStream(library.getAbsoluteLibraryLocation());
-        System.out.println(nativeLib);
+        final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
         final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
             // extract the shipped native files
