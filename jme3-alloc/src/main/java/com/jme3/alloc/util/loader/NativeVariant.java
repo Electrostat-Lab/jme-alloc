@@ -56,8 +56,9 @@ public enum NativeVariant {
     }
 
     public static boolean is_x86_64(final String arch) {
-        return arch.equals("amd64");
+        return !NativeVariant.is_x86(arch);
     }
+    
     public static boolean is_x86(final String arch) {
         return arch.equals("x86");
     }

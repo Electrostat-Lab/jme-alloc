@@ -104,7 +104,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#MAC_x86_64
      */
     private static void loadMac() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86);

@@ -40,7 +40,7 @@ package com.jme3.alloc.util.loader;
 public enum NativeDynamicLibrary {
     LINUX_x86_64("libs/linux/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
     LINUX_x86("libs/linux/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    MAC_x86_64("libs/linux/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
+    MAC_x86_64("libs/macos/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
     MAC_x86("libs/macos/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
     WIN_x86("libs/windows/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll"),
     WIN_x86_64("libs/windows/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll");
