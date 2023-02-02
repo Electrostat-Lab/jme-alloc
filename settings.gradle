@@ -10,3 +10,4 @@
 rootProject.name = 'jme-alloc'
 include('jme3-alloc')
 include('jme3-alloc-native')
+include('jme3-alloc-examples')
