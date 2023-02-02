@@ -5,3 +5,5 @@
 build
 
 .vscode
+
+/jme3-alloc-examples/*.so
