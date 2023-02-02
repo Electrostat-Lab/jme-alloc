@@ -74,7 +74,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#LINUX_x86_64
      */
     private static void loadLinux() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86);
@@ -89,7 +89,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#WIN_x86_64
      */
     private static void loadWindows() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86);
