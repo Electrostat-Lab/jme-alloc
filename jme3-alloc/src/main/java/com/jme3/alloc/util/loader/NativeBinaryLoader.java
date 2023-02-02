@@ -171,7 +171,7 @@ public final class NativeBinaryLoader {
     private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
         LOCK.lock();
-        final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
+        final InputStream nativeLib = ClassLoader.getSystemResourceAsStream(library.getAbsoluteLibraryLocation());
         System.out.println(nativeLib);
         final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
