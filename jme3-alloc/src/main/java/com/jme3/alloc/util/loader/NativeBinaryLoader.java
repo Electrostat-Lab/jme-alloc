@@ -118,6 +118,7 @@ public final class NativeBinaryLoader {
      * @return the absolute path composed of the current user directory and the library name and system specific extension
      */
     private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
+        System.out.println(System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary());
         return System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary();
     }
 
@@ -181,6 +182,7 @@ public final class NativeBinaryLoader {
         /* CRITICAL SECTION STARTS */
         LOCK.lock();
         final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
+        System.out.println(nativeLib);
         final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
             // extract the shipped native files
@@ -191,10 +193,7 @@ public final class NativeBinaryLoader {
             }
             loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
         } finally {
-            /* added this null-safety statement for macos */
-            if (nativeLib != null) {
-                nativeLib.close();
-            }
+            nativeLib.close();
             fos.close();
             LOCK.unlock();
             /* CRITICAL SECTION ENDS */
