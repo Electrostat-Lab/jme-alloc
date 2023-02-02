@@ -74,7 +74,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#LINUX_x86_64
      */
     private static void loadLinux() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86);
@@ -89,7 +89,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#WIN_x86_64
      */
     private static void loadWindows() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86);
@@ -104,7 +104,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#MAC_x86_64
      */
     private static void loadMac() throws IOException {
-        if (NativeVariant.is_x86_64(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86);
@@ -118,7 +118,7 @@ public final class NativeBinaryLoader {
      * @return the absolute path composed of the current user directory and the library name and system specific extension
      */
     private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
-        return System.getProperty("user.dir") + "/" + library.getLibrary();
+        return System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary();
     }
 
     /**
@@ -180,10 +180,8 @@ public final class NativeBinaryLoader {
     private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
         LOCK.lock();
-        final String workingDirectory = System.getProperty("user.dir");
         final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
-        final String extractionLocation = workingDirectory + "/" + library.getLibrary();
-        final FileOutputStream fos = new FileOutputStream(extractionLocation);  
+        final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
             // extract the shipped native files
             final byte[] buffer = new byte[nativeLib.available()];
@@ -191,10 +189,10 @@ public final class NativeBinaryLoader {
                 /* use the bytes as the buffer length to write valid data */
                 fos.write(buffer, 0, bytes);
             }
-            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
         } finally {
             nativeLib.close();
             fos.close();
+            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
             LOCK.unlock();
             /* CRITICAL SECTION ENDS */
         }
