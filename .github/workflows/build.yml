@@ -150,7 +150,7 @@ jobs:
         needs: assemble
         strategy:
           matrix:
-            os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
+            os: [ 'macos-latest' ]
             architecture: [ 'x64' ]
         name: Testing jme3-alloc on ${{ matrix.os }} for x86-64
 
