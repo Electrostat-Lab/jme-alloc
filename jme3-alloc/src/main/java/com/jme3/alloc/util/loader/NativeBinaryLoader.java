@@ -181,10 +181,10 @@ public final class NativeBinaryLoader {
                 /* use the bytes as the buffer length to write valid data */
                 fos.write(buffer, 0, bytes);
             }
-            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
         } finally {
             nativeLib.close();
             fos.close();
+            loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
             LOCK.unlock();
             /* CRITICAL SECTION ENDS */
         }
