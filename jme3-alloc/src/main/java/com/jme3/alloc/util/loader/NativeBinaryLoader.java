@@ -57,6 +57,8 @@ public final class NativeBinaryLoader {
      * @throws IOException if the library to extract is not present in the jar file
      */
     public static void loadLibrary() throws IOException {
+    	System.out.println(System.getProperty("os.name"));
+        System.out.println(System.getProperty("os.arch"));
         if (NativeVariant.NAME.getData().contains(NativeVariant.Linux)) {
             loadLinux();
         } else if (NativeVariant.NAME.getData().contains(NativeVariant.Windows)) {
