@@ -6,4 +6,6 @@ build
 
 .vscode
 
+/jme3-alloc/bin
+
 /jme3-alloc-examples/*.so
