@@ -169,7 +169,7 @@ jobs:
             uses: actions/download-artifact@v3
             with:
               name: release-archive
-              path: jme3-alloc/build/libs/*.jar
+              path: jme3-alloc/build/libs/
           
           - name: Run com.jme3.alloc.examples.Launcher
             run: ./gradlew :jme3-alloc-examples:run
