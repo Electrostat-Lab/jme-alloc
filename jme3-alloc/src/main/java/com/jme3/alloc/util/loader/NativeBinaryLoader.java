@@ -140,19 +140,9 @@ public final class NativeBinaryLoader {
      * @throws IOException in case the binary to be extracted is not found on the output jar
      */
     private static void loadBinary(final NativeDynamicLibrary library, final RetryCriteria criteria) throws IOException {
-        try {
+       
             System.load(getAbsoluteLibraryDirectory(library));
-        } catch (final UnsatisfiedLinkError error) {
-            switch (criteria) {
-                case RETRY_WITH_INCREMENTAL_EXTRACTION:
-                    incrementalExtractBinary(library);
-                    break;
-                
-                default:
-                    cleanExtractBinary(library);
-                    break;
-            }
-        }
+       
     }
     
 
