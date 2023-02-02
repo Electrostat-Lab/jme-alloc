@@ -1,11 +1,18 @@
 # jme-alloc project 
 
 An initiator template for the jme-alloc project providing a native allocation api through gradle modules.
-
-### WIP:
+### To build locally, use: 
+```bash
+┌─[pavl-machine@pavl-machine]─[/home/twisted/GradleProjects/jme-alloc]
+└──╼ $./gradlew clean && 
+      ./gradlew :jme3-alloc:compileJava && \
+      ./gradlew :jme3-alloc-native:compileX86_64 && \
+      ./gradlew :jme3-alloc-native:copyNatives && \
+      ./gradlew :jme3-alloc:assemble
+```
 #### API:
-- [ ] Native extraction according to the system variant (OS + architecture).
-- [ ] Dynamic linking code.
+- [x] Native extraction according to the system variant (OS + architecture).
+- [x] Dynamic linking code.
 #### Build-system:
 - [x] Separate jvm and native modules.
 - [x] Generating header files for java sources.
