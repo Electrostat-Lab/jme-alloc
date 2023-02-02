@@ -8,6 +8,7 @@ task copyNatives(type: Copy) {
 }
 
 tasks.register("prepareOutputDirectory", UnixScriptRunner) {
+   println(System.getProperty("file.separator"))
    javaHome = System.getProperty("java.home")
    script = "./helper-scripts/prepare-output-directory.sh"
 }
