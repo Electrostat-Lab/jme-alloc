@@ -63,6 +63,6 @@ public enum NativeDynamicLibrary {
     }
 
     public String getAbsoluteLibraryLocation() {
-        return directory + "/" + library;
+        return "/" + directory + "/" + library;
     }
 }
