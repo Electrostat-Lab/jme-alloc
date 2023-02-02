@@ -118,7 +118,7 @@ public final class NativeBinaryLoader {
      * @return the absolute path composed of the current user directory and the library name and system specific extension
      */
     private static String getAbsoluteLibraryDirectory(final NativeDynamicLibrary library) {
-        return System.getProperty("user.dir") + "/" + library.getLibrary();
+        return System.getProperty("user.dir") + System.getProperty("file.separator") + library.getLibrary();
     }
 
     /**
@@ -180,10 +180,8 @@ public final class NativeBinaryLoader {
     private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
         LOCK.lock();
-        final String workingDirectory = System.getProperty("user.dir");
         final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
-        final String extractionLocation = workingDirectory + "/" + library.getLibrary();
-        final FileOutputStream fos = new FileOutputStream(extractionLocation);  
+        final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
             // extract the shipped native files
             final byte[] buffer = new byte[nativeLib.available()];
