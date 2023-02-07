@@ -17,8 +17,8 @@ public final class ScriptExecutor {
    
     public void execute(Task task) {
         final UnixScriptRunner runner = ((UnixScriptRunner) task);
-        if (runner.getScript() == null) {
-            throw new MissingResourceException("Cannot find a script to permissionize !");
+        if (runner.getScript() == null || runner.getScript().equals("")) {
+            throw new MissingResourceException("Cannot find a script to execute !");
         }
         try {
             executeScript(runner.getScript(), runner.getJavaHome());

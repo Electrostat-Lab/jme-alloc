@@ -17,7 +17,7 @@ public final class Permissioning {
     
     public void execute(Task task) {
         final UnixScriptRunner runner = ((UnixScriptRunner) task);
-        if (runner.getScript() == null) {
+        if (runner.getScript() == null || runner.getScript().equals("")) {
             throw new MissingResourceException("Cannot find a script to permissionize !");
         }
         try {
