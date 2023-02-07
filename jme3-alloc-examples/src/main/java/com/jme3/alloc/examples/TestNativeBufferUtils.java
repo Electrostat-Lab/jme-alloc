@@ -52,6 +52,7 @@ public final class TestNativeBufferUtils {
         ByteBuffer buffer = NativeBufferUtils.clearAlloc(1000);
         buffer.putInt(200);
         printInfo(buffer);
+        NativeBufferUtils.getMemoryAdress(buffer);
         NativeBufferUtils.destroy(buffer);
         /* Note: data printed from here is not the buffer's anymore, this buffer's memory address has been destructed */
         /* Warning: the printed data is another buffers data ! */

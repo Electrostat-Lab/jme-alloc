@@ -39,7 +39,9 @@
 
 #include<stdlib.h>
 #include<string.h>
+#include<logger_ext.h>
 #include<errno.h>
+#include<string_utils.h>    
 #include<jni.h>
 
 /**
@@ -51,7 +53,8 @@
  * @return the same memory region that is accessible to Java code via the buffer object
  */
 static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
-    return (*env)->GetDirectBufferAddress(env, *buffer);
+	void* memAddress = (*env)->GetDirectBufferAddress(env, *buffer);
+    return memAddress;
 }
 
 /**
@@ -63,6 +66,7 @@ static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
  */
 static inline jobject memoryAlloc(JNIEnv* env, size_t size) {
 	void* buffer = malloc(size);
+	LOGD_ALLOCMEM(buffer, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
@@ -107,6 +111,7 @@ static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t si
 	void* toMemAddress = getMemoryAddress(env, to);
 	void* fromMemAddress = getMemoryAddress(env, from);
 	memcpy(toMemAddress, fromMemAddress, size);
+	LOGD_COPYMEM(size, toMemAddress, size, fromMemAddress);
 }
 
 /**
@@ -118,6 +123,7 @@ static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t si
  */
 static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 	void* buffer = calloc(1, size);
+	LOGD_ALLOCMEM(buffer, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 

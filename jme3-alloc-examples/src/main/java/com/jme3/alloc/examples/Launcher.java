@@ -31,8 +31,6 @@
  */
 package com.jme3.alloc.examples;
 
-import com.jme3.alloc.examples.*;
-
 /**
  * The main entry point to the [jme3-alloc-examples] examples module.
  * 
