@@ -39,6 +39,7 @@ import java.util.logging.Level;
 /**
  * Tests {@link NativeBufferUtils#memorySet(ByteBuffer, int, long)}, it utilizes the native `void* memset(void*, int, size_t)` which could be
  * used either to initialize the buffer elements with [0] or to erase a buffer.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:TestMemorySet :jme3-alloc-examples:run
  * 
  * @author pavl_g
  */

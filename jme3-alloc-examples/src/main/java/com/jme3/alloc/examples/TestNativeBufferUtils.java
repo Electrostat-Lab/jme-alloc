@@ -39,6 +39,7 @@ import java.util.logging.Level;
 /**
  * Tests the {@link com.jme3.alloc.util.NativeBufferUtils} basic functionalities including: clear memory allocation, destruction
  * and some logging stuff.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:TestNativeBufferUtils :jme3-alloc-examples:run
  * 
  * @author pavl_g
  */

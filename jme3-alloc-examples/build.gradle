@@ -10,8 +10,18 @@ plugins {
     id 'application'
 }
 
+/** get system specific separated directories for the source and the destination of the dependencies */
+String dependenciesDir =  "${rootDir.getPath()}/jme3-alloc-examples/build/libs/dependencies/"
+String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/"
+
+/** replace unix '/' with windows escaped '\' */
+if (System.getProperty("os.name").contains("Windows")) {
+    dependenciesDir = dependenciesDir.replaceAll("/", "\\\\")
+    libsDir = libsDir.replaceAll("/", "\\\\")
+} 
+
 application {
-    mainClass = 'com.jme3.alloc.examples.Launcher'
+    mainClass = 'com.jme3.alloc.examples.SimpleLauncher'
 }
 
 tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
@@ -21,6 +31,87 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_1_10)) {
         options.release = 8
     }
+}
+
+/** A Simple command-line examples chooser using gradle tasks */
+
+/** Runs the [TestNativeBufferUtils] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestNativeBufferUtils :jme3-alloc-examples:run */
+tasks.register("TestNativeBufferUtils") {
+    application.mainClass = 'com.jme3.alloc.examples.TestNativeBufferUtils'
+}
+
+/** Runs the [TestMemorySet] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestMemorySet :jme3-alloc-examples:run */
+tasks.register("TestMemorySet") {
+    application.mainClass = 'com.jme3.alloc.examples.TestMemorySet'
+}
+
+/** Runs the [TestMemoryCopy] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestMemoryCopy :jme3-alloc-examples:run */
+tasks.register("TestMemoryCopy") {
+    application.mainClass = 'com.jme3.alloc.examples.TestMemoryCopy'
+}
+
+/** Runs the [TestJvmCrashlogs] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestJvmCrashlogs :jme3-alloc-examples:run */
+tasks.register("TestJvmCrashlogs") {
+    application.mainClass = 'com.jme3.alloc.examples.TestJvmCrashlogs'
+}
+
+/** Runs the [TestDirtyMultithreading] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestDirtyMultithreading :jme3-alloc-examples:run */
+tasks.register("TestDirtyMultithreading") {
+    application.mainClass = 'com.jme3.alloc.examples.TestDirtyMultithreading'
+}
+
+/** Runs the [StressLauncher] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run */
+tasks.register("StressLauncher") {
+    application.mainClass = 'com.jme3.alloc.examples.StressLauncher'
+}
+
+/** To build a jar file with a specific main-class, run one of the above tasks before the createJar task */
+
+/** ********************** Examples ********************** */
+/** To assemble a jar with the [TestNativeBufferUtils] as main-class run this: 
+ * └──╼ $./gradlew :jme3-alloc-examples:TestNativeBufferUtils :jme3-alloc-examples:createJar */
+
+/** To assemble a jar with the [StressLauncher] as a main-class run this:
+ * └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:createJar */
+
+/** ****************************************************** */
+
+/** Copies the assembled libraries from [jme3-alloc/build/libs] to [jme3-alloc-examples/build/libs/dependencies] */
+task copyLibs(type: Copy) {
+    from (libsDir) {
+        include '**/*.jar'
+    }
+    into(dependenciesDir)
+    includeEmptyDirs = false
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
+
+/** Assembles a jar file with a class-path loading the dependencies and a main-class */
+task createJar(type : Jar, dependsOn : copyLibs){
+    //get the copied jars
+    String dependenciesString = ""
+    final File dependencies = new File(dependenciesDir)
+    if(dependencies.exists()) {
+        if (dependencies.listFiles().length > 0) {
+            final File[] files = dependencies.listFiles()
+            for (int i = 0; i < files.length; i++) {
+                final String fileName = files[i].getName()
+                if (fileName.contains(".jar")) {
+                    /** All zip paths are unix paths; so no need to the file system specific separator */
+                    dependenciesString += "dependencies/" + fileName + " "
+                }
+            }
+        }
+    }
+
+    manifest {
+        attributes 'Project': 'jme-alloc-examples',
+                   'Automatic-Module-Name': "${project.name.replace("-", ".")}",
+                   'Compiled-by': JavaVersion.current(),
+                   'Class-Path': dependenciesString,
+                   'Main-Class': application.mainClass
+    }
+    with jar
 }
 
 repositories {

@@ -40,6 +40,7 @@ import java.util.logging.Level;
 
 /**
  * Tests dirty multi-threading, the work is distributed among 3 threads, an allocation thread, an initialize thread and a destroy thread.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:TestDirtyMultithreading :jme3-alloc-examples:run
  * 
  * @author pavl_g
  */
