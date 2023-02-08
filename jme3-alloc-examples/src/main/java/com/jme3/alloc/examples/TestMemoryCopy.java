@@ -63,6 +63,7 @@ public class TestMemoryCopy {
         buffer0 = null;
         
         printInfo(buffer1);
+        NativeBufferUtils.destroy(buffer1);
         
 
         LOGGER.log(Level.INFO, "**************** " + TestMemoryCopy.class.getName() + "****************");

@@ -23,6 +23,42 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
     }
 }
 
+tasks.withType(Jar) { // assemble jar options [java -jar]
+    manifest {
+        attributes 'Project': 'jme-alloc-examples',
+                   'Automatic-Module-Name': "${project.name.replace("-", ".")}",
+                   'Compiled-by': JavaVersion.current(),
+                   'Main-Class': application.mainClass
+    }
+}	
+
+/** A Simple command-line examples chooser using gradle tasks */
+
+/** Runs the [TestNativeBufferUtils] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestNativeBufferUtils :jme3-alloc-examples:run */
+tasks.register("TestNativeBufferUtils") {
+    application.mainClass = 'com.jme3.alloc.examples.TestNativeBufferUtils'
+}
+
+/** Runs the [TestMemorySet] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestMemorySet :jme3-alloc-examples:run */
+tasks.register("TestMemorySet") {
+    application.mainClass = 'com.jme3.alloc.examples.TestMemorySet'
+}
+
+/** Runs the [TestMemoryCopy] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestMemoryCopy :jme3-alloc-examples:run */
+tasks.register("TestMemoryCopy") {
+    application.mainClass = 'com.jme3.alloc.examples.TestMemoryCopy'
+}
+
+/** Runs the [TestJvmCrashlogs] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestJvmCrashlogs :jme3-alloc-examples:run */
+tasks.register("TestJvmCrashlogs") {
+    application.mainClass = 'com.jme3.alloc.examples.TestJvmCrashlogs'
+}
+
+/** Runs the [TestDirtyMultithreading] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestDirtyMultithreading :jme3-alloc-examples:run */
+tasks.register("TestDirtyMultithreading") {
+    application.mainClass = 'com.jme3.alloc.examples.TestDirtyMultithreading'
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()

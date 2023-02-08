@@ -48,5 +48,7 @@ public final class Launcher {
         Thread.sleep(1500);
         System.out.println();
         TestMemorySet.main(args);
+
+        while (true); /* Keep the program alive for "stress testing" */
     }
 }
