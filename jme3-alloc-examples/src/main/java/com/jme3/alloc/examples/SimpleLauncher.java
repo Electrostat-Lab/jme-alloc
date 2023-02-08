@@ -33,10 +33,11 @@ package com.jme3.alloc.examples;
 
 /**
  * The main entry point to the [jme3-alloc-examples] examples module.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:run.
  * 
  * @author pavl_g
  */
-public final class Launcher {
+public final class SimpleLauncher {
     public static void main(String[] args) throws InterruptedException {
         TestNativeBufferUtils.main(args);
         Thread.sleep(1500);
@@ -48,7 +49,5 @@ public final class Launcher {
         Thread.sleep(1500);
         System.out.println();
         TestMemorySet.main(args);
-
-        while (true); /* Keep the program alive for "stress testing" */
     }
 }

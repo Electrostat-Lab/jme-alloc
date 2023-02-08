@@ -39,6 +39,7 @@ import java.util.logging.Level;
 /**
  * Tests {@link NativeBufferUtils#memoryCopy(ByteBuffer, ByteBuffer, long)} between 2 buffers, where buffer1 copies all the elements
  * from buffer0.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:TestMemoryCopy :jme3-alloc-examples:run
  * 
  * @author pavl_g
  */

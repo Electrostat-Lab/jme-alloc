@@ -31,42 +31,16 @@
  */
 package com.jme3.alloc.examples;
 
-import com.jme3.alloc.util.NativeBufferUtils;
-import java.nio.ByteBuffer;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
 /**
- * Tests jvm thread-safety crash and the generation of jvm crash logs when trying to destroy a buffer
- * not owned by the current monitor.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:TestJvmCrashlogs :jme3-alloc-examples:run
+ * A stress launcher for memory profiling purposes.
+ * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run.
  * 
  * @author pavl_g
  */
-public final class TestJvmCrashlogs {
-    private static final Logger LOGGER = Logger.getLogger(TestJvmCrashlogs.class.getName());
-
-    public static void main(String[] args) {
-        LOGGER.log(Level.INFO, "**************** " + TestJvmCrashlogs.class.getName() + "****************");
-
-        ByteBuffer buffer = NativeBufferUtils.clearAlloc(1000);
-        buffer.putInt(200);
-        printInfo(buffer);
-        NativeBufferUtils.destroy(buffer);
-        /* Note: data printed from here is not the buffer's anymore, this buffer's memory address has been destructed */
-        /* Warning: the printed data is another buffers data ! */
-        /* Note: writing on this buffer again will fire a jvm crash with a crash-log file; because the current buffer may not be thread-safe */
-        for (int i = 0; i < Byte.MAX_VALUE; i++) {
-            buffer.putInt(i);
-        }
-        printInfo(buffer);
+public final class StressLauncher {
+    public static void main(String[] args) throws InterruptedException {
+        SimpleLauncher.main(args);
         
-
-        LOGGER.log(Level.INFO, "**************** " + TestJvmCrashlogs.class.getName() + "****************");
-    }    
-
-    private static void printInfo(final ByteBuffer buffer) {
-        System.out.println(buffer);
-        System.out.println("Buffer Data: " + buffer.getInt(0));
+        while (true); /* Keep the program alive for "stress testing" */
     }
 }
