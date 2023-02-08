@@ -53,8 +53,18 @@
  * @return the same memory region that is accessible to Java code via the buffer object
  */
 static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
-	void* memAddress = (*env)->GetDirectBufferAddress(env, *buffer);
-    return memAddress;
+    return (*env)->GetDirectBufferAddress(env, *buffer);
+}
+
+/**
+ * Fetches the capacity or the size of the buffer in bytes.
+ * 
+ * @param env the local JNIEnv pointer 
+ * @param buffer the java nio buffer object native pointer
+ * @return the buffer capacity in bytes
+ */
+static inline jlong getBufferCapacity(JNIEnv* env, jobject* buffer) {
+    return (*env)->GetDirectBufferCapacity(env, *buffer);
 }
 
 /**
@@ -66,7 +76,7 @@ static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
  */
 static inline jobject memoryAlloc(JNIEnv* env, size_t size) {
 	void* buffer = malloc(size);
-	LOGD_ALLOCMEM(ERROR, buffer, size);
+	LOGD_ALLOCMEM(DEBUG, buffer, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
@@ -82,6 +92,7 @@ static inline jobject memoryAlloc(JNIEnv* env, size_t size) {
 static inline jobject* memorySet(JNIEnv* env, jobject* buffer, int value, size_t size) {
 	void* memAddress = getMemoryAddress(env, buffer);
 	memset(memAddress, value, size);
+	LOGD_SETMEM(DEBUG, memAddress, size, value);
 	return buffer;
 }
 
@@ -97,6 +108,7 @@ static inline void memoryMove(JNIEnv* env, jobject* to, jobject* from, size_t si
 	void* toMemAddress = getMemoryAddress(env, to);
 	void* fromMemAddress = getMemoryAddress(env, from);
 	memmove(toMemAddress, fromMemAddress, size);
+	LOGD_COPYMEM(DEBUG, size, toMemAddress, size, fromMemAddress);
 }
 
 /**
@@ -111,7 +123,7 @@ static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t si
 	void* toMemAddress = getMemoryAddress(env, to);
 	void* fromMemAddress = getMemoryAddress(env, from);
 	memcpy(toMemAddress, fromMemAddress, size);
-	LOGD_COPYMEM(ERROR, size, toMemAddress, size, fromMemAddress);
+	LOGD_COPYMEM(DEBUG, size, toMemAddress, size, fromMemAddress);
 }
 
 /**
@@ -123,7 +135,7 @@ static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t si
  */
 static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 	void* buffer = calloc(1, size);
-	LOGD_ALLOCMEM(ERROR, buffer, size);
+	LOGD_ALLOCMEM(DEBUG, buffer, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
@@ -134,6 +146,7 @@ static inline jobject clearAlloc(JNIEnv* env, size_t size) {
  */ 
 static inline void destroy(JNIEnv* env, jobject* buffer) {
 	void* memoryAddress = getMemoryAddress(env, buffer);
+	LOGD_DESTROYMEM(DEBUG, memoryAddress, getBufferCapacity(env, buffer));
 	free(memoryAddress);
 	memoryAddress = NULL;
 }

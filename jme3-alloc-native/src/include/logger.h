@@ -51,7 +51,7 @@
 
 #define API "Jme3-alloc"
 #define DEBUG_FILE "jme3-alloc-debug.log"
-#define DEFAULT_FILE_PATH_BUFFER_SIZE 255
+#define DEFAULT_BUFFER_SIZE 255
 #define INFO "INFO"
 #define DEBUG "DEBUG"
 #define WARNING "WARNING"
@@ -242,7 +242,7 @@ static inline void LOGD(const char* levelstr, const size_t capacity, const int c
         Level* level = (Level*) calloc(1, sizeof(Level));
         level->name = API;
         level->level = levelstr;
-        LOG_DEBUG(*level, DEFAULT_FILE_PATH_BUFFER_SIZE, buffer);
+        LOG_DEBUG(*level, DEFAULT_BUFFER_SIZE, buffer);
         free(buffer);
         free(level);
 
