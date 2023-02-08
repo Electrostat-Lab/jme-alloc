@@ -117,7 +117,7 @@ static inline void LOG_DEBUG(Level level, const char* msg) {
     #ifdef __ENABLE_DEBUG_LOGGER
         /* get current working directory */
         const char* currentWorkingDir = getcwd(NULL, 0);
-        /* get the buffer size by adding the string lengths + 1 (for the null terminating charachters) */
+        /* get the buffer size by adding the string lengths + 1 (for the null terminating charachter) */
         size_t bufferSize = strlen(currentWorkingDir) + strlen(DEBUG_FILE) + strlen(FILE_SEPARATOR) + 1;
         const char* debugFileName = (const char*) calloc(bufferSize, sizeof(char));
         strcat((char*) debugFileName, currentWorkingDir);
