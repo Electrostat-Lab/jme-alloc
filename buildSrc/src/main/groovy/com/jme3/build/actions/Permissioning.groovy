@@ -29,24 +29,48 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.build.actions;
+
+import org.gradle.api.resources.MissingResourceException;
+import com.jme3.build.util.ConsoleUtils;
+import com.jme3.build.UnixScriptRunner;
+import java.lang.Process;
+import org.gradle.api.Task;
+import java.io.IOException;
+import java.lang.InterruptedException;
 
 /**
- * The main entry point to the [jme3-alloc-examples] examples module.
- * 
+ * A task that gives a [+rwx] permission to a script.
+ *
  * @author pavl_g
  */
-public final class Launcher {
-    public static void main(String[] args) throws InterruptedException {
-        TestNativeBufferUtils.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestDirtyMultithreading.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemoryCopy.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemorySet.main(args);
+public final class Permissioning {
+    
+    public void execute(Task task) {
+        final UnixScriptRunner runner = ((UnixScriptRunner) task);
+        if (runner.getScript() == null || runner.getScript().equals("")) {
+            throw new MissingResourceException("Cannot find a script to permissionize !");
+        }
+        try {
+            permissionizeScript(runner.getScript());
+        } catch(IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void permissionizeScript(final String script) throws IOException, InterruptedException {
+        String[] chmod = new String[] { "chmod", "+rwx" };
+        /* execute the shell script in a unix process that inheirt from the current environment */
+        Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script });
+
+        permissioning.waitFor();
+
+        ConsoleUtils.printConsoleInput(permissioning);
+        ConsoleUtils.printConsoleError(permissioning);
+        
+        /* release resources */
+        permissioning.destroy(); 
+        permissioning = null;
+        chmod = null;
     }
 }

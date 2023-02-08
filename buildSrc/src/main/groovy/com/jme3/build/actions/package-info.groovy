@@ -29,24 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
-
+ 
 /**
- * The main entry point to the [jme3-alloc-examples] examples module.
- * 
- * @author pavl_g
+ * Holds the task actions for the {@link com.jme3.build.UnixScriptRunner}. 
  */
-public final class Launcher {
-    public static void main(String[] args) throws InterruptedException {
-        TestNativeBufferUtils.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestDirtyMultithreading.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemoryCopy.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemorySet.main(args);
-    }
-}
+package com.jme3.build.actions;

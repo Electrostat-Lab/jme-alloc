@@ -29,24 +29,54 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.build.actions;
+
+import org.gradle.api.resources.MissingResourceException;
+import com.jme3.build.util.ConsoleUtils;
+import com.jme3.build.UnixScriptRunner;
+import java.lang.Process;
+import org.gradle.api.Task;
+import java.io.IOException;
+import java.lang.InterruptedException;
 
 /**
- * The main entry point to the [jme3-alloc-examples] examples module.
- * 
- * @author pavl_g
+ * A task that executes a script and print its stream. 
+ *
+ * @author pavl_g 
  */
-public final class Launcher {
-    public static void main(String[] args) throws InterruptedException {
-        TestNativeBufferUtils.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestDirtyMultithreading.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemoryCopy.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemorySet.main(args);
+public final class ScriptExecutor {
+   
+    public void execute(Task task) {
+        final UnixScriptRunner runner = ((UnixScriptRunner) task);
+        if (runner.getScript() == null || runner.getScript().equals("")) {
+            throw new MissingResourceException("Cannot find a script to execute !");
+        }
+        try {
+            executeScript(runner.getScript(), runner.getJavaHome());
+        } catch(IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void executeScript(final String script, final String javaHome) throws IOException, InterruptedException {
+        String command = "bash";
+
+        if (System.getProperty("os.name").contains("Windows")) {
+            command = "C:\\Program Files\\Git\\bin\\bash.exe";
+        }
+        
+        Process run = Runtime.getRuntime().exec(new String[] { command, script, javaHome });
+        
+        if (run.waitFor() == 1) {
+            System.out.println("Run Failed !");
+        }
+
+        ConsoleUtils.printConsoleInput(run);
+        ConsoleUtils.printConsoleError(run);
+
+        /* release resources */
+        run.destroy();
+        run = null;
+        command = null;
     }
 }

@@ -1,3 +1,6 @@
+import com.jme3.build.UnixScriptRunner;
+import com.jme3.build.CompileX86;
+
 final String version = "0.1-A"
 final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
 final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/"
@@ -8,112 +11,31 @@ task copyNatives(type: Copy) {
 }
 
 tasks.register("prepareOutputDirectory", UnixScriptRunner) {
-   javaHome = System.getProperty("java.home")
    script = "./helper-scripts/prepare-output-directory.sh"
 }
 
-tasks.register("compileX86", UnixScriptRunner) {
+tasks.register("compileX86", CompileX86) {
    dependsOn("prepareOutputDirectory")
-   
-   javaHome = System.getProperty("java.home")
-
-   boolean isWindows = System.getProperty("os.name").contains("Windows");
-   boolean isMacos = System.getProperty("os.name").contains("Mac");
-   boolean isLinux = System.getProperty("os.name").contains("Linux");
-   
-   boolean isCompileWindowsX86 = compileWindowsX86 == "true"
-   boolean isCompileMacX86 = compileMacX86 == "true"
-   boolean isCompileLinuxX86 = compileLinuxX86 == "true"
-   
-   if (isWindows && isCompileWindowsX86) {
-       /* compile x86 for Windows */
-       println("Compiling X86 Binary for Windows")
-       script = "./helper-scripts/compile-x86.sh"
-   } else if (isMacos && isCompileMacX86) {
-       /* compile x86 for MacOSx */
-       println("Compiling X86 Binary for MacOS")
-       script = "./helper-scripts/compile-x86.sh"
-   } else if (isLinux) {
-       /* compile for linux */
-       println("Compiling X86 Binary for Linux")
-       script = "./helper-scripts/compile-x86.sh"
-   } else {
-       script = ""
-   }
+   script = "./helper-scripts/compile-x86.sh"
+   compileLinuxX86 = compileLinuxX86Property
+   compileMacX86 = compileMacX86Property
+   compileWindowsX86 = compileWindowsX86Property
 }
 
 tasks.register("compileX86_64", UnixScriptRunner) {
    dependsOn("prepareOutputDirectory")
-   javaHome = System.getProperty("java.home")
    script = "./helper-scripts/compile-x86-64.sh"
 }
 
-abstract class UnixScriptRunner extends DefaultTask {
-    @Input
-    abstract Property<String> getScript()
+tasks.register("compileX86_debug", CompileX86) {
+   dependsOn("prepareOutputDirectory")
+   script = "./helper-scripts/compile-x86-debug.sh"
+   compileLinuxX86 = compileLinuxX86Property
+   compileMacX86 = compileMacX86Property
+   compileWindowsX86 = compileWindowsX86Property
+}
 
-    @Input
-    abstract Property<String> getJavaHome()
-
-    @TaskAction
-    def execute() {
-        String command = "bash";
-
-        permissionizeScript(getScript())
-
-        if (System.getProperty("os.name").contains("Windows")) {
-            command = "C:\\Program Files\\Git\\bin\\bash.exe"
-        }
-        
-        println(getJavaHome().get())
-        Process run = Runtime.getRuntime().exec(new String[] { command, script.get(), getJavaHome().get() });
-        
-        if (run.waitFor()) {
-            println("Run Failed !")
-        }
-
-        printConsoleInput(run)
-        printConsoleError(run)
-
-        /* release resources */
-        run.destroy();
-        run = null;
-        command = null;
-    }
-
-    void permissionizeScript(final Property<String> script) {
-        String[] chmod = new String[] { "chmod", "+rwx" };
-        /* execute the shell script in a unix process that inheirt from the current environment */
-        Process permissioning = Runtime.getRuntime().exec(new String[] { chmod[0], chmod[1], script.get() });
-
-        permissioning.waitFor();
-
-        printConsoleInput(permissioning)
-        printConsoleError(permissioning)
-        
-        /* release resources */
-        permissioning.destroy(); 
-        permissioning = null;
-        chmod = null;
-    }
-
-    void printConsoleInput(final Process process) {
-        printInputStream(process.getInputStream())
-    }
-
-    void printConsoleError(final Process process) {
-        printInputStream(process.getErrorStream());
-    }
-
-    void printInputStream(final InputStream in) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        try {
-            for (String out = null; (out = reader.readLine()) != null;) {
-                System.err.println(out)
-            }
-        } finally {
-            reader.close()
-            reader = null
-        }
-    }
+tasks.register("compileX86_64_debug", UnixScriptRunner) {
+   dependsOn("prepareOutputDirectory")
+   script = "./helper-scripts/compile-x86-64-debug.sh"
 }

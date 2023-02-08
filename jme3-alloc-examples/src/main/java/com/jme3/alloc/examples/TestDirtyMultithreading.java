@@ -47,7 +47,6 @@ public final class TestDirtyMultithreading {
     
     private static final Logger LOGGER = Logger.getLogger(TestDirtyMultithreading.class.getName());
     private static final ReentrantLock lock = new ReentrantLock();
-    private static final int TEST_TIMES = 10;
     private static final int BUFFER_COUNT = 20;
     private static final long BUFFER_SIZE = 2000000L;
     private static final long BUFFER_DATA = 3000L;
