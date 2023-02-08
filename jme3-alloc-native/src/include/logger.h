@@ -111,15 +111,16 @@ static inline void LOG_STDERR(Level level, const char* msg) {
  * Log to the [./[pwd]/jme3-alloc-debug.txt] jme3-alloc debug file with a specific level.
  * 
  * @param level the logger level
- * @param filePathBufferSize the debug file path buffer size in bytes
  * @param msg a message to log
  */
-static inline void LOG_DEBUG(Level level, const size_t filePathBufferSize, const char* msg) {
+static inline void LOG_DEBUG(Level level, const char* msg) {
     #ifdef __ENABLE_DEBUG_LOGGER
         /* get current working directory */
-        const char* debugFileName = (const char*) calloc(filePathBufferSize, sizeof(char));
-        /* append to a debug output file */
-        getcwd((char*) debugFileName, filePathBufferSize);
+        const char* currentWorkingDir = getcwd(NULL, 0);
+        /* get the buffer size by adding the string lengths + 1 (for the null terminating charachters) */
+        size_t bufferSize = strlen(currentWorkingDir) + strlen(DEBUG_FILE) + strlen(FILE_SEPARATOR) + 1;
+        const char* debugFileName = (const char*) calloc(bufferSize, sizeof(char));
+        strcat((char*) debugFileName, currentWorkingDir);
         strcat((char*) debugFileName, FILE_SEPARATOR);
         strcat((char*) debugFileName, DEBUG_FILE);
         FILE* debug = fopen(debugFileName, "a+");
@@ -242,7 +243,7 @@ static inline void LOGD(const char* levelstr, const size_t capacity, const int c
         Level* level = (Level*) calloc(1, sizeof(Level));
         level->name = API;
         level->level = levelstr;
-        LOG_DEBUG(*level, DEFAULT_BUFFER_SIZE, buffer);
+        LOG_DEBUG(*level, buffer);
         free(buffer);
         free(level);
 
