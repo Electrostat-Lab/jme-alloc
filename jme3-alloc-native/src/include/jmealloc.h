@@ -45,18 +45,6 @@
 #include<jni.h>
 
 /**
- * Fetches and returns the starting address of the memory region referenced by the given direct java.nio.ByteBuffer.
- * This function allows native code to access the same memory region that is accessible to Java code via the buffer object.
- * 
- * @param env the local JNIEnv pointer 
- * @param buffer the java nio buffer object native pointer
- * @return the same memory region that is accessible to Java code via the buffer object
- */
-static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
-    return (*env)->GetDirectBufferAddress(env, *buffer);
-}
-
-/**
  * Fetches the capacity or the size of the buffer in bytes.
  * 
  * @param env the local JNIEnv pointer 
@@ -65,6 +53,20 @@ static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
  */
 static inline jlong getBufferCapacity(JNIEnv* env, jobject* buffer) {
     return (*env)->GetDirectBufferCapacity(env, *buffer);
+}
+
+/**
+ * Fetches and returns the starting address of the memory region referenced by the given direct java.nio.ByteBuffer.
+ * This function allows native code to access the same memory region that is accessible to Java code via the buffer object.
+ * 
+ * @param env the local JNIEnv pointer 
+ * @param buffer the java nio buffer object native pointer
+ * @return the same memory region that is accessible to Java code via the buffer object
+ */
+static inline void* getMemoryAddress(JNIEnv* env, jobject* buffer) {
+	void* address = (*env)->GetDirectBufferAddress(env, *buffer);
+	LOGD_MEMORY(DEBUG, address, getBufferCapacity(env, buffer));
+    return address;
 }
 
 /**
