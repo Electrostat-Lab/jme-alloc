@@ -113,7 +113,7 @@ static inline void LOGI_SETMEM(void* address, size_t size, int value) {
         const char* memAddress = pointerToString(address);
         const char* memSize = ulongToString(size);
         const char* bufferValue = intToString(value);
-        LOGI(DEFAULT_BUFFER_SIZE, 8, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to = ", ", Values = ", bufferValue);
+        LOGI(DEFAULT_BUFFER_SIZE, 9, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to = ", "[ Value = ", bufferValue, " ]");
         free((void*) memAddress);
         free((void*) memSize);
         free((void*) bufferValue);
@@ -132,7 +132,7 @@ static inline void LOGE_SETMEM(void* address, size_t size, int value) {
         const char* memAddress = pointerToString(address);
         const char* memSize = ulongToString(size);
         const char* bufferValue = intToString(value);
-        LOGE(DEFAULT_BUFFER_SIZE, 8, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to = ", ", Values = ", bufferValue);
+        LOGE(DEFAULT_BUFFER_SIZE, 9, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to = ", "[ Value = ", bufferValue, " ]");
         free((void*) memAddress);
         free((void*) memSize);
         free((void*) bufferValue);
@@ -151,7 +151,7 @@ static inline void LOGD_SETMEM(const char* level, void* address, size_t size, in
         const char* memAddress = pointerToString(address);
         const char* memSize = ulongToString(size);
         const char* bufferValue = intToString(value);
-        LOGD(level, DEFAULT_BUFFER_SIZE, 8, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to = ", ", Values = ", bufferValue);
+        LOGD(level, DEFAULT_BUFFER_SIZE, 9, "Memory set buffer = ", "[ Address = ", memAddress, ", Size = ", memSize, " ] elements to ", "[ Value = ", bufferValue, " ]");
         free((void*) memAddress);
         free((void*) memSize);
         free((void*) bufferValue);
@@ -172,7 +172,7 @@ static inline void LOGI_COPYMEM(size_t toSize, void* toAddress, size_t fromSize,
         const char* fromMemAddress = pointerToString(fromAddress);
         const char* toMemSize = longToString(toSize);
         const char* fromMemSize = longToString(fromSize);
-        LOGI(DEFAULT_BUFFER_SIZE, 8, "Copied memory from buffer = [ Address = ", fromMemAddress, ", Size = ", fromMemSize, " to buffer = [ Address = ",
+        LOGI(DEFAULT_BUFFER_SIZE, 9, "Copied memory from buffer = [ Address = ", fromMemAddress, ", Size = ", fromMemSize, " ] to buffer = [ Address = ",
              toMemAddress, ", Size = ", fromMemAddress, " ]");
         free((void*) toMemAddress);
         free((void*) fromMemAddress);
@@ -195,7 +195,7 @@ static inline void LOGD_COPYMEM(const char* level, size_t toSize, void* toAddres
         const char* fromMemAddress = pointerToString(fromAddress);
         const char* toMemSize = longToString(toSize);
         const char* fromMemSize = longToString(fromSize);
-        LOGD(level, DEFAULT_BUFFER_SIZE, 8, "Copied memory from buffer = [ Address = ", fromMemAddress, ", Size = ", fromMemSize, " to buffer = [ Address = ",
+        LOGD(level, DEFAULT_BUFFER_SIZE, 9, "Copied memory from buffer = [ Address = ", fromMemAddress, ", Size = ", fromMemSize, " ] to buffer = [ Address = ",
              toMemAddress, ", Size = ", toMemSize, " ]");
         free((void*) toMemAddress);
         free((void*) fromMemAddress);
