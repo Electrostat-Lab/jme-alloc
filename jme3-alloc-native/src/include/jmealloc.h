@@ -135,7 +135,7 @@ static inline void memoryCopy(JNIEnv* env, jobject* to, jobject* from, size_t si
  */
 static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 	void* buffer = calloc(1, size);
-	LOGD_ALLOCMEM(DEBUG, buffer, size);
+	LOGD_CALLOCMEM(DEBUG, buffer, size);
 	return (*env)->NewDirectByteBuffer(env, buffer, size);
 }
 
