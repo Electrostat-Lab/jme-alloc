@@ -16,8 +16,8 @@ String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/"
 
 /** replace unix '/' with windows escaped '\' */
 if (System.getProperty("os.name").contains("Windows")) {
-    dependenciesDir = dependenciesDir.replaceAll("/", "\\")
-    libsDir = libsDir.replaceAll("/", "\\")
+    dependenciesDir = dependenciesDir.replaceAll("/", "\\\\")
+    libsDir = libsDir.replaceAll("/", "\\\\")
 } 
 
 application {
