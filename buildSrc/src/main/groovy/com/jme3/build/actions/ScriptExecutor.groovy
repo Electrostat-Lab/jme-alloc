@@ -72,6 +72,7 @@ public final class ScriptExecutor {
         }
 
         ConsoleUtils.printConsoleInput(run);
+        ConsoleUtils.printConsoleError(run);
 
         /* release resources */
         run.destroy();

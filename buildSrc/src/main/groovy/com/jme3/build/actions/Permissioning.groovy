@@ -66,6 +66,7 @@ public final class Permissioning {
         permissioning.waitFor();
 
         ConsoleUtils.printConsoleInput(permissioning);
+        ConsoleUtils.printConsoleError(permissioning);
         
         /* release resources */
         permissioning.destroy(); 
