@@ -10,6 +10,13 @@ An initiator template for the jme-alloc project providing a native allocation ap
       ./gradlew :jme3-alloc-native:copyNatives && \
       ./gradlew :jme3-alloc:assemble
 ```
+### To test locally, use: 
+```bash
+┌─[pavl-machine@pavl-machine]─[/home/twisted/GradleProjects/jme-alloc]
+└──╼ $./gradlew :jme3-alloc-examples:run
+```
+### For more about, building, testing and contributing, visit:
+> [CONTRIBUTING.md](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/CONTRIBUTING.md)
 #### API:
 - [x] Native extraction according to the system variant (OS + architecture).
 - [x] Dynamic linking code.
