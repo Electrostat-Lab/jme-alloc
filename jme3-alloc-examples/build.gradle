@@ -10,6 +10,11 @@ plugins {
     id 'application'
 }
 
+final String fileSeparator = System.getProperty("file.separator")
+/** get system specific separated directories for the source and the destination of the dependencies */
+final String dependenciesDir =  "${rootDir.getPath()}/jme3-alloc-examples/build/libs/dependencies/".replaceAll("/", fileSeparator)
+final String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/".replaceAll("/", fileSeparator)
+
 application {
     mainClass = 'com.jme3.alloc.examples.SimpleLauncher'
 }
@@ -22,15 +27,6 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
         options.release = 8
     }
 }
-
-tasks.withType(Jar) { // assemble jar options [java -jar]
-    manifest {
-        attributes 'Project': 'jme-alloc-examples',
-                   'Automatic-Module-Name': "${project.name.replace("-", ".")}",
-                   'Compiled-by': JavaVersion.current(),
-                   'Main-Class': application.mainClass
-    }
-}	
 
 /** A Simple command-line examples chooser using gradle tasks */
 
@@ -62,6 +58,55 @@ tasks.register("TestDirtyMultithreading") {
 /** Runs the [StressLauncher] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run */
 tasks.register("StressLauncher") {
     application.mainClass = 'com.jme3.alloc.examples.StressLauncher'
+}
+
+/** To build a jar file with a specific main-class, run one of the above tasks before the createJar task */
+
+/** ********************** Examples ********************** */
+/** To assemble a jar with the [TestNativeBufferUtils] as main-class run this: 
+ * └──╼ $./gradlew :jme3-alloc-examples:TestNativeBufferUtils :jme3-alloc-examples:createJar */
+
+/** To assemble a jar with the [StressLauncher] as a main-class run this:
+ * └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:createJar */
+
+/** ****************************************************** */
+
+/** Copies the assembled libraries from [jme3-alloc/build/libs] to [jme3-alloc-examples/build/libs/dependencies] */
+task copyLibs(type: Copy) {
+    from (libsDir) {
+        include '**/*.jar'
+    }
+    into(dependenciesDir)
+    includeEmptyDirs = false
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
+
+/** Assembles a jar file with a class-path loading the dependencies and a main-class */
+task createJar(type : Jar, dependsOn : copyLibs){
+    //get the copied jars
+    String dependenciesString = ""
+    final File dependencies = new File(dependenciesDir)
+    if(dependencies.exists()) {
+        if (dependencies.listFiles().length > 0) {
+            final File[] files = dependencies.listFiles()
+            for (int i = 0; i < files.length; i++) {
+                final String fileName = files[i].getName()
+                if (fileName.contains(".jar")) {
+                    /** All zip paths are unix paths; so no need to the file system specific separator */
+                    dependenciesString += "dependencies/" + fileName + " "
+                }
+            }
+        }
+    }
+
+    manifest {
+        attributes 'Project': 'jme-alloc-examples',
+                   'Automatic-Module-Name': "${project.name.replace("-", ".")}",
+                   'Compiled-by': JavaVersion.current(),
+                   'Class-Path': dependenciesString,
+                   'Main-Class': application.mainClass
+    }
+    with jar
 }
 
 repositories {
