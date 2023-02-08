@@ -50,7 +50,8 @@
 #endif
 
 #define API "Jme3-alloc"
-#define DEBUG_FILE "jme3-alloc-debug.txt"
+#define DEBUG_FILE "jme3-alloc-debug.log"
+#define DEFAULT_FILE_PATH_BUFFER_SIZE 255
 #define INFO "INFO"
 #define DEBUG "DEBUG"
 #define WARNING "WARNING"
@@ -110,14 +111,15 @@ static inline void LOG_STDERR(Level level, const char* msg) {
  * Log to the [./[pwd]/jme3-alloc-debug.txt] jme3-alloc debug file with a specific level.
  * 
  * @param level the logger level
+ * @param filePathBufferSize the debug file path buffer size in bytes
  * @param msg a message to log
  */
-static inline void LOG_DEBUG(Level level, const char* msg) {
+static inline void LOG_DEBUG(Level level, const size_t filePathBufferSize, const char* msg) {
     #ifdef __ENABLE_DEBUG_LOGGER
         /* get current working directory */
-        const char* debugFileName = (const char*) calloc(255, sizeof(char));
+        const char* debugFileName = (const char*) calloc(filePathBufferSize, sizeof(char));
         /* append to a debug output file */
-        getcwd((char*) debugFileName, 255);
+        getcwd((char*) debugFileName, filePathBufferSize);
         strcat((char*) debugFileName, FILE_SEPARATOR);
         strcat((char*) debugFileName, DEBUG_FILE);
         FILE* debug = fopen(debugFileName, "a+");
@@ -137,12 +139,16 @@ static inline void LOG_DEBUG(Level level, const char* msg) {
 
 /**
  * Log to the standard output (stdout) file with [info] level
+ * 
+ * @param capacity the capacity of the log buffer that will hold the vararg items
+ * @param count the number of the varargs
+ * @param varargs args of type [const char*] to be appended to the buffer
  */
-static inline void LOGI(const int count, ...) {
+static inline void LOGI(const size_t capacity, const int count, ...) {
     #ifdef __ENABLE_LOGGER
         va_list args;
         va_start(args, count);
-        char* buffer = (char*) calloc(255, sizeof(char));
+        char* buffer = (char*) calloc(capacity, sizeof(char));
 
         for (int i = 0; i < count; i++) {
             strcat(buffer, va_arg(args, const char*));
@@ -162,8 +168,11 @@ static inline void LOGI(const int count, ...) {
 /**
  * Log to the stderr with an error level
  * 
+ * @param capacity the capacity of the log buffer that will hold the vararg items
+ * @param count the number of the varargs
+ * @param varargs args of type [const char*] to be appended to the buffer
  */
-static inline void LOGE(const int count, const size_t capacity, ...) {
+static inline void LOGE(const size_t capacity, const int count, ...) {
     #ifdef __ENABLE_LOGGER
         va_list args;
         va_start(args, count);
@@ -187,8 +196,11 @@ static inline void LOGE(const int count, const size_t capacity, ...) {
 /**
  * Log to the stdout with a warning level
  * 
+ * @param capacity the capacity of the log buffer that will hold the vararg items
+ * @param count the number of the varargs
+ * @param varargs args of type [const char*] to be appended to the buffer
  */
-static inline void LOGW(const int count, const size_t capacity, ...) {
+static inline void LOGW(const size_t capacity, const int count, ...) {
     #ifdef __ENABLE_LOGGER
         va_list args;
         va_start(args, count);
@@ -211,8 +223,13 @@ static inline void LOGW(const int count, const size_t capacity, ...) {
 
 /**
  * Log to a library log file for debugging purposes
+ * 
+ * @param levelstr a specific level string to evaluate to the logger
+ * @param capacity the capacity of the log buffer that will hold the vararg items
+ * @param count the number of the varargs
+ * @param varargs args of type [const char*] to be appended to the buffer
  */
-static inline void LOGD(const int count, const size_t capacity, ...) {
+static inline void LOGD(const char* levelstr, const size_t capacity, const int count, ...) {
     #ifdef __ENABLE_DEBUG_LOGGER
         va_list args;
         va_start(args, count);
@@ -224,8 +241,8 @@ static inline void LOGD(const int count, const size_t capacity, ...) {
 
         Level* level = (Level*) calloc(1, sizeof(Level));
         level->name = API;
-        level->level = DEBUG;
-        LOG_DEBUG(*level, buffer);
+        level->level = levelstr;
+        LOG_DEBUG(*level, DEFAULT_FILE_PATH_BUFFER_SIZE, buffer);
         free(buffer);
         free(level);
 
