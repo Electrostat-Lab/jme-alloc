@@ -18,7 +18,7 @@ An initiator template for the jme-alloc project providing a native allocation ap
 ### For more about, building, testing and contributing, visit:
 > [CONTRIBUTING.md](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/CONTRIBUTING.md)
 #### API:
-- [x] Native extraction according to the system variant (OS + architecture) using [`com.jme3.alloc.utils.loader.NativeBinaryLoader`](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc/src/main/java/com/jme3/alloc/util/loader/NativeBinaryLoader.java).
+- [x] Native extraction according to the system variant (OS + architecture) using [`com.jme3.alloc.util.loader.NativeBinaryLoader`](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc/src/main/java/com/jme3/alloc/util/loader/NativeBinaryLoader.java).
 - [x] Dynamic linking code.
 - [x] Base Allocator/De-allocator API: [`com.jme3.alloc.util.NativeBufferUtils`](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc/src/main/java/com/jme3/alloc/util/NativeBufferUtils.java) and [`com.jme3.alloc.NativeBufferAllocator`](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc/src/main/java/com/jme3/alloc/NativeBufferAllocator.java).
 - [x] Native logging api with output to an external log file stream.
