@@ -10,10 +10,15 @@ plugins {
     id 'application'
 }
 
-final String fileSeparator = System.getProperty("file.separator")
 /** get system specific separated directories for the source and the destination of the dependencies */
-final String dependenciesDir =  "${rootDir.getPath()}/jme3-alloc-examples/build/libs/dependencies/".replaceAll("/", fileSeparator)
-final String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/".replaceAll("/", fileSeparator)
+String dependenciesDir =  "${rootDir.getPath()}/jme3-alloc-examples/build/libs/dependencies/"
+String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/"
+
+/** replace unix '/' with windows escaped '\' */
+if (System.getProperty("os.name").contains("Windows")) {
+    dependenciesDir = dependenciesDir.replaceAll("/", "\\")
+    libsDir = libsDir.replaceAll("/", "\\")
+} 
 
 application {
     mainClass = 'com.jme3.alloc.examples.SimpleLauncher'
