@@ -83,3 +83,5 @@ Sat Feb 11 01:31:04 2023/Jme3-alloc/DEBUG: Destructed buffer = [ Address = 0x7f9
 The buffer `0x7f952194c010` of size 2 GB is not deallocated and it appears on the application memory mappings with size 1.9 GB:
 
 ![](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/attachments/nondestructed-buffer.png)
+
+> Warning: the stress test is dangerous if you don't have enough memory (as it will need a 5GB+ of free space in the virtual memory), don't start the stock test, better modify it according to your memory, if you started the stress-test with a little memory, you will end up freezing your system.
