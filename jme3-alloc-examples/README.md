@@ -3,49 +3,49 @@
 This module holds a couple of simple techdemos to test the api.
 
 ## Here is the list of the available examples and how to run and build a runnable jar for stress testing: 
-- [x] [TestNativeBufferUtils](link):
+- [x] [TestNativeBufferUtils](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestNativeBufferUtils.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:TestNativeBufferUtils \
                  :jme3-alloc-examples:createJar \
                  :jme3-alloc-examples:run
 ```
-- [x] [TestMemorySet](link):
+- [x] [TestMemorySet](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestMemorySet.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:TestMemorySet \
                  :jme3-alloc-examples:createJar \
                  :jme3-alloc-examples:run
 ```
-- [x] [TestMemoryCopy](link): 
+- [x] [TestMemoryCopy](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestMemoryCopy.java): 
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:TestMemoryCopy \
                  :jme3-alloc-examples:createJar \ 
                  :jme3-alloc-examples:run
 ```
-- [x] [TestJvmCrashlogs](link):
+- [x] [TestJvmCrashlogs](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestJvmCrashlogs.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:TestJvmCrashlogs \
                  :jme3-alloc-examples:createJar \ 
                  :jme3-alloc-examples:run
 ```
-- [x] [TestDirtyMultithreading](link):
+- [x] [TestDirtyMultithreading](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestDirtyMultithreading.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:TestDirtyMultithreading \
                  :jme3-alloc-examples:createJar \ 
                  :jme3-alloc-examples:run
 ```
-- [x] [StressLauncher](link):
+- [x] [StressLauncher](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/StressLauncher.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:StressLauncher \
                  :jme3-alloc-examples:createJar \ 
                  :jme3-alloc-examples:run
 ```
-- [x] [SimpleLaunhcer](link):
+- [x] [SimpleLaunhcer](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/SimpleLauncher.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
        ./gradlew :jme3-alloc-examples:SimpleLaunhcer \
@@ -81,4 +81,5 @@ Sat Feb 11 01:31:04 2023/Jme3-alloc/DEBUG: Buffer = [ Address = 0x7f9598ca6010, 
 Sat Feb 11 01:31:04 2023/Jme3-alloc/DEBUG: Destructed buffer = [ Address = 0x7f9598ca6010, Size = 2000000000] 
 ```
 The buffer `0x7f952194c010` of size 2 GB is not deallocated and it appears on the application memory mappings with size 1.9 GB:
-![](link)
+
+![](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/attachments/nondestructed-buffer.png)
