@@ -66,7 +66,7 @@ public final class NativeBinaryLoader {
         } else if (NativeVariant.NAME.getData().contains(NativeVariant.Android)) {
             loadAndroid();
         } else {
-            throw new UnSupportedSystemError(System.getProperty("os.name"), System.getProperty("os.arch"));
+            throw new UnSupportedSystemError(NativeVariant.NAME.getData(), NativeVariant.ARCH.getData());
         }
     }
     
