@@ -87,7 +87,8 @@ jobs:
             with:
               name: libjmealloc-${{ matrix.os }}
               path: jme3-alloc-native/build/
-    assemble:
+
+    assemble-desktop:
         # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
         needs: compile-natives
@@ -96,7 +97,7 @@ jobs:
             os: [ 'ubuntu-latest' ]
             java: ['17']
             architecture: [ 'x64' ]
-        name: Assemble jme-alloc
+        name: Assemble jme3-alloc-desktop
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
@@ -141,13 +142,13 @@ jobs:
           - name: Archive release
             uses: actions/upload-artifact@v3
             with:
-              name: release-archive
+              name: jme3-alloc-desktop-release
               path: jme3-alloc/build/libs/*.jar
-    
+
     test:
         # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
-        needs: assemble
+        needs: assemble-desktop
         strategy:
           matrix:
             os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
@@ -168,8 +169,92 @@ jobs:
           - name: Download jme3-alloc.jar library
             uses: actions/download-artifact@v3
             with:
-              name: release-archive
+              name: jme3-alloc-desktop-release
               path: jme3-alloc/build/libs/
           
           - name: Run com.jme3.alloc.examples.Launcher
             run: ./gradlew :jme3-alloc-examples:run
+
+    compile-android-natives:
+        # a linux runner image with the ndk installed and llvm ready to compile android native binaries
+        runs-on: ${{ matrix.os }}
+        needs: compile-java
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest' ]
+            architecture: [ 'x64' ]
+        name: Compiling android native binaries
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - name: Checkout Job
+            uses: actions/checkout@v3
+          
+          - name: Setup Temurin-OpenJDK-17
+            uses: actions/setup-java@v3
+            with:
+              distribution: 'temurin' 
+              java-version: '17'
+
+          - name: Download jni headers
+            uses: actions/download-artifact@v3
+            with:
+              name: jni-headers
+              path: jme3-alloc-native/src/include/
+          
+          - name: Prepare build directory
+            run: ./gradlew --console="verbose" :jme3-alloc-native:prepareAndroidOutputDirectory
+          
+          - name: Compiling android native binaries
+            run: ./gradlew --console="verbose" :jme3-alloc-native:compileAndroid 
+          
+          - name: Archive libjmealloc.so
+            uses: actions/upload-artifact@v3
+            with:
+              name: libjmealloc-android
+              path: jme3-alloc-native/build/
+
+    assemble-android:
+        # runner images with architectures (variants)
+        runs-on: ${{ matrix.os }}
+        needs: compile-android-natives
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest' ]
+            java: ['17']
+            architecture: [ 'x64' ]
+        name: Assembling jme3-alloc-android native binaries
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - uses: actions/checkout@v3
+
+          - name: Downloading libjmealloc-android
+            uses: actions/download-artifact@v3
+            with:
+              name: libjmealloc-android
+              path: jme3-alloc-native/build/
+
+          - name: Downloading byte code
+            uses: actions/download-artifact@v3
+            with:
+              name: byte-code
+              path: jme3-alloc/build/classes/java/main/
+            
+          - name: Copying natives
+            run: ./gradlew --console="verbose" :jme3-alloc-native:copyNatives
+            
+          - name: List build
+            run: tree jme3-alloc/build/classes/java/main/
+
+          - name: Assemble 
+            run: ./gradlew --console="verbose" :jme3-alloc:assemble
+
+          - name: Log jar
+            run: tree jme3-alloc/build/libs/
+          
+          - name: Archive release
+            uses: actions/upload-artifact@v3
+            with:
+              name: jme3-alloc-android-release
+              path: jme3-alloc/build/libs/*.jar
