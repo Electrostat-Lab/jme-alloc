@@ -31,36 +31,27 @@
  */
 package com.jme3.alloc.util.loader;
 
+import java.lang.UnsatisfiedLinkError;
+
 /**
- * Represents a native variant (OS + ARCH).
+ * A business error of type {@link UnsatisfiedLinkError} indicates an un-supported system.
+ * This error is thrown when the user tries to run the library on another operating system rather than the supported systems:
+ * - Linux
+ * - Windows
+ * - Mac
+ * - Android
  * 
- * @warning Internal use only
  * @author pavl_g
  */
-public enum NativeVariant {
-    NAME(System.getProperty("os.name")),
-    ARCH(System.getProperty("os.arch"));
+public class UnSupportedSystemError extends UnsatisfiedLinkError {
     
-    public static final String Linux = "Linux";
-    public static final String Windows = "Windows";
-    public static final String Mac = "Mac";
-    public static final String Android = "Android";
-
-    private final String data;
-
-    NativeVariant(final String data) {
-        this.data = data;
-    }
-    
-    public String getData() {
-        return data;
-    }
-
-    public static boolean is_x86_64(final String arch) {
-        return arch.contains("64");
-    }
-
-    public static boolean is_x86(final String arch) {
-        return arch.equals("x86");
+    /**
+     * Thrown if the system detects an un-supported system binaries of the current OS.
+     * 
+     * @param os the current operating system (os) name
+     * @param arch the current operating system (os) processor architecture 
+     */
+    public UnSupportedSystemError(final String os, final String arch) {
+        super("System " + os + "_" + arch + " isn't supported yet !");
     }
 }

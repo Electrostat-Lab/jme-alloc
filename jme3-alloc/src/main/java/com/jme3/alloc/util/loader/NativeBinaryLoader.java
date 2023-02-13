@@ -63,7 +63,18 @@ public final class NativeBinaryLoader {
             loadWindows();
         } else if (NativeVariant.NAME.getData().contains(NativeVariant.Mac)) {
             loadMac();
+        } else if (NativeVariant.NAME.getData().contains(NativeVariant.Android)) {
+            loadAndroid();
+        } else {
+            throw new UnSupportedSystemError(System.getProperty("os.name"), System.getProperty("os.arch"));
         }
+    }
+    
+    /**
+     * Loads the android binary automatically by its variant.
+     */
+    private static void loadAndroid() {
+        System.loadLibrary(LibraryInfo.LIBRARY.getBaseName());
     }
 
     /**
