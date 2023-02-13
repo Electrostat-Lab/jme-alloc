@@ -71,7 +71,7 @@ jobs:
               path: jme3-alloc-native/src/include/
           
           - name: Prepare build directory
-            run: ./gradlew --console="verbose" :jme3-alloc-native:prepareOutputDirectory
+            run: ./gradlew --console="verbose" :jme3-alloc-native:prepareDesktopOutputDirectory
           
           - name: Compiling x86-64 on ${{ matrix.os }}
             run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86_64 
