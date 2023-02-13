@@ -51,11 +51,8 @@ public class UnixScriptRunner extends DefaultTask {
     @Input
     protected String script = "";
 
-    /**
-     * The jdk home to pass to the unix-script to use it to include the jni headers.
-     */
     @Input
-    protected String javaHome = System.getProperty("java.home");
+    protected String[] scriptArgs;
 
     @TaskAction
     protected void scriptExecution() {
@@ -78,20 +75,15 @@ public class UnixScriptRunner extends DefaultTask {
         this.script = script;
     }
 
-    /**
-     * Sets the jdk home to pass to the unix-script to use it to include the jni headers.
-     *
-     * @param javaHome a string representation for the javaHome location
-     */
-    public void setJavaHome(final String javaHome) {
-        this.javaHome = javaHome;
-    }
-
     public final String getScript() {
         return script;
     }
 
-    public final String getJavaHome() {
-        return javaHome;
+    public void setScriptArgs(final String[] scriptArgs) {
+        this.scriptArgs = scriptArgs;
+    }
+
+    public String[] getScriptArgs() {
+        return scriptArgs;
     }
 }
