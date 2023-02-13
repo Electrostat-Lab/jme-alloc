@@ -6,23 +6,7 @@
  * User Manual available at https://docs.gradle.org/7.6/userguide/building_java_projects.html
  */
 
-enum Metadata {
-    BASE_NAME("jme3-alloc"), VERSION("0.1-A"), EXT(".jar"), TARGET("desktop");
-    
-    String data;
-
-    Metadata(final String data) {
-        this.data = data;
-    }
-
-    public void setData(final String data) {
-        this.data = data;
-    }
-
-    public String getData() {
-        return data;
-    }
-}
+import com.jme3.build.util.JarMetadata;
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
@@ -35,11 +19,11 @@ tasks.named('test') {
 }
 
 tasks.register("android") {
-    Metadata.TARGET.setData("android")
+    JarMetadata.TARGET.setData("android")
 }
 
 tasks.register("desktop") {
-    Metadata.TARGET.setData("desktop")
+    JarMetadata.TARGET.setData("desktop")
 }
 
 tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
@@ -53,10 +37,10 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
 }
 
 tasks.withType(Jar) { // assemble jar options [java -jar]
-    archiveFileName = "${Metadata.BASE_NAME.getData()}-${Metadata.TARGET.getData()}-${Metadata.VERSION.getData()}${Metadata.EXT.getData()}"
+    archiveFileName = "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
     manifest {
-        attributes 'Project': "${Metadata.BASE_NAME.getData()}-${Metadata.TARGET.getData()}",
-                   'Implementation-Version': "${Metadata.VERSION.getData()}",
+        attributes 'Project': "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}",
+                   'Implementation-Version': "${JarMetadata.VERSION.getData()}",
                    'Automatic-Module-Name': "${project.name.replace("-", ".")}",
                    'Compiled-by': JavaVersion.current()
     }
