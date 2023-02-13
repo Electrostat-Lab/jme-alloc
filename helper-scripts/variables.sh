@@ -5,7 +5,7 @@ lib="libjmealloc"
 
 native_sources="./${module}/src/lib/"
 native_headers="./${module}/src/include/"
-output="./${module}/build/libs"
+output="./${module}/build/lib"
 
 gcc=`which gcc`
 compiler_optionsX86="-shared -m32 -g0 -s"
