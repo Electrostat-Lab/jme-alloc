@@ -51,7 +51,7 @@ tasks.register("compileX86_64_debug", UnixScriptRunner) {
    script = "./helper-scripts/compile-x86-64-debug.sh"
 }
 
-tasks.register("compile_android", UnixScriptRunner) {
+tasks.register("compileAndroid", UnixScriptRunner) {
    dependsOn("prepareAndroidOutputDirectory")
    scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/compile-android.sh"
