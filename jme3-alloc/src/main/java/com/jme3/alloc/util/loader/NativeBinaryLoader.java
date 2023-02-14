@@ -57,14 +57,12 @@ public final class NativeBinaryLoader {
      * @throws IOException if the library to extract is not present in the jar file
      */
     public static void loadLibrary() throws IOException {
-        if (NativeVariant.NAME.getData().contains(NativeVariant.Linux)) {
+        if (NativeVariant.isLinux()) {
             loadLinux();
         } else if (NativeVariant.NAME.getData().contains(NativeVariant.Windows)) {
             loadWindows();
         } else if (NativeVariant.NAME.getData().contains(NativeVariant.Mac)) {
             loadMac();
-        } else if (NativeVariant.NAME.getData().contains(NativeVariant.Android)) {
-            loadAndroid();
         } else {
             throw new UnSupportedSystemError(NativeVariant.NAME.getData(), NativeVariant.ARCH.getData());
         }
@@ -79,13 +77,20 @@ public final class NativeBinaryLoader {
 
     /**
      * Extracts and loads the architecture specific library from [libs/linux] from the output jar to the [user.dir].
+     * If the system is an android system then load the library directly.
      * 
      * @throws IOException if the binary to extract is not present in the jar file
      * @see NativeDynamicLibrary#LINUX_x86
      * @see NativeDynamicLibrary#LINUX_x86_64
      */
     private static void loadLinux() throws IOException {
-        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
+        /* sanity check for android java vm (the dalvik) */
+        if (NativeVariant.isAndroid()) {
+            loadAndroid();
+            return;
+        }
+
+        if (!NativeVariant.isX86()) {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.LINUX_x86);
@@ -100,7 +105,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#WIN_x86_64
      */
     private static void loadWindows() throws IOException {
-        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.isX86()) {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.WIN_x86);
@@ -115,7 +120,7 @@ public final class NativeBinaryLoader {
      * @see NativeDynamicLibrary#MAC_x86_64
      */
     private static void loadMac() throws IOException {
-        if (!NativeVariant.is_x86(NativeVariant.ARCH.getData())) {
+        if (!NativeVariant.isX86()) {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86_64);
         } else {
             incrementalExtractBinary(NativeDynamicLibrary.MAC_x86);

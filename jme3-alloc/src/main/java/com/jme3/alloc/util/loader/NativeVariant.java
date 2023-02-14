@@ -39,12 +39,13 @@ package com.jme3.alloc.util.loader;
  */
 public enum NativeVariant {
     NAME(System.getProperty("os.name")),
-    ARCH(System.getProperty("os.arch"));
+    ARCH(System.getProperty("os.arch")),
+    VM(System.getProperty("java.vm.name"));
     
     public static final String Linux = "Linux";
     public static final String Windows = "Windows";
     public static final String Mac = "Mac";
-    public static final String Android = "Android";
+    public static final String Dalvik = "Dalvik";
 
     private final String data;
 
@@ -56,11 +57,27 @@ public enum NativeVariant {
         return data;
     }
 
-    public static boolean is_x86_64(final String arch) {
-        return arch.contains("64");
+    public static boolean isLinux() {
+        return NativeVariant.NAME.getData().contains(NativeVariant.Linux);
     }
 
-    public static boolean is_x86(final String arch) {
-        return arch.equals("x86");
+    public static boolean isWindows() {
+        return NativeVariant.NAME.getData().contains(NativeVariant.Windows);
+    }
+
+    public static boolean isMac() {
+        return NativeVariant.NAME.getData().contains(NativeVariant.Mac);
+    }
+
+    public static boolean isAndroid() {
+        return VM.getData().contains(NativeVariant.Dalvik);
+    }
+
+    public static boolean isX86_64() {
+        return ARCH.getData().contains("64");
+    }
+
+    public static boolean isX86() {
+        return ARCH.getData().equals("x86");
     }
 }
