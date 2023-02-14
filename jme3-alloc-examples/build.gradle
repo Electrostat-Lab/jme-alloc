@@ -6,6 +6,8 @@
  * User Manual available at https://docs.gradle.org/7.6/userguide/building_java_projects.html
  */
 
+import com.jme3.build.util.JarMetadata;
+
 plugins {
     id 'application'
 }
@@ -13,6 +15,7 @@ plugins {
 /** get system specific separated directories for the source and the destination of the dependencies */
 String dependenciesDir =  "${rootDir.getPath()}/jme3-alloc-examples/build/libs/dependencies/"
 String libsDir = "${rootDir.getPath()}/jme3-alloc/build/libs/"
+final String dependencyName = "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
 
 /** replace unix '/' with windows escaped '\' */
 if (System.getProperty("os.name").contains("Windows")) {
@@ -123,5 +126,5 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
     
-    implementation files("../jme3-alloc/build/libs/jme3-alloc.jar")
+    implementation files("../jme3-alloc/build/libs/${dependencyName}")
 }

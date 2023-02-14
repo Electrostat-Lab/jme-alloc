@@ -29,40 +29,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.util.loader;
+package com.jme3.build.util;
 
-/**
- * Represents a native binary domain with a {@link NativeDynamicLibrary#directory} and a {@link NativeDynamicLibrary#library}.
- * 
- * @warning Internal use only
- * @author pavl_g
- */
-public enum NativeDynamicLibrary {
-    LINUX_x86_64("lib/linux/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    LINUX_x86("lib/linux/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    MAC_x86_64("lib/macos/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    MAC_x86("lib/macos/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    WIN_x86("lib/windows/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll"),
-    WIN_x86_64("lib/windows/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll");
+public enum JarMetadata {
+    BASE_NAME("jme3-alloc"), VERSION("0.1-A"), EXT(".jar"), TARGET("desktop");
+    
+    String data;
 
-    private final String library;
-    private final String directory;
-    public static String LIBRARY_BASE_NAME = "jmealloc";
-
-    NativeDynamicLibrary(final String directory, final String library) {
-        this.directory = directory;
-        this.library = library;
+    JarMetadata(final String data) {
+        this.data = data;
     }
 
-    public String getDirectory() {
-        return directory;
+    public void setData(final String data) {
+        this.data = data;
     }
 
-    public String getLibrary() {
-        return library;
-    }
-
-    public String getAbsoluteLibraryLocation() {
-        return directory + "/" + library;
+    public String getData() {
+        return data;
     }
 }

@@ -34,6 +34,8 @@ package com.jme3.build.actions;
 import org.gradle.api.resources.MissingResourceException;
 import com.jme3.build.util.ConsoleUtils;
 import com.jme3.build.UnixScriptRunner;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.lang.Process;
 import org.gradle.api.Task;
 import java.io.IOException;
@@ -52,20 +54,23 @@ public final class ScriptExecutor {
             throw new MissingResourceException("Cannot find a script to execute !");
         }
         try {
-            executeScript(runner.getScript(), runner.getJavaHome());
+            executeScript(runner.getScript(), (ArrayList<String>) Arrays.asList(runner.getScriptArgs()));
         } catch(IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void executeScript(final String script, final String javaHome) throws IOException, InterruptedException {
-        String command = "bash";
-
-        if (System.getProperty("os.name").contains("Windows")) {
-            command = "C:\\Program Files\\Git\\bin\\bash.exe";
+    private void executeScript(final String script, final ArrayList<String> args) throws IOException, InterruptedException {
+        ArrayList<String> command = new ArrayList<>();
+        command.add(getBash());
+        command.add(script);
+        
+        /* copy the args into the shell command */
+        for (int i = 0; i < args.size(); i++) {
+            command.add(args.get(i));
         }
         
-        Process run = Runtime.getRuntime().exec(new String[] { command, script, javaHome });
+        Process run = Runtime.getRuntime().exec((String[]) command.toArray());
         
         if (run.waitFor() == 1) {
             System.out.println("Run Failed !");
@@ -77,6 +82,20 @@ public final class ScriptExecutor {
         /* release resources */
         run.destroy();
         run = null;
+        command.clear();
         command = null;
     }
+    
+    /**
+     * Retrieves the system specific bash binary.
+     * 
+     * @return a string representation of the bash (bourne-again-shell)
+     */
+    private String getBash() {
+        if (!System.getProperty("os.name").contains("Windows")) {
+            return "bash";
+        }
+        return "C:\\Program Files\\Git\\bin\\bash.exe";
+    }
+
 }

@@ -31,38 +31,27 @@
  */
 package com.jme3.alloc.util.loader;
 
+import java.lang.UnsatisfiedLinkError;
+
 /**
- * Represents a native binary domain with a {@link NativeDynamicLibrary#directory} and a {@link NativeDynamicLibrary#library}.
+ * A business error of type {@link UnsatisfiedLinkError} indicates an un-supported system.
+ * This error is thrown when the user tries to run the library on another operating system rather than the supported systems:
+ * - Linux
+ * - Windows
+ * - Mac
+ * - Android
  * 
- * @warning Internal use only
  * @author pavl_g
  */
-public enum NativeDynamicLibrary {
-    LINUX_x86_64("lib/linux/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    LINUX_x86("lib/linux/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    MAC_x86_64("lib/macos/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    MAC_x86("lib/macos/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    WIN_x86("lib/windows/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll"),
-    WIN_x86_64("lib/windows/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll");
-
-    private final String library;
-    private final String directory;
-    public static String LIBRARY_BASE_NAME = "jmealloc";
-
-    NativeDynamicLibrary(final String directory, final String library) {
-        this.directory = directory;
-        this.library = library;
-    }
-
-    public String getDirectory() {
-        return directory;
-    }
-
-    public String getLibrary() {
-        return library;
-    }
-
-    public String getAbsoluteLibraryLocation() {
-        return directory + "/" + library;
+public class UnSupportedSystemError extends UnsatisfiedLinkError {
+    
+    /**
+     * Thrown if the system detects an un-supported system binaries of the current OS.
+     * 
+     * @param os the current operating system (os) name
+     * @param arch the current operating system (os) processor architecture 
+     */
+    public UnSupportedSystemError(final String os, final String arch) {
+        super("System " + os + "_" + arch + " isn't supported yet !");
     }
 }

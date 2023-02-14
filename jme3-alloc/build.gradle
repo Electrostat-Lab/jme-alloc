@@ -6,16 +6,24 @@
  * User Manual available at https://docs.gradle.org/7.6/userguide/building_java_projects.html
  */
 
+import com.jme3.build.util.JarMetadata;
+
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'java-library'
 }
 
-final String version = "0.1-A"
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.register("android") {
+    JarMetadata.TARGET.setData("android")
+}
+
+tasks.register("desktop") {
+    JarMetadata.TARGET.setData("desktop")
 }
 
 tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
@@ -29,9 +37,10 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
 }
 
 tasks.withType(Jar) { // assemble jar options [java -jar]
+    archiveFileName = "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
     manifest {
-        attributes 'Project': 'jme-alloc',
-                   'Implementation-Version': "${version}",
+        attributes 'Project': "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}",
+                   'Implementation-Version': "${JarMetadata.VERSION.getData()}",
                    'Automatic-Module-Name': "${project.name.replace("-", ".")}",
                    'Compiled-by': JavaVersion.current()
     }

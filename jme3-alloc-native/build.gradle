@@ -4,18 +4,26 @@ import com.jme3.build.CompileX86;
 final String version = "0.1-A"
 final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
 final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/"
+final String javaHome = System.getProperty("java.home")
 
 task copyNatives(type: Copy) {
     from "${nativeObjects}"
     into "${buildDirectory}"
 }
 
-tasks.register("prepareOutputDirectory", UnixScriptRunner) {
+tasks.register("prepareDesktopOutputDirectory", UnixScriptRunner) {
+   scriptArgs = new String[] { "desktop" }
+   script = "./helper-scripts/prepare-output-directory.sh"
+}
+
+tasks.register("prepareAndroidOutputDirectory", UnixScriptRunner) {
+   scriptArgs = new String[] { "android" }
    script = "./helper-scripts/prepare-output-directory.sh"
 }
 
 tasks.register("compileX86", CompileX86) {
-   dependsOn("prepareOutputDirectory")
+   dependsOn("prepareDesktopOutputDirectory")
+   scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/compile-x86.sh"
    compileLinuxX86 = compileLinuxX86Property
    compileMacX86 = compileMacX86Property
@@ -23,12 +31,14 @@ tasks.register("compileX86", CompileX86) {
 }
 
 tasks.register("compileX86_64", UnixScriptRunner) {
-   dependsOn("prepareOutputDirectory")
+   dependsOn("prepareDesktopOutputDirectory")
+   scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/compile-x86-64.sh"
 }
 
 tasks.register("compileX86_debug", CompileX86) {
-   dependsOn("prepareOutputDirectory")
+   dependsOn("prepareDesktopOutputDirectory")
+   scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/compile-x86-debug.sh"
    compileLinuxX86 = compileLinuxX86Property
    compileMacX86 = compileMacX86Property
@@ -36,6 +46,13 @@ tasks.register("compileX86_debug", CompileX86) {
 }
 
 tasks.register("compileX86_64_debug", UnixScriptRunner) {
-   dependsOn("prepareOutputDirectory")
+   dependsOn("prepareDesktopOutputDirectory")
+   scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/compile-x86-64-debug.sh"
+}
+
+tasks.register("compileAndroid", UnixScriptRunner) {
+   dependsOn("prepareAndroidOutputDirectory")
+   scriptArgs = new String[] { javaHome }
+   script = "./helper-scripts/compile-android.sh"
 }
