@@ -77,7 +77,7 @@ jobs:
             run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86_64 
           
           - name: Install gcc-multilib 
-            run: bash ./helper-scripts/install-gcc-multilib.sh
+            run: bash ./helper-scripts/abstract/install-gcc-multilib.sh
           
           - name: Compiling x86 on ${{ matrix.os }}
             run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86

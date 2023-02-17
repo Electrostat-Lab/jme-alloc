@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "./helper-scripts/abstract-compile.sh"
+source "./helper-scripts/project-impl/prepare-directories.sh"
+source "./helper-scripts/project-impl/variables.sh"
 
 target=${1}
 

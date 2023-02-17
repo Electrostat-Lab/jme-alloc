@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "./helper-scripts/variables.sh"
-
 system="NULL"
 
 function getCurrentSystem() {
@@ -62,40 +60,4 @@ function compile() {
     # compile as a shared native files
     `$compiler $src $compiler_options -I"${native_headers}" -I"${jni_headers0}" -I"${jni_headers1}" -o $shared_lib`
     return $?    
-}
-
-function autoPrepareBinaryDirectory() {
-    local output=$1
-
-    echo -e "Preparing the desktop binary output directory"
-
-    # define system
-    if [[ `uname` == "Linux" ]]; then
-        local system="linux"
-    elif [[ `uname` == "Darwin" ]]; then
-        local system="macos"
-    else 
-        local system="windows"
-    fi
-    
-    # prepare architectures
-    prepareBinaryDirectory "${output}/${system}" "x86-64"
-    prepareBinaryDirectory "${output}/${system}" "x86"
-
-    return $?
-}
-
-function autoPrepareAndroidBinaryDirectory() {
-    local output=$1
-    
-    echo -e "Preparing the android binary output directory"
-
-    # prepare architectures
-    prepareBinaryDirectory "${output}" "${arm64_lib_directory}"
-    prepareBinaryDirectory "${output}" "${arm32_lib_directory}"
-
-    prepareBinaryDirectory "${output}" "${intel64_lib_directory}"
-    prepareBinaryDirectory "${output}" "${intel32_lib_directory}"
-
-    return $?
 }
