@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "./helper-scripts/abstract-compile.sh"
+source "./helper-scripts/abstract/abstract-compile.sh"
+source "./helper-scripts/project-impl/variables.sh"
 
 java_home=${1}
 
