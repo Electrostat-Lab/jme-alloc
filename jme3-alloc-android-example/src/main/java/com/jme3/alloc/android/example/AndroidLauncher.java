@@ -29,31 +29,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.alloc.android.example;
 
-import java.util.logging.Level;
+import com.jme3.alloc.examples.StressLauncher;
 
 /**
- * A stress launcher for memory profiling purposes.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run.
- * 
+ * Launches the stress launcher on android on another thread, open the profiler and press [start].
+ *
  * @author pavl_g
  */
-public final class StressLauncher {
-    private static boolean stop = false;
-    public static void main(String[] args) throws InterruptedException {
-
-        SimpleLauncher.main(args);
-        
-        while (!isStop()); /* Keep the program alive for "stress testing" */
-        System.err.println("Stopped");
+public final class AndroidLauncher extends Thread {
+    @Override
+    public void run() {
+        try {
+            StressLauncher.main(null);
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted");
+        } catch (IllegalThreadStateException e) {
+            System.err.println("Cannot start correctly, please restart the application !");
+        }
     }
 
-    public static void setStop(boolean stop) {
-        StressLauncher.stop = stop;
-    }
-
-    public static boolean isStop() {
-        return stop;
+    public void setStop() {
+        StressLauncher.setStop(true);
     }
 }

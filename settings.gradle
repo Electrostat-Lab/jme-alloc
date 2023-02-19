@@ -6,8 +6,23 @@
  * Detailed information about configuring a multi-project build in Gradle can be found
  * in the user manual at https://docs.gradle.org/7.6/userguide/multi_project_builds.html
  */
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
 rootProject.name = 'jme-alloc'
 include('jme3-alloc')
 include('jme3-alloc-native')
 include('jme3-alloc-examples')
+include('jme3-alloc-android-example')

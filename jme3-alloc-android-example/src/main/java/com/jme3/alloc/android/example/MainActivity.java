@@ -29,31 +29,53 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.alloc.android.example;
 
-import java.util.logging.Level;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
 
 /**
- * A stress launcher for memory profiling purposes.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run.
- * 
+ * A test application demo for the jme3-alloc project, this test
+ * references examples from the [jme3-alloc-examples] modules.
+ *
  * @author pavl_g
  */
-public final class StressLauncher {
-    private static boolean stop = false;
-    public static void main(String[] args) throws InterruptedException {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-        SimpleLauncher.main(args);
-        
-        while (!isStop()); /* Keep the program alive for "stress testing" */
-        System.err.println("Stopped");
+    private AndroidLauncher androidLauncher;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        setup();
     }
 
-    public static void setStop(boolean stop) {
-        StressLauncher.stop = stop;
+    protected void setup() {
+        findViewById(ComponentId.START.getId()).setOnClickListener(this);
+        findViewById(ComponentId.TERMINATE.getId()).setOnClickListener(this);
     }
 
-    public static boolean isStop() {
-        return stop;
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == ComponentId.START.getId()) {
+            if (androidLauncher == null) {
+                androidLauncher = new AndroidLauncher();
+            }
+            androidLauncher.start();
+        } else if (view.getId() == ComponentId.TERMINATE.getId()) {
+            if (androidLauncher == null) {
+                return;
+            }
+            androidLauncher.setStop();
+            androidLauncher = null;
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }

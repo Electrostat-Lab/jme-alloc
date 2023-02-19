@@ -29,31 +29,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
-
-import java.util.logging.Level;
+package com.jme3.alloc.android.example;
 
 /**
- * A stress launcher for memory profiling purposes.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run.
- * 
+ * Represents a component id.
+ *
  * @author pavl_g
  */
-public final class StressLauncher {
-    private static boolean stop = false;
-    public static void main(String[] args) throws InterruptedException {
+public enum ComponentId {
+    /**
+     * The start button ID.
+     */
+    START(R.id.start),
 
-        SimpleLauncher.main(args);
-        
-        while (!isStop()); /* Keep the program alive for "stress testing" */
-        System.err.println("Stopped");
+    /**
+     * The terminate button ID.
+     */
+    TERMINATE(R.id.terminate);
+
+    public final int id;
+
+    ComponentId(int id) {
+        this.id = id;
     }
 
-    public static void setStop(boolean stop) {
-        StressLauncher.stop = stop;
-    }
-
-    public static boolean isStop() {
-        return stop;
+    public int getId() {
+        return id;
     }
 }
