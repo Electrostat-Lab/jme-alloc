@@ -4,10 +4,8 @@ plugins {
     id 'com.android.application'
 }
 
-JarMetadata.TARGET.setData("android")
-
 final String dependencyName =
-        "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
+        "${JarMetadata.BASE_NAME.getData()}-android-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
 
 android {
     namespace 'com.jme3.alloc.android.example'
