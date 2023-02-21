@@ -32,8 +32,9 @@ An initiator template for the jme-alloc project providing a native allocation ap
 - [x] Handling different variants build (linux-x86).
 - [x] Handling different variants build (windows-x86-64).
 - [x] Handling different variants build (macos-x86-64).
+- [x] Handling different `android` build architectures (aarch-64, arm32, intel-x86-64, intel-x86).
 - [ ] Handling different variants build (windows-x86).
 - [ ] Handling different variants build (macos-x86).
-- [ ] Handling different `android` build architectures (WIP).
+
 
 
