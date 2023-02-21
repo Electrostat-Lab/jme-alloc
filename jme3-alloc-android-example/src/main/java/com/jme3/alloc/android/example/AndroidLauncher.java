@@ -33,21 +33,34 @@ package com.jme3.alloc.android.example;
 
 import com.jme3.alloc.examples.StressLauncher;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Launches the stress launcher on android on another thread, open the profiler and press [start].
  *
  * @author pavl_g
  */
 public final class AndroidLauncher extends Thread {
+    private final ReentrantLock reentrantLock = new ReentrantLock();
+    private boolean started = false;
     @Override
     public void run() {
         try {
+            reentrantLock.lock();
+            this.started = true;
             StressLauncher.main(null);
         } catch (InterruptedException e) {
             System.err.println("Interrupted");
         } catch (IllegalThreadStateException e) {
             System.err.println("Cannot start correctly, please restart the application !");
+        } finally {
+            this.started = true;
+            reentrantLock.unlock();
         }
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 
     public void setStop() {

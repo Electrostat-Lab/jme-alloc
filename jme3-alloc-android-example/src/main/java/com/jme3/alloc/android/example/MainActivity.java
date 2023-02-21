@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (androidLauncher == null) {
                 androidLauncher = new AndroidLauncher();
             }
-            androidLauncher.start();
+            if (!androidLauncher.isStarted()) {
+                androidLauncher.start();
+            }
         } else if (view.getId() == ComponentId.TERMINATE.getId()) {
             if (androidLauncher == null) {
                 return;
