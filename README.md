@@ -1,6 +1,6 @@
-# jme-alloc project 
+# <p align=left> <img src="https://user-images.githubusercontent.com/60224159/220400745-2582342f-5f4f-4827-b65f-a037e078c890.svg" height=100 width=100 />  jme-alloc project </p>
 
-An initiator template for the jme-alloc project providing a native allocation api through gradle modules.
+A direct dynamic memory allocation api for jMonkeyEngine lwjgl-2 and android games.
 ### To build locally, use: 
 ```bash
 ┌─[pavl-machine@pavl-machine]─[/home/twisted/GradleProjects/jme-alloc]
