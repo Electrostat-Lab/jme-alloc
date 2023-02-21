@@ -1,7 +1,11 @@
 # Ignore Gradle project-specific cache directory
 .gradle
-
 .vscode
+.idea
+
+*.iml
+/local.properties
+.DS_Store
 
 /buildSrc/build
 /buildSrc/bin
@@ -15,3 +19,6 @@
 /jme3-alloc-examples/bin
 /jme3-alloc-examples/*.so
 /jme3-alloc-examples/*.log
+
+/jme3-alloc-android-example/build
+/jme3-alloc-android-example/bin

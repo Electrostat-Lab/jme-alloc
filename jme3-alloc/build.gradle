@@ -13,6 +13,11 @@ plugins {
     id 'java-library'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
@@ -44,11 +49,6 @@ tasks.withType(Jar) { // assemble jar options [java -jar]
                    'Automatic-Module-Name': "${project.name.replace("-", ".")}",
                    'Compiled-by': JavaVersion.current()
     }
-}	
-
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
 }
 
 dependencies {

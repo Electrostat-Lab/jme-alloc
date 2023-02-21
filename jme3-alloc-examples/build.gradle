@@ -117,11 +117,6 @@ task createJar(type : Jar, dependsOn : copyLibs){
     with jar
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
-}
-
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'

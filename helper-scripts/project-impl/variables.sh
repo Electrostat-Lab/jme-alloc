@@ -15,7 +15,8 @@ compiler_optionsX86_64="-shared -m64 -g0 -s"
 compiler_optionsX86_64_debug="-shared -m64 -g3 -D__ENABLE_DEBUG_LOGGER -D__ENABLE_LOGGER"
 
 # android compiler properties
-android_clang="$ANDROID_NDK_LATEST_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+NDK_HOME=$ANDROID_NDK_LATEST_HOME
+android_clang="$NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
 
 min_android_sdk=21
 

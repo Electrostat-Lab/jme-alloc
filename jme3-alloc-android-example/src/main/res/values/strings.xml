@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Alloc Examples</string>
+    <string name="start_memory_stress_test">Start Memory Stress Test</string>
+    <string name="terminate_test">Terminate Test</string>
+</resources>

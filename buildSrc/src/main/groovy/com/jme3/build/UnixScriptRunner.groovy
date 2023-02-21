@@ -38,7 +38,7 @@ import com.jme3.build.actions.Permissioning;
 import com.jme3.build.actions.ScriptExecutor;
 
 /**
- * The abstract untity for running unix scripts in bash shell environments.
+ * The abstract entity for running unix scripts in bash shell environments.
  * It consists of 2 sequential tasks: a [permissioning] task and a [script-executor] task.
  * 
  * @author pavl_g
