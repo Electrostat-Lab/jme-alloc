@@ -36,5 +36,9 @@ A direct dynamic memory allocation api for jMonkeyEngine lwjgl-2 and android gam
 - [ ] Handling different variants build (windows-x86).
 - [ ] Handling different variants build (macos-x86).
 
-
+#### Documentation: 
+- [ ] JavaDocs.
+- [ ] NativeDocs.
+- [x] Running Examples.
+- [x] Contribution guide. 
 
