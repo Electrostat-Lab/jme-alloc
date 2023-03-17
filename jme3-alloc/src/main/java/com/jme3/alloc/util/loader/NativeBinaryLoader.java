@@ -59,12 +59,12 @@ public final class NativeBinaryLoader {
     public static void loadLibrary() throws IOException {
         if (NativeVariant.isLinux()) {
             loadLinux();
-        } else if (NativeVariant.NAME.getData().contains(NativeVariant.Windows)) {
+        } else if (NativeVariant.isWindows()) {
             loadWindows();
-        } else if (NativeVariant.NAME.getData().contains(NativeVariant.Mac)) {
+        } else if (NativeVariant.isMac()) {
             loadMac();
         } else {
-            throw new UnSupportedSystemError(NativeVariant.NAME.getData(), NativeVariant.ARCH.getData());
+            throw new UnSupportedSystemError(NativeVariant.NAME.getProperty(), NativeVariant.ARCH.getProperty());
         }
     }
     

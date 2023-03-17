@@ -34,34 +34,77 @@ package com.jme3.alloc.util.loader;
 /**
  * Represents a native binary domain with a {@link NativeDynamicLibrary#directory} and a {@link NativeDynamicLibrary#library}.
  * 
- * @warning Internal use only
  * @author pavl_g
  */
 public enum NativeDynamicLibrary {
+    /**
+     * Represents a linux x86 binary with 64-bit instruction set.
+     */
     LINUX_x86_64("lib/linux/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    LINUX_x86("lib/linux/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".so"),
-    MAC_x86_64("lib/macos/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    MAC_x86("lib/macos/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
-    WIN_x86("lib/windows/x86", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll"),
-    WIN_x86_64("lib/windows/x86-64", "lib"+ LibraryInfo.LIBRARY.getBaseName() + ".dll");
+    
+    /**
+     * Represents a linux x86 binary with 32-bit instruction set.
+     */
+    LINUX_x86("lib/linux/x86", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".so"),
+
+    /**
+     * Represents a mac x86 binary with 64-bit instruction set.
+     */
+    MAC_x86_64("lib/macos/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
+
+    /**
+     * Represents a mac x86 binary with 32-bit instruction set.
+     */
+    MAC_x86("lib/macos/x86", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
+
+    /**
+     * Represents a windows x86 binary with 64-bit instruction set.
+     */
+    WIN_x86_64("lib/windows/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dll"),
+
+    /**
+     * Represents a windows x86 binary with 32-bit instruction set.
+     */
+    WIN_x86("lib/windows/x86", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dll");
 
     private final String library;
     private final String directory;
     public static String LIBRARY_BASE_NAME = "jmealloc";
 
+    /**
+     * Creates a Native dynamic library from a relative directory and a library file.
+     * 
+     * @param directory the relative path inside the jar file.
+     * @param library the library filename.
+     */
     NativeDynamicLibrary(final String directory, final String library) {
         this.directory = directory;
         this.library = library;
     }
 
+    /**
+     * Retrieves the directory to which the native binary is located.
+     * 
+     * @return the directory in a string format
+     */
     public String getDirectory() {
         return directory;
     }
 
+    /**
+     * Retrieves the binary name.
+     * 
+     * @return the binary file-name in a string format
+     */
     public String getLibrary() {
         return library;
     }
 
+    /**
+     * Retrieves the full path of the binary inside the jar file.
+     * 
+     * @return the absolute (full path) starting from the root directory represented by the jar file
+     */
     public String getAbsoluteLibraryLocation() {
         return directory + "/" + library;
     }
