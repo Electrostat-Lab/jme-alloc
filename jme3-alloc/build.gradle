@@ -18,6 +18,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+task generateJavadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task generateSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
@@ -41,7 +51,7 @@ tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>
     }
 }
 
-tasks.withType(Jar) { // assemble jar options [java -jar]
+jar { // assemble jar options [java -jar]
     archiveFileName = "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}-${JarMetadata.VERSION.getData()}${JarMetadata.EXT.getData()}"
     manifest {
         attributes 'Project': "${JarMetadata.BASE_NAME.getData()}-${JarMetadata.TARGET.getData()}",

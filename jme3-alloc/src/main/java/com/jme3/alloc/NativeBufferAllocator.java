@@ -48,8 +48,8 @@ public final class NativeBufferAllocator {
     /**
      * Creates a new direct byte buffer explicitly with a specific [capacity] in bytes.
      *
-     * @param size the buffer size in bytes units
-     * @return a new direct byte buffer object of size [capacity] in bytes
+     * @param capacity the buffer capacity in bytes units
+     * @return a new direct byte buffer object of capacity [capacity] in bytes
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
     public static ByteBuffer createDirectByteBuffer(final long capacity) {
@@ -60,7 +60,7 @@ public final class NativeBufferAllocator {
      * Releases the memory of a direct buffer using a buffer object reference.
      *
      * @param buffer the buffer reference to release its memory.
-     * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
+     * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.ByteBuffer)
      */
     public static void releaseDirectByteBuffer(final ByteBuffer buffer) {
         NativeBufferUtils.destroy(buffer);

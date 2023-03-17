@@ -37,10 +37,18 @@ package com.jme3.alloc.util.loader;
  * @author pavl_g
  */
 public enum LibraryInfo {
+    
+    /**
+     * Represents the default basename to the native binary.
+     */
     LIBRARY("jmealloc");
 
     private String baseName;
 
+    /**
+     * 
+     * @param baseName
+     */
     LibraryInfo(final String baseName) {
         this.baseName = baseName;
     }

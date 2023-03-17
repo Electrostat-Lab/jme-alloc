@@ -32,52 +32,95 @@
 package com.jme3.alloc.util.loader;
 
 /**
- * Represents a native variant (OS + ARCH).
+ * Represents a native variant (OS + ARCH + VM), each of which is represented as an object of a property.
  * 
- * @warning Internal use only
  * @author pavl_g
  */
 public enum NativeVariant {
+    /**
+     * The Operating system name property for this variant.
+     */
     NAME(System.getProperty("os.name")),
+    /**
+     * The Operating system architecture.
+     */
     ARCH(System.getProperty("os.arch")),
+    /**
+     * The current java virtual machine.
+     */
     VM(System.getProperty("java.vm.name"));
     
-    public static final String Linux = "Linux";
-    public static final String Windows = "Windows";
-    public static final String Mac = "Mac";
-    public static final String Dalvik = "Dalvik";
+    private static final String Linux = "Linux";
+    private static final String Windows = "Windows";
+    private static final String Mac = "Mac";
+    private static final String Dalvik = "Dalvik";
 
-    private final String data;
+    private final String property;
 
-    NativeVariant(final String data) {
-        this.data = data;
-    }
-    
-    public String getData() {
-        return data;
+    NativeVariant(final String property) {
+        this.property = property;
     }
 
+    /**
+     * Tests whether the current system is a Linux.
+     * 
+     * @return true if the current OS is a Linux, false otherwise.
+     */
     public static boolean isLinux() {
-        return NativeVariant.NAME.getData().contains(NativeVariant.Linux);
+        return NativeVariant.NAME.getProperty().contains(NativeVariant.Linux);
     }
 
+    /**
+     * Tests whether the current system is a Windows.
+     * 
+     * @return true if the current OS is a Windows, false otherwise.
+     */
     public static boolean isWindows() {
-        return NativeVariant.NAME.getData().contains(NativeVariant.Windows);
+        return NativeVariant.NAME.getProperty().contains(NativeVariant.Windows);
     }
 
+    /**
+     * Tests whether the current system is a Mac.
+     * 
+     * @return true if the current OS is a Mac, false otherwise.
+     */
     public static boolean isMac() {
-        return NativeVariant.NAME.getData().contains(NativeVariant.Mac);
+        return NativeVariant.NAME.getProperty().contains(NativeVariant.Mac);
     }
 
+    /**
+     * Tests whether the current system is an Android.
+     * 
+     * @return true if the current OS is an Android, false otherwise.
+     */
     public static boolean isAndroid() {
-        return VM.getData().contains(NativeVariant.Dalvik);
+        return VM.getProperty().contains(NativeVariant.Dalvik);
     }
 
+    /**
+     * Tests whether the current system architecture is a 64-bit intel chipset.
+     * 
+     * @return true if the current OS architecture is a 64-bit intel chipset, false otherwise.
+     */
     public static boolean isX86_64() {
-        return ARCH.getData().contains("64");
+        return ARCH.getProperty().contains("64");
     }
 
+    /**
+     * Tests whether the current system architecture is a 32-bit intel chipset.
+     * 
+     * @return true if the current OS architecture is a 32-bit intel chipset, false otherwise.
+     */
     public static boolean isX86() {
-        return ARCH.getData().equals("x86");
+        return ARCH.getProperty().equals("x86");
+    }
+
+    /**
+     * Retrieves the data of this native variant property.
+     * 
+     * @return the specified property object in a string format.
+     */
+    public String getProperty() {
+        return property;
     }
 }
