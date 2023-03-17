@@ -50,6 +50,9 @@ jobs:
       - name: Generate javadocs
         run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocJar
 
+      - name: Move javadocs to the deployment folder 'website'
+        run: mv ./jme3-alloc/build/docs/ ./jme3-alloc/website/java-docs/
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
