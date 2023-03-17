@@ -37,7 +37,7 @@ jobs:
       - name: Move javadocs to the deployment folder 'website'
         run: | 
           mv -v ./jme3-alloc/build/docs/javadoc ./website/javadoc/
-          ls -aR ./website/java-docs/
+          ls -aR ./website/javadoc/
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
