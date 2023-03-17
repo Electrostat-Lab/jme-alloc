@@ -45,6 +45,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v3
+    
+      - name: Generate javadocs
+        run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocs
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
