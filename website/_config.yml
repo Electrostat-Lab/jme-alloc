@@ -1,0 +1,5 @@
+title: Jme-alloc API
+description: A direct dynamic memory allocation api for jMonkeyEngine lwjgl-2 and android games
+show_downloads: false
+google_analytics: false
+theme: jekyll-theme-slate
