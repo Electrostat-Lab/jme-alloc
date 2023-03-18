@@ -3,6 +3,10 @@
 module="jme3-alloc-native"
 lib="libjmealloc"
 
+# specify the website directory to generate config and docs from the root folder
+website_dir="./website"
+config="native-doc-config"
+
 native_sources="./${module}/src/lib/"
 native_headers="./${module}/src/include/"
 output="./${module}/build/lib"
