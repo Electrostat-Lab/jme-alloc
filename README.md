@@ -1,5 +1,5 @@
 # <p align=left> <img src="https://user-images.githubusercontent.com/60224159/220400745-2582342f-5f4f-4827-b65f-a037e078c890.svg" height=100 width=100 />  jme-alloc project </p>
-[![](https://github.com/Software-Hardware-Codesign/jme-alloc/actions/workflows/doc-website.yml/badge.svg)](https://software-hardware-codesign.github.io/jme-alloc/)
+[![](https://github.com/Software-Hardware-Codesign/jme-alloc/actions/workflows/doc-website.yml/badge.svg)](https://software-hardware-codesign.github.io/jme-alloc/) [![](https://github.com/Software-Hardware-Codesign/jme-alloc/actions/workflows/build.yml/badge.svg)](https://software-hardware-codesign.github.io/jme-alloc/)
 
 A direct dynamic memory allocation api for jMonkeyEngine lwjgl-2 and android games.
 ### To build locally, use: 
