@@ -38,6 +38,9 @@ jobs:
         run: | 
           mv -v ./jme3-alloc/build/docs/javadoc ./website/javadoc/
           ls -aR ./website/javadoc/
+          
+      - name: Setup Doxygen
+        run: sudo apt-get install doxygen
 
       - name: Generate Native doc
         run: ./gradlew :jme3-alloc-native:generateNativeDoc
