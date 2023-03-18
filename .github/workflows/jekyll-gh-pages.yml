@@ -31,13 +31,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Generate javadocs
+      - name: Generate javadoc
         run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocJar
 
       - name: Move javadocs to the deployment folder 'website'
         run: | 
           mv -v ./jme3-alloc/build/docs/javadoc ./website/javadoc/
           ls -aR ./website/javadoc/
+
+      - name: Generate Native doc
+        run: ./gradlew :jme3-alloc-native:generateNativeDoc
 
       - name: Setup Pages
         uses: actions/configure-pages@v3

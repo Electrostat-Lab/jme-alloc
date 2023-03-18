@@ -62,3 +62,14 @@ tasks.register("compileAndroidDebug", UnixScriptRunner) {
    scriptArgs = new String[] { javaHome }
    script = "./helper-scripts/project-impl/compile-android-debug.sh"
 }
+
+tasks.register("generateDoxygenConfig", UnixScriptRunner) {
+   scriptArgs = new String[] { javaHome }
+   script = "./helper-scripts/project-impl/generate-doxygen-config.sh"
+}
+
+tasks.register("generateNativeDoc", UnixScriptRunner) {
+   dependsOn("generateDoxygenConfig")
+   scriptArgs = new String[] { version }
+   script = "./helper-scripts/project-impl/generate-native-doc.sh"
+}
