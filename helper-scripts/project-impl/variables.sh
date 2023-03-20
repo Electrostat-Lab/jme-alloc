@@ -1,17 +1,21 @@
 #!/bin/bash
 
-module="jme3-alloc-native"
 lib="libjmealloc"
 
-# specify the website directory to generate config and docs from the root folder
+# Website Stuff
+# ---------------------
+native_module="jme3-alloc-native"
+java_module="jme3-alloc"
 website_dir="./website"
 config="native-doc-config"
+javadoc="./jme3-alloc/build/docs/javadoc"
+# ---------------------
 
 native_sources="./${module}/src/lib/"
 native_headers="./${module}/src/include/"
 output="./${module}/build/lib"
 
-gcc=`which gcc`
+gcc=$(which gcc)
 compiler_optionsX86="-shared -m32 -g0 -s"
 compiler_optionsX86_debug="-shared -m32 -g3 -D__ENABLE_DEBUG_LOGGER -D__ENABLE_LOGGER"
 

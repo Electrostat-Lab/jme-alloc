@@ -7,6 +7,7 @@
  */
 
 import com.jme3.build.util.JarMetadata;
+import com.jme3.build.UnixScriptRunner;
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
@@ -39,6 +40,11 @@ tasks.register("android") {
 
 tasks.register("desktop") {
     JarMetadata.TARGET.setData("desktop")
+}
+
+tasks.register("manipulateJavadocForWebsite", UnixScriptRunner) {
+   scriptArgs = new String[] { JarMetadata.VERSION.getData() }
+   script = "./helper-scripts/project-impl/move-javadoc.sh"
 }
 
 tasks.withType(JavaCompile) { // compile-time options [javac <options> <sources>]
