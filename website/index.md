@@ -2,5 +2,5 @@
 
 - [ ] [Tutorials]()
 - [ ] [Examples]()
-- [x] [javadocs](https://software-hardware-codesign.github.io/jme-alloc/javadoc/index.html)
-- [x] [nativedocs](https://software-hardware-codesign.github.io/jme-alloc/jme3-alloc-native-0.1-A/html/index.html) 
+- [x] [javadoc-0.1-A](https://software-hardware-codesign.github.io/jme-alloc/jme3-alloc-0.1-A/index.html)
+- [x] [nativedoc-0.1-A](https://software-hardware-codesign.github.io/jme-alloc/jme3-alloc-native-0.1-A/html/index.html) 
