@@ -34,9 +34,7 @@ jobs:
         run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocJar
 
       - name: Move javadocs to the deployment folder 'website'
-        run: | 
-          mv -v ./jme3-alloc/build/docs/javadoc ./website/javadoc/
-          ls -aR ./website/javadoc/
+        run: ./gradlew :jme3-alloc:manipulateJavadocForWebsite
           
       - name: Setup Doxygen
         run: sudo apt-get install doxygen

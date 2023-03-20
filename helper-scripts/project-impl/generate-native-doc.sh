@@ -8,7 +8,7 @@ version=${1}
 
 function generateNativeDoc1() {
     # generate native docuemnation using a doxygen config file to an output directory
-    generateNativeDoc "${website_dir}/${config}" "${website_dir}/${module}-${version}"
+    generateNativeDoc "${website_dir}/${config}" "${website_dir}/${native_module}-${version}"
     return $?
 }
 
