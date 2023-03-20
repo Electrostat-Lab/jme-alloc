@@ -13,7 +13,7 @@ javadoc="./jme3-alloc/build/docs/javadoc"
 
 native_sources="./${native_module}/src/lib/"
 native_headers="./${native_module}/src/include/"
-output="./${module}/build/lib"
+output="./${native_module}/build/lib"
 
 gcc=$(which gcc)
 compiler_optionsX86="-shared -m32 -g0 -s"
