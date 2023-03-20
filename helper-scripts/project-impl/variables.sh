@@ -11,8 +11,8 @@ config="native-doc-config"
 javadoc="./jme3-alloc/build/docs/javadoc"
 # ---------------------
 
-native_sources="./${module}/src/lib/"
-native_headers="./${module}/src/include/"
+native_sources="./${native_module}/src/lib/"
+native_headers="./${native_module}/src/include/"
 output="./${module}/build/lib"
 
 gcc=$(which gcc)
