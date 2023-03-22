@@ -11,13 +11,13 @@ function deployFile() {
     local repository=$7
     local url=$8
 	
-	mvn gpg:sign-and-deploy-file --debug -s "${settings}" "-DgroupId=$groupId" \
-                                                          "-DartifactId=$artifactId" \
-                                                          "-Dversion=$version" \
-                                                          "-Dpackaging=$packaging" \
-                                                          "-Dfile=$file" \
-                                                          "-DrepositoryId=$repository" \
-                                                          "-Durl=$url"
+	mvn gpg:sign-and-deploy-file -s "${settings}" "-DgroupId=$groupId" \
+							"-DartifactId=$artifactId" \
+							  "-Dversion=$version" \
+							  "-Dpackaging=$packaging" \
+							  "-Dfile=$file" \
+							  "-DrepositoryId=$repository" \
+							  "-Durl=$url"
     return $?
 }
 
@@ -32,7 +32,7 @@ function deployClassifier() {
     local repository=$7
     local url=$8
 	
-	mvn gpg:sign-and-deploy-file --debug -s "${settings}" "-DgroupId=$groupId" \
+	mvn gpg:sign-and-deploy-file  -s "${settings}" "-DgroupId=$groupId" \
                                                           "-Dclassifier=$classifier" \
                                                           "-Dversion=$version" \
                                                           "-Dpackaging=$packaging" \
