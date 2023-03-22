@@ -279,3 +279,41 @@ jobs:
                 chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish.sh 
                 # publish artifacts using the tag version
                 ./helper-scripts/project-impl/publishing/sonatype-publish.sh $GITHUB_REF_NAME
+
+    deploy-doc:
+          environment:
+            name: version-${GITHUB_REF_NAME}-doc
+            url: ${{ steps.deployment.outputs.page_url }}
+          runs-on: ubuntu-latest
+
+          steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Generate javadoc
+              run: chmod +rwx ./gradlew && ./gradlew -Pversion="${GITHUB_REF_NAME}" :jme3-alloc:generateJavadocJar
+
+            - name: Move javadocs to the deployment folder 'website'
+              run: ./gradlew :jme3-alloc:manipulateJavadocForWebsite
+
+            - name: Setup Doxygen
+              run: sudo apt-get install doxygen
+
+            - name: Generate Native doc
+              run: ./gradlew -Pversion="${GITHUB_REF_NAME}" :jme3-alloc-native:generateNativeDoc
+
+            - name: Setup Pages
+              uses: actions/configure-pages@v3
+
+            - name: Build with Jekyll
+              uses: actions/jekyll-build-pages@v1
+              with:
+                source: ./website
+                destination: ./_site
+
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v1
+
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v1
