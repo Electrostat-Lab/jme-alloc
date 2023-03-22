@@ -1,7 +1,6 @@
 import com.jme3.build.UnixScriptRunner;
 import com.jme3.build.CompileX86;
 
-final String version = "0.1-A"
 final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
 final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/"
 final String javaHome = System.getProperty("java.home")
@@ -70,6 +69,6 @@ tasks.register("generateDoxygenConfig", UnixScriptRunner) {
 
 tasks.register("generateNativeDoc", UnixScriptRunner) {
    dependsOn("generateDoxygenConfig")
-   scriptArgs = new String[] { version }
+   scriptArgs = new String[] { JarMetadata.VERSION.getData() }
    script = "./helper-scripts/project-impl/generate-native-doc.sh"
 }
