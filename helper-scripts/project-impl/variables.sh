@@ -48,3 +48,12 @@ intel64_lib_directory="x86_64"
 compiler_options_android="-shared -g0 -s"
 compiler_options_android_debug="-shared -g3 -D__ENABLE_DEBUG_LOGGER -D__ENABLE_LOGGER"
 # ---------------------
+
+# Maven sonatype stuff
+# ---------------------
+groupId="com.jme3.alloc"
+artifacts=("${java_module}-desktop" "${java_module}-android")
+settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
+sources_jar="./jme3-alloc/build/libs/${java_module}-sources.jar"
+javadoc_jar"./jme3-alloc/build/libs/${java_module}-javadoc.jar"
+# ---------------------
