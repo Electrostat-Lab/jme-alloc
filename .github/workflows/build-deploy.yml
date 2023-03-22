@@ -146,7 +146,7 @@ jobs:
             run: tree jme3-alloc/build/classes/java/main/
 
           - name: Assemble 
-            run: ./gradlew --console="verbose" :jme3-alloc:desktop && ./gradlew --console="verbose" -Pversion="${GITHUB_REF_NAME}" :jme3-alloc:assemble
+            run: ./gradlew --console="verbose" :jme3-alloc:desktop && ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:assemble
 
           - name: Log jar
             run: tree jme3-alloc/build/libs/
@@ -234,7 +234,7 @@ jobs:
             run: tree jme3-alloc/build/classes/java/main/
 
           - name: Assemble 
-            run: ./gradlew --console="verbose" :jme3-alloc:android && ./gradlew --console="verbose" -Pversion="${GITHUB_REF_NAME}" :jme3-alloc:assemble
+            run: ./gradlew --console="verbose" :jme3-alloc:android && ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:assemble
 
           - name: Log jar
             run: tree jme3-alloc/build/libs/
@@ -268,7 +268,13 @@ jobs:
                 java-version: '19'
 
             - name: Generate classifiers jars
-              run: ./gradlew --console="verbose" -Pversion="${GITHUB_REF_NAME}" :jme3-alloc:generateJavadocJar :jme3-alloc:generateSourcesJar
+              run: ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:generateJavadocJar :jme3-alloc:generateSourcesJar
+
+            - name: Deploying jme3-alloc classifiers
+              run: | 
+                chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish-classifiers.sh 
+                # publish artifacts using the tag version
+                ./helper-scripts/project-impl/publishing/sonatype-publish-classifiers.sh $GITHUB_REF_NAME
 
             - name: Download desktop jar
               uses: actions/download-artifact@v3
@@ -286,7 +292,7 @@ jobs:
               run: | 
                 chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish.sh 
                 # publish artifacts using the tag version
-                ./helper-scripts/project-impl/publishing/sonatype-publish.sh $GITHUB_REF_NAME
+                ./helper-scripts/project-impl/publishing/sonatype-publish-artifacts.sh $GITHUB_REF_NAME
 
     deploy-doc:
           environment:
@@ -299,16 +305,16 @@ jobs:
               uses: actions/checkout@v3
 
             - name: Generate javadoc
-              run: chmod +rwx ./gradlew && ./gradlew -Pversion="${GITHUB_REF_NAME}" :jme3-alloc:generateJavadocJar
+              run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocJar
 
             - name: Move javadocs to the deployment folder 'website'
-              run: ./gradlew :jme3-alloc:manipulateJavadocForWebsite
+              run: ./gradlew -Pversion=${GITHUB_REF_NAME} :jme3-alloc:manipulateJavadocForWebsite
 
             - name: Setup Doxygen
               run: sudo apt-get install doxygen
 
             - name: Generate Native doc
-              run: ./gradlew -Pversion="${GITHUB_REF_NAME}" :jme3-alloc-native:generateNativeDoc
+              run: ./gradlew -Pversion=${GITHUB_REF_NAME} :jme3-alloc-native:generateNativeDoc
 
             - name: Setup Pages
               uses: actions/configure-pages@v3

@@ -17,16 +17,4 @@ function publishBuild() {
     return $?
 }
 
-function publishClassifiers() {
-
-    deployClassifiersIntoOSSRH "${settings}" \
-                               "${groupId}" \
-                               "${sources_jar}" \
-                               "${javadoc_jar}" \
-                               "${version}" 
-
-    return $?
-}
-
 publishBuild
-publishClassifiers
