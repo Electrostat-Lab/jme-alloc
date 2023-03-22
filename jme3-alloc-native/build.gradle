@@ -1,5 +1,6 @@
 import com.jme3.build.UnixScriptRunner;
 import com.jme3.build.CompileX86;
+import com.jme3.build.util.JarMetadata;
 
 final String buildDirectory="${project.rootDir}/jme3-alloc/build/classes/java/main/"
 final String nativeObjects="${project.rootDir}/jme3-alloc-native/build/"
