@@ -6,15 +6,21 @@ source "./helper-scripts/project-impl/variables.sh"
 # obtain dependencies in the form 'groupId:artifact:version'
 version=${1}
 
-function publishClassifiers() {
+function publishClassifier() {
+    local classifierId=$1
+    local classifier=$2
 
-    deployClassifiersIntoOSSRH "${settings}" \
-                               "${groupId}" \
-                               "${sources_jar}" \
-                               "${javadoc_jar}" \
-                               "${version}" 
+    ${maven_bin} gpg:sign-and-deploy-file -s ${settings} -Durl=${sonatype_url} \
+                                 -Dclassifier=${classifierId} \
+                                 -DrepositoryId=${repository} \
+                                 -DpomFile=${pomFile} \
+                                 -Dgpg.passphrase=${passphrase} \
+                                 -Dversion=${version} \
+                                 -Dfile=${classifier}
+
 
     return $?
 }
 
-publishClassifiers
+publishClassifier "${classifierIds[0]}" "${sources_jar}"
+publishClassifier "${classifierIds[1]}" "${javadoc_jar}"
