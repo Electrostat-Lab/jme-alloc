@@ -260,7 +260,8 @@ jobs:
             run: tree jme3-alloc/build/classes/java/main/
 
           - name: Assemble 
-            run: ./gradlew --console="verbose" :jme3-alloc:android && ./gradlew --console="verbose" :jme3-alloc:assemble
+            run: ./gradlew --console="verbose" :jme3-alloc:android :jme3-alloc:assemble
+
 
           - name: Log jar
             run: tree jme3-alloc/build/libs/
