@@ -292,7 +292,7 @@ jobs:
 
             - name: Deploying jme3-alloc binaries
               run: | 
-                chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish.sh 
+                chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish-artifacts.sh 
                 # publish artifacts using the tag version
                 ./helper-scripts/project-impl/publishing/sonatype-publish-artifacts.sh $GITHUB_REF_NAME
 
