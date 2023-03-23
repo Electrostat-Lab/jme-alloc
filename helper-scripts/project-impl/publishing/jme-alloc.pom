@@ -27,5 +27,12 @@
       <developerConnection>scm:git:ssh://github.com/Software-Hardware-Codesign/jme-alloc.git</developerConnection>
       <url>https://github.com/Software-Hardware-Codesign/jme-alloc/tree/master</url>
     </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+  </dependencies>
 
 </project>
