@@ -51,7 +51,7 @@ compiler_options_android_debug="-shared -g3 -D__ENABLE_DEBUG_LOGGER -D__ENABLE_L
 
 # Maven sonatype stuff
 # ---------------------
-groupId="com.jme3.alloc"
+groupId="io.github.software-hardware-codesign"
 artifacts=("${java_module}-desktop" "${java_module}-android")
 settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
 build_dir="./jme3-alloc/build/libs"

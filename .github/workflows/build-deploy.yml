@@ -267,6 +267,12 @@ jobs:
                 distribution: 'oracle' 
                 java-version: '19'
 
+            - name: Setup maven 3
+              run: sudo apt remove maven && sudo apt-get install maven
+
+            - name: Download Encrypted PGP Keys
+              run: mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/pavl-machine/.gnupg/pubring.kbx"
+
             - name: Generate classifiers jars
               run: ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:generateJavadocJar :jme3-alloc:generateSourcesJar
 
