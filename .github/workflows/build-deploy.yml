@@ -276,7 +276,7 @@ jobs:
                 ./helper-scripts/project-impl/publishing/install-maven-latest.sh 
 
             - name: Use Predefined PGP Keybox
-              run: mkdir "/home/runner/.gnupg/" && mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/runner/.gnupg/trustdb.kbx"
+              run: mkdir "/home/runner/.gnupg/" && mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/runner/.gnupg/trustdb.gpg"
 
             - name: Download desktop jar
               uses: actions/download-artifact@v3
