@@ -271,7 +271,7 @@ jobs:
               run: sudo apt remove maven && sudo apt-get install maven
 
             - name: Download Encrypted PGP Keys
-              run: mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/pavl-machine/.gnupg/pubring.kbx"
+              run: mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/runner/.gnupg/pubring.kbx"
 
             - name: Generate classifiers jars
               run: ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:generateJavadocJar :jme3-alloc:generateSourcesJar
