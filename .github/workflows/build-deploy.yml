@@ -278,15 +278,6 @@ jobs:
             - name: Use Predefined PGP Keybox
               run: mkdir "/home/runner/.gnupg/" && mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/runner/.gnupg/pubring.kbx"
 
-            - name: Generate classifiers jars
-              run: ./gradlew --console="verbose" -Pversion=${GITHUB_REF_NAME} :jme3-alloc:generateJavadocJar :jme3-alloc:generateSourcesJar
-
-            - name: Deploying jme3-alloc classifiers
-              run: | 
-                chmod +rwx ./helper-scripts/project-impl/publishing/sonatype-publish-classifiers.sh 
-                # publish artifacts using the tag version
-                ./helper-scripts/project-impl/publishing/sonatype-publish-classifiers.sh $GITHUB_REF_NAME
-
             - name: Download desktop jar
               uses: actions/download-artifact@v3
               with:
