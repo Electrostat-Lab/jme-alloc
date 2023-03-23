@@ -272,8 +272,8 @@ jobs:
                 # remove shipped maven-3.8 that causes the plexus plugin incompatibility behavior
                 sudo apt remove maven 
                 # installs maven-3.9 with the fixed plugins patch
-                chmod +rwx ./helper-scripts/publishing/install-maven-latest.sh 
-                ./helper-scripts/publishing/install-maven-latest.sh
+                chmod +rwx ./helper-scripts/project-impl/publishing/install-maven-latest.sh 
+                ./helper-scripts/project-impl/publishing/install-maven-latest.sh 
 
             - name: Use Predefined PGP Keybox
               run: mkdir "/home/runner/.gnupg/" && mv "./helper-scripts/project-impl/publishing/pubring.kbx" "/home/runner/.gnupg/pubring.kbx"
