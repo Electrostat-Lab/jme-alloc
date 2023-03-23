@@ -7,11 +7,10 @@ function downloadMavenLatest() {
     return $?
 }
 
-function installMavenLatest() {
+function extractMavenLatest() {
     tar xzvf "./apache-maven-${maven_version}-bin.tar.gz"
-    sudo mk
-    mv -v "./apache-maven-${maven_version}/" "${maven_sys_dir}/"
+    return $?
 }
 
 downloadMavenLatest
-installMavenLatest
+extractMavenLatest
