@@ -61,7 +61,6 @@ android_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-android.pom
 passphrase="jme-alloc"
 
 artifactIds=("${java_module}-desktop" "${java_module}-android")
-classifiersIds=
 
 settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
 build_dir="./jme3-alloc/build/libs"
