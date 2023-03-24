@@ -284,6 +284,10 @@ jobs:
             - name: Import owner-trust
               run: gpg --import-ownertrust ./helper-scripts/project-impl/publishing/owner-trust.txt 
 
+            - name: Send public key 'jme-alloc'
+              # sends the public key to a maven compatible host
+              run: gpg --keyserver keyserver.ubuntu.com --send-keys 8DB84BBFCFCCCA00EF7A53A8022AE2B9E8991B20
+              
             - name: Generate sources jar
               run: ./gradlew -Pversion=$GITHUB_REF_NAME :jme3-alloc:generateSourcesJar 
               
@@ -301,7 +305,7 @@ jobs:
               with:
                 name: jme3-alloc-android-release
                 path: jme3-alloc/build/libs/
-
+                
             - name: Deploying jme3-alloc binaries
               env:
                 OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
