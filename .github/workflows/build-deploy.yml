@@ -248,7 +248,7 @@ jobs:
     deploy:
           environment:
             name: maven-central
-            url: ""
+            url: https://repo.maven.apache.org/maven2/io/github/software-hardware-codesign/
           runs-on: ${{ matrix.os }}
           needs: [assemble-desktop, assemble-android]
           strategy:
