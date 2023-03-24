@@ -278,6 +278,18 @@ jobs:
             - name: Use Predefined PGP Keybox
               run: gpg --import ./helper-scripts/project-impl/publishing/public-key.pub
 
+            - name: Import secret-key
+              run: gpg --allow-secret-key-import --import --batch --yes --passphrase="jme-alloc" ./helper-scripts/project-impl/publishing/secret-key
+
+            - name: Import owner-trust
+              run: gpg --import-ownertrust ./helper-scripts/project-impl/publishing/owner-trust.txt 
+
+            - name: Generate sources jar
+              run: ./gradlew -Pversion=$GITHUB_REF_NAME :jme3-alloc:generateSourcesJar 
+              
+            - name: Generate javadoc jar
+              run: ./gradlew -Pversion=$GITHUB_REF_NAME :jme3-alloc:generateJavadocJar
+                          
             - name: Download desktop jar
               uses: actions/download-artifact@v3
               with:

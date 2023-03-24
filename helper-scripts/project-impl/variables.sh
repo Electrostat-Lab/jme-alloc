@@ -64,7 +64,4 @@ classifiersIds=
 
 settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
 build_dir="./jme3-alloc/build/libs"
-
-sources_jar="${build_dir}/${java_module}-sources.jar"
-javadoc_jar"${build_dir}/${java_module}-javadoc.jar"
 # ---------------------
