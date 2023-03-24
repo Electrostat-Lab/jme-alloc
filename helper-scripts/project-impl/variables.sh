@@ -56,7 +56,8 @@ repository="ossrh"
 groupId="io.github.software-hardware-codesign"
 maven_version="3.9.1"
 maven_bin="./apache-maven-$maven_version/bin/mvn"
-pomFile="./helper-scripts/project-impl/publishing/jme-alloc.pom"
+desktop_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-desktop.pom"
+android_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-android.pom"
 passphrase="jme-alloc"
 
 artifactIds=("${java_module}-desktop" "${java_module}-android")

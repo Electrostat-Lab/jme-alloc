@@ -15,6 +15,7 @@ function publishBuild() {
     local artifact=$2
     local javadoc_jar=$3
     local sources_jar=$4
+    local pomFile=$5
 
     ${maven_bin} gpg:sign-and-deploy-file -s ${settings} -Durl=${sonatype_url} \
                                                          -DartifactId=${artifactId} \
@@ -31,5 +32,5 @@ function publishBuild() {
     return $?
 }
 # publish 'android' and 'desktop' builds to maven sonatype
-publishBuild "${artifactIds[0]}" "${desktop_artifact}" "${javadoc_jar}" "${sources_jar}"
-publishBuild "${artifactIds[1]}" "${android_artifact}" "${javadoc_jar}" "${sources_jar}"
+publishBuild "${artifactIds[0]}" "${desktop_artifact}" "${javadoc_jar}" "${sources_jar}" "${desktop_pomFile}"
+publishBuild "${artifactIds[1]}" "${android_artifact}" "${javadoc_jar}" "${sources_jar}" "${android_pomFile}"
