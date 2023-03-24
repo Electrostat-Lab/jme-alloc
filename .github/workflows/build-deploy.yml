@@ -268,6 +268,9 @@ jobs:
                 java-version: '17'
 
             - name: Setup maven-3.9
+              env:
+                OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+                OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
               run: | 
                 # remove shipped maven-3.8 that causes the plexus plugin incompatibility behavior
                 sudo apt remove maven 
