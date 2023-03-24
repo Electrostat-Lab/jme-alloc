@@ -344,7 +344,7 @@ jobs:
               uses: actions/jekyll-build-pages@v1
               with:
                 source: ./website
-                destination: ./_site/jme3-alloc-${GITHUB_REF_NAME}
+                destination: ./_site
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v1
