@@ -48,3 +48,20 @@ intel64_lib_directory="x86_64"
 compiler_options_android="-shared -g0 -s"
 compiler_options_android_debug="-shared -g3 -D__ENABLE_DEBUG_LOGGER -D__ENABLE_LOGGER"
 # ---------------------
+
+# Maven sonatype stuff
+# ---------------------
+sonatype_url="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+repository="ossrh"
+groupId="io.github.software-hardware-codesign"
+maven_version="3.9.1"
+maven_bin="./apache-maven-$maven_version/bin/mvn"
+desktop_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-desktop.pom"
+android_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-android.pom"
+passphrase="jme-alloc"
+
+artifactIds=("${java_module}-desktop" "${java_module}-android")
+
+settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
+build_dir="./jme3-alloc/build/libs"
+# ---------------------
