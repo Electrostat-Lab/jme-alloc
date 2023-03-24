@@ -17,14 +17,15 @@ function publishBuild() {
     local sources_jar=$4
 
     ${maven_bin} gpg:sign-and-deploy-file -s ${settings} -Durl=${sonatype_url} \
-                                 -DartifactId=${artifactId} \
-                                 -DrepositoryId=${repository} \
-                                 -DpomFile=${pomFile} \
-                                 -Dgpg.passphrase=${passphrase} \
-                                 -Dversion=${version} \
-                                 -Dfile=${artifact} \
-                                 -Djavadoc=${javadoc_jar} \
-                                 -Dsources=${sources_jar}
+                                                         -DartifactId=${artifactId} \
+                                                         -DrepositoryId=${repository} \
+                                                         -DpomFile=${pomFile} \
+                                                         -Dgpg.passphrase=${passphrase} \
+                                                         -Dversion=${version} \
+                                                         -Dfile=${artifact} \
+                                                         -Djavadoc=${javadoc_jar} \
+                                                         -Dsources=${sources_jar} \
+                                                         -DgeneratePom=true
 
 
     return $?
