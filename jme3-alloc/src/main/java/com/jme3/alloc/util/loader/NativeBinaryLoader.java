@@ -36,6 +36,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
+
+import com.jme3.alloc.util.NativeBufferUtils;
+
 import java.lang.UnsatisfiedLinkError;
 
 /**
@@ -47,7 +50,8 @@ public final class NativeBinaryLoader {
     
     private static final ReentrantLock LOCK = new ReentrantLock();
     private static final int EOF = -1;
-	
+    private static boolean autoLoad = true;
+
     private NativeBinaryLoader() {
     }
 
@@ -66,6 +70,28 @@ public final class NativeBinaryLoader {
         } else {
             throw new UnSupportedSystemError(NativeVariant.NAME.getProperty(), NativeVariant.ARCH.getProperty());
         }
+    }
+
+    /**
+     * Adjusts the {@link NativeBinaryLoader#autoLoad} flag to enable/disable auto-extracting and dynamic loading.
+     * Default value is [true].
+     * 
+     * @param isAutoLoad true to auto-extract and load the native binary dynamically, false otherwise.
+     * @see NativeBufferUtils#loadNativeBinary()
+     */
+    public static void setAutoLoad(boolean isAutoLoad) {
+        NativeBinaryLoader.autoLoad = isAutoLoad;
+    }
+
+    /**
+     * Tests whether the native-binary will be auto-extracted and loaded when the
+     * class initializer of {@link NativeBinaryLoader} is called. Default value is [true].
+     * 
+     * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
+     * @see NativeBufferUtils#loadNativeBinary()
+     */
+    public static boolean isAutoLoad() {
+        return autoLoad;
     }
     
     /**

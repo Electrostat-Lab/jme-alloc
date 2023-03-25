@@ -42,33 +42,11 @@ import com.jme3.alloc.util.loader.NativeBinaryLoader;
  */
 public final class NativeBufferUtils {
 
-    private static boolean autoLoad = true;
-
     static {
         loadNativeBinary();
     }
 
     private NativeBufferUtils() {
-    }
-
-    /**
-     * Adjusts the {@link NativeBufferUtils#autoLoad} flag to enable/disable auto-extracting and dynamic loading.
-     * Default value is [true].
-     * 
-     * @param isAutoLoad true to auto-extract and load the native binary dynamically, false otherwise.
-     */
-    public static void setAutoLoad(boolean isAutoLoad) {
-        NativeBufferUtils.autoLoad = isAutoLoad;
-    }
-
-    /**
-     * Tests whether the native-binary will be auto-extracted and loaded when the
-     * class initializer of {@link NativeBufferUtils} is called. Default value is [true].
-     * 
-     * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
-     */
-    public static boolean isAutoLoad() {
-        return autoLoad;
     }
 
     /**
@@ -139,7 +117,7 @@ public final class NativeBufferUtils {
     public static native long getMemoryAdress(final ByteBuffer buffer);
     
     private static void loadNativeBinary() {
-        if (!autoLoad) {
+        if (!NativeBinaryLoader.isAutoLoad()) {
             return;
         }
         try {
