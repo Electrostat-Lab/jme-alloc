@@ -50,12 +50,12 @@ public enum NativeDynamicLibrary {
     /**
      * Represents a mac x86 binary with 64-bit instruction set.
      */
-    MAC_x86_64("lib/macos/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
+    MAC_x86_64("lib/macos/x86-64", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylib"),
 
     /**
      * Represents a mac x86 binary with 32-bit instruction set.
      */
-    MAC_x86("lib/macos/x86", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylb"),
+    MAC_x86("lib/macos/x86", "lib" + LibraryInfo.LIBRARY.getBaseName() + ".dylib"),
 
     /**
      * Represents a windows x86 binary with 64-bit instruction set.
