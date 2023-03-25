@@ -31,6 +31,7 @@
  */
 package com.jme3.alloc;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import com.jme3.alloc.util.NativeBufferUtils;
 
@@ -52,7 +53,7 @@ public final class NativeBufferAllocator {
      * @return a new direct byte buffer object of capacity [capacity] in bytes
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
-    public static ByteBuffer createDirectByteBuffer(final long capacity) {
+    public static ByteBuffer allocate(final long capacity) {
         return NativeBufferUtils.clearAlloc(capacity);
     }
     
@@ -60,9 +61,9 @@ public final class NativeBufferAllocator {
      * Releases the memory of a direct buffer using a buffer object reference.
      *
      * @param buffer the buffer reference to release its memory.
-     * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.ByteBuffer)
+     * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
      */
-    public static void releaseDirectByteBuffer(final ByteBuffer buffer) {
+    public static void release(final Buffer buffer) {
         NativeBufferUtils.destroy(buffer);
     }
 }

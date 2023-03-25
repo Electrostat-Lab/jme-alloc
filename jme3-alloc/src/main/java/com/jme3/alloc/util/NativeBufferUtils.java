@@ -32,6 +32,7 @@
 package com.jme3.alloc.util;
 
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import com.jme3.alloc.util.loader.NativeBinaryLoader;
 
@@ -107,11 +108,11 @@ public final class NativeBufferUtils {
     /**
      * Frees a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
      * 
-     * @param buffer a {@link java.nio.ByteBuffer} to destroy
+     * @param buffer a {@link java.nio.Buffer} to destroy
      * @see NativeBufferUtils#memoryAlloc(long)
      * @see NativeBufferUtils#clearAlloc(long)
      */
-    public static native void destroy(final ByteBuffer buffer);
+    public static native void destroy(final Buffer buffer);
 
     /**
      * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} in integers.
