@@ -85,7 +85,7 @@ public final class NativeBinaryLoader {
 
     /**
      * Tests whether the native-binary will be auto-extracted and loaded when the
-     * class initializer of {@link NativeBinaryLoader} is called. Default value is [true].
+     * class initializer of {@link NativeBufferUtils} is called. Default value is [true].
      * 
      * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
      * @see NativeBufferUtils#loadNativeBinary()
