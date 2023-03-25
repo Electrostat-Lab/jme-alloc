@@ -49,5 +49,8 @@ public final class SimpleLauncher {
         Thread.sleep(1500);
         System.out.println();
         TestMemorySet.main(args);
+        Thread.sleep(1500);
+        System.out.println();
+        TestDisableAutoLoad.main(args);
     }
 }
