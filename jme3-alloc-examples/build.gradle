@@ -64,7 +64,7 @@ tasks.register("TestDirtyMultithreading") {
 }
 
 /** Runs the [TestDisableAutoLoad] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestDisableAutoLoad :jme3-alloc-examples:run */
-tasks.register("TestDirtyMultithreading") {
+tasks.register("TestDisableAutoLoad") {
     application.mainClass = 'com.jme3.alloc.examples.TestDisableAutoLoad'
 }
 
