@@ -36,9 +36,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
-
-import com.jme3.alloc.util.NativeBufferUtils;
-
 import java.lang.UnsatisfiedLinkError;
 
 /**
