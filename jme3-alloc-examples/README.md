@@ -38,6 +38,13 @@ This module holds a couple of simple techdemos to test the api.
                  :jme3-alloc-examples:createJar \ 
                  :jme3-alloc-examples:run
 ```
+- [x] [TestDisableAutoLoad](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/TestDisableAutoLoad.java):
+```bash
+└──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 
+       ./gradlew :jme3-alloc-examples:TestDisableAutoLoad \
+                 :jme3-alloc-examples:createJar \ 
+                 :jme3-alloc-examples:run
+```
 - [x] [StressLauncher](https://github.com/Software-Hardware-Codesign/jme-alloc/blob/master/jme3-alloc-examples/src/main/java/com/jme3/alloc/examples/StressLauncher.java):
 ```bash
 └──╼ $ ./gradlew :jme3-alloc-examples:copyLibs && 

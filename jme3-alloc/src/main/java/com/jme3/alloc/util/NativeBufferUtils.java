@@ -44,12 +44,7 @@ import com.jme3.alloc.util.loader.NativeBinaryLoader;
 public final class NativeBufferUtils {
 
     static {
-        try {
-            /* extracts and loads the system specific library */
-            NativeBinaryLoader.loadLibrary();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNativeBinary();
     }
 
     private NativeBufferUtils() {
@@ -121,4 +116,16 @@ public final class NativeBufferUtils {
      * @return a 32-bit or 64-bit integer (depending on the architecture) representing the memory address of the specified buffer
      */
     public static native long getMemoryAdress(final ByteBuffer buffer);
+    
+    private static void loadNativeBinary() {
+        if (!NativeBinaryLoader.isAutoLoad()) {
+            return;
+        }
+        try {
+            /* extracts and loads the system specific library */
+            NativeBinaryLoader.loadLibrary();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
