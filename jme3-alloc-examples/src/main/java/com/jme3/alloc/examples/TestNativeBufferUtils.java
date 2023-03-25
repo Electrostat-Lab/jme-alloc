@@ -45,8 +45,12 @@ import java.util.logging.Level;
  */
 public final class TestNativeBufferUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(TestNativeBufferUtils.class.getName());
+    static {
+        NativeBinaryLoader.setAutoLoad(false);
+    }
 
+    private static final Logger LOGGER = Logger.getLogger(TestNativeBufferUtils.class.getName());
+    
     public static void main(String[] args) {
         LOGGER.log(Level.INFO, "**************** " + TestNativeBufferUtils.class.getName() + "****************");
 
