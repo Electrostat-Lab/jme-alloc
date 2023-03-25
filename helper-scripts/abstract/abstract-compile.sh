@@ -45,7 +45,7 @@ function compile() {
     local jni_headers0="${java_home}/include"
     
     if [[ `uname` == "Darwin" ]]; then 
-        local shared_lib="${output_lib}.dylb"
+        local shared_lib="${output_lib}.dylib"
         local jni_headers1="${jni_headers0}/darwin"
     elif [[ `uname` == "Linux" ]]; then 
         local shared_lib="${output_lib}.so"
