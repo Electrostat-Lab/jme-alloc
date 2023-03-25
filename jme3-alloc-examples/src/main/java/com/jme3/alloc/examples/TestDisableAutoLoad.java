@@ -5,6 +5,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.lang.UnsatisfiedLinkError;
 
 /**
  * Tests {@link NativeBinaryLoader#setAutoLoad(boolean)} to disable the auto-extracting and loading of binaries 
