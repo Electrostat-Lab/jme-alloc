@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
 import java.lang.UnsatisfiedLinkError;
+import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
  * Helper utility for loading native binaries.
