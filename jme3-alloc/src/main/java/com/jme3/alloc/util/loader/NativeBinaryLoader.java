@@ -40,6 +40,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.UnsatisfiedLinkError;
 import com.jme3.alloc.util.NativeBufferUtils;
+import com.jme3.alloc.util.NativeErrno;
 
 /**
  * Helper utility for loading native binaries.
@@ -94,7 +95,7 @@ public final class NativeBinaryLoader {
      * Default value is [true].
      * 
      * @param isAutoLoad true to auto-extract and load the native binary dynamically, false otherwise.
-     * @see NativeBufferUtils#loadNativeBinary()
+     * @see NativeBinaryLoader#quickLoadLibrary()
      */
     public static void setAutoLoad(boolean isAutoLoad) {
         NativeBinaryLoader.autoLoad = isAutoLoad;
@@ -102,10 +103,11 @@ public final class NativeBinaryLoader {
 
     /**
      * Tests whether the native-binary will be auto-extracted and loaded when the
-     * class initializer of {@link NativeBufferUtils} is called. Default value is [true].
+     * class initializer of {@link NativeBufferUtils} or {@link NativeErrno} is called. 
+     * Default value is [true].
      * 
      * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
-     * @see NativeBufferUtils#loadNativeBinary()
+     * @see NativeBinaryLoader#quickLoadLibrary()
      */
     public static boolean isAutoLoad() {
         return autoLoad;
