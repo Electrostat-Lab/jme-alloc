@@ -36,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.lang.UnsatisfiedLinkError;
 import com.jme3.alloc.util.NativeBufferUtils;
 
@@ -46,11 +48,28 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public final class NativeBinaryLoader {
     
+    private static final Logger LOGGER = Logger.getLogger(NativeBinaryLoader.class.getName());
     private static final ReentrantLock LOCK = new ReentrantLock();
     private static final int EOF = -1;
     private static boolean autoLoad = true;
 
     private NativeBinaryLoader() {
+    }
+
+    /**
+     * Extracts and loads the variant specific binary from the output jar, handling the error messages, 
+     * guarded by the {@link NativeBinaryLoader#isAutoLoad()}.
+     */
+    public static void quickLoadLibrary() {
+        if (!NativeBinaryLoader.isAutoLoad()) {
+            return;
+        }
+        try {
+            /* extracts and loads the system specific library */
+            NativeBinaryLoader.loadLibrary();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Binary Not Found!", e);
+        }
     }
 
     /**
