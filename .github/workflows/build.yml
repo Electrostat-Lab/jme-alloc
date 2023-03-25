@@ -154,6 +154,34 @@ jobs:
               name: jme3-alloc-desktop-release
               path: jme3-alloc/build/libs/*.jar
 
+    test-doc-generation:
+        # a linux runner image with the ndk installed and llvm ready to compile android native binaries
+        runs-on: ${{ matrix.os }}
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest' ]
+        name: Generating documentation
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - name: Checkout Job
+            uses: actions/checkout@v3
+          
+          - name: Setup Oracle-JDK-19
+            uses: actions/setup-java@v3
+            with:
+              distribution: 'oracle' 
+              java-version: '19'
+
+          - name: Generate javadoc
+            run: chmod +rwx ./gradlew && ./gradlew :jme3-alloc:generateJavadocJar
+
+          - name: Setup Doxygen
+            run: sudo apt-get install doxygen
+
+          - name: Generate Native doc
+            run: ./gradlew -Pversion=${GITHUB_REF_NAME} :jme3-alloc-native:generateNativeDoc
+
     test:
         # runner images with architectures (variants)
         runs-on: ${{ matrix.os }}
