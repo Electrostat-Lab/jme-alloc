@@ -123,8 +123,5 @@ task createJar(type : Jar, dependsOn : copyLibs){
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
-    
     implementation files("../jme3-alloc/build/libs/${dependencyName}")
 }
