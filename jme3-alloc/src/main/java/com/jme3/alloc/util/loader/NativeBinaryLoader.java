@@ -63,6 +63,7 @@ public final class NativeBinaryLoader {
      */
     public static void loadLibraryIfEnabled() {
         if (!NativeBinaryLoader.isAutoLoad()) {
+            LOGGER.log(Level.WARNING, "Stock Jme3-alloc-NativeBinaryLoader is not enabled!");
             return;
         }
         try {
