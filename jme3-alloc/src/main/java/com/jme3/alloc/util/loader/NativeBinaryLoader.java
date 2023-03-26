@@ -95,7 +95,7 @@ public final class NativeBinaryLoader {
      * Default value is [true].
      * 
      * @param isAutoLoad true to auto-extract and load the native binary dynamically, false otherwise.
-     * @see NativeBinaryLoader#quickLoadLibrary()
+     * @see NativeBinaryLoader#loadLibraryIfEnabled()
      */
     public static void setAutoLoad(boolean isAutoLoad) {
         NativeBinaryLoader.autoLoad = isAutoLoad;
@@ -107,7 +107,7 @@ public final class NativeBinaryLoader {
      * Default value is [true].
      * 
      * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
-     * @see NativeBinaryLoader#quickLoadLibrary()
+     * @see NativeBinaryLoader#loadLibraryIfEnabled()
      */
     public static boolean isAutoLoad() {
         return autoLoad;
