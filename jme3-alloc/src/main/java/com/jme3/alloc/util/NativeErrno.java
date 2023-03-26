@@ -41,7 +41,7 @@ import com.jme3.alloc.util.loader.NativeBinaryLoader;
 public final class NativeErrno {
 
     static {
-        NativeBinaryLoader.quickLoadLibrary();
+        NativeBinaryLoader.loadLibraryIfEnabled();
     }
 
     private NativeErrno() {

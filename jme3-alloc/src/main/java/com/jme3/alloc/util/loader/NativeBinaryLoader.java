@@ -61,7 +61,7 @@ public final class NativeBinaryLoader {
      * Extracts and loads the variant specific binary from the output jar, handling the error messages, 
      * guarded by the {@link NativeBinaryLoader#isAutoLoad()}.
      */
-    public static void quickLoadLibrary() {
+    public static void loadLibraryIfEnabled() {
         if (!NativeBinaryLoader.isAutoLoad()) {
             return;
         }

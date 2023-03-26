@@ -43,7 +43,7 @@ import com.jme3.alloc.util.loader.NativeBinaryLoader;
 public final class NativeBufferUtils {
 
     static {
-        NativeBinaryLoader.quickLoadLibrary();
+        NativeBinaryLoader.loadLibraryIfEnabled();
     }
 
     private NativeBufferUtils() {
