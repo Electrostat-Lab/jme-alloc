@@ -31,7 +31,6 @@
  */
 package com.jme3.alloc.util;
 
-import java.io.IOException;
 import com.jme3.alloc.util.loader.NativeBinaryLoader;
 
 /**
@@ -42,12 +41,7 @@ import com.jme3.alloc.util.loader.NativeBinaryLoader;
 public final class NativeErrno {
 
     static {
-        try {
-            /* extracts and loads the system specific library if it's not been loaded before */
-            NativeBinaryLoader.loadLibrary();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NativeBinaryLoader.loadLibraryIfEnabled();
     }
 
     private NativeErrno() {
