@@ -18,7 +18,7 @@ public final class TestDisableAutoLoad {
 
     static {
         /* disable binary auto-loading */
-        NativeBinaryLoader.setAutoLoad(false);
+        NativeBinaryLoader.setEnabled(false);
         /* add your custom loader here! */
     }
 

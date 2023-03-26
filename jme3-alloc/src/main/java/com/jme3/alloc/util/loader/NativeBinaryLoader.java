@@ -39,8 +39,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.UnsatisfiedLinkError;
-import com.jme3.alloc.util.NativeBufferUtils;
-import com.jme3.alloc.util.NativeErrno;
 
 /**
  * Helper utility for loading native binaries.
@@ -52,17 +50,17 @@ public final class NativeBinaryLoader {
     private static final Logger LOGGER = Logger.getLogger(NativeBinaryLoader.class.getName());
     private static final ReentrantLock LOCK = new ReentrantLock();
     private static final int EOF = -1;
-    private static boolean autoLoad = true;
+    private static boolean enabled = true;
 
     private NativeBinaryLoader() {
     }
 
     /**
      * Extracts and loads the variant specific binary from the output jar, handling the error messages, 
-     * guarded by the {@link NativeBinaryLoader#isAutoLoad()}.
+     * guarded by the {@link NativeBinaryLoader#isEnabled()}.
      */
     public static void loadLibraryIfEnabled() {
-        if (!NativeBinaryLoader.isAutoLoad()) {
+        if (!NativeBinaryLoader.isEnabled()) {
             LOGGER.log(Level.WARNING, "Stock Jme3-alloc-NativeBinaryLoader is not enabled!");
             return;
         }
@@ -92,26 +90,25 @@ public final class NativeBinaryLoader {
     }
 
     /**
-     * Adjusts the {@link NativeBinaryLoader#autoLoad} flag to enable/disable auto-extracting and dynamic loading.
+     * Adjusts the {@link NativeBinaryLoader#enabled} flag to enable/disable the {@link NativeBinaryLoader#loadLibraryIfEnabled()}.
      * Default value is [true].
      * 
-     * @param isAutoLoad true to auto-extract and load the native binary dynamically, false otherwise.
+     * @param enabled true to enable the {@link NativeBinaryLoader#loadLibraryIfEnabled()}, false otherwise.
      * @see NativeBinaryLoader#loadLibraryIfEnabled()
      */
-    public static void setAutoLoad(boolean isAutoLoad) {
-        NativeBinaryLoader.autoLoad = isAutoLoad;
+    public static void setEnabled(boolean enabled) {
+        NativeBinaryLoader.enabled = enabled;
     }
 
     /**
-     * Tests whether the native-binary will be auto-extracted and loaded when the
-     * class initializer of {@link NativeBufferUtils} or {@link NativeErrno} is called. 
+     * Tests whether the method {@link NativeBinaryLoader#loadLibraryIfEnabled()} can load the native binary. 
      * Default value is [true].
      * 
-     * @return true if the native-binary is to be auto-extracted and loaded dynamically, false otherwise.
+     * @return true if the method {@link NativeBinaryLoader#loadLibraryIfEnabled()} is enabled to load the native binary.
      * @see NativeBinaryLoader#loadLibraryIfEnabled()
      */
-    public static boolean isAutoLoad() {
-        return autoLoad;
+    public static boolean isEnabled() {
+        return enabled;
     }
     
     /**
