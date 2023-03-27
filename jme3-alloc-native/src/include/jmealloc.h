@@ -142,11 +142,11 @@ static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 }
 
 /**
- * Destroys a direct java nio buffer using its address.
+ * Destroys a native buffer using its address.
  * 
  * @param address a buffer to destroy
  */ 
-static inline void destroy0(JNIEnv* env, void* address) {
+static inline void destroy0(void* address) {
 	free(address);
 	address = NULL;
 }

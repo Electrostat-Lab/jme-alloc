@@ -69,7 +69,7 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__Ljava
 
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__J
   (JNIEnv* env, jclass clazz, jlong memaddress) {
-    destroy0(env, (void*) memaddress);
+    destroy0((void*) memaddress);
 }
 
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
