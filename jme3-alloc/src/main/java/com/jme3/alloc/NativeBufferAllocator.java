@@ -31,32 +31,65 @@
  */
 package com.jme3.alloc;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
  * Provides a quick implementation to the base direct buffer allocator api.
+ * Buffer memory is automatically released when the Buffer object gets
+ * garbage collected.
  * 
  * @see com.jme3.alloc.util.NativeBufferUtils
  * @author pavl_g
+ * @author Ali-RS
  */
 public final class NativeBufferAllocator {
-    
-    private NativeBufferAllocator() {
+
+    private static final Logger LOGGER = Logger.getLogger(NativeBufferAllocator.class.getName());
+
+    /**
+     * The reference queue.
+     */
+    private static final ReferenceQueue<Buffer> REFERENCE_QUEUE = new ReferenceQueue<>();
+
+    /**
+     * The cleaner thread.
+     */
+    private static final Thread CLEAN_THREAD = new Thread(NativeBufferAllocator::freeByteBuffers);
+
+    /**
+     * The map with created deallocators.
+     */
+    private static final Map<Long, Deallocator> DEALLOCATORS = new ConcurrentHashMap<>();
+
+    static {
+        CLEAN_THREAD.setDaemon(true);
+        CLEAN_THREAD.setName("Buffer Deallocator");
+        CLEAN_THREAD.start();
     }
 
     /**
-     * Creates a new direct byte buffer explicitly with a specific [capacity] in bytes.
+     * Creates a new direct byte buffer explicitly with a specific [size] in bytes.
      *
-     * @param capacity the buffer capacity in bytes units
-     * @return a new direct byte buffer object of capacity [capacity] in bytes
+     * @param size the buffer capacity in bytes units
+     * @return a new direct byte buffer object of size [size] in bytes
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
-    public static ByteBuffer allocate(final long capacity) {
-        return NativeBufferUtils.clearAlloc(capacity);
+    public static ByteBuffer allocate(final long size) {
+        final ByteBuffer byteBuffer = NativeBufferUtils.clearAlloc(size);
+        final Long address = NativeBufferUtils.getMemoryAdress(byteBuffer);
+        DEALLOCATORS.put(address, createDeallocator(address, byteBuffer));
+        return byteBuffer;
     }
-    
+
     /**
      * Releases the memory of a direct buffer using a buffer object reference.
      *
@@ -64,6 +97,91 @@ public final class NativeBufferAllocator {
      * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
      */
     public static void release(final Buffer buffer) {
+
+        final long address = getAddress(buffer);
+
+        if (address == -1) {
+            LOGGER.warning("Not found address of the " + buffer);
+            return;
+        }
+
+        // disable deallocator
+        final Deallocator deallocator = DEALLOCATORS.remove(address);
+
+        if (deallocator == null) {
+            LOGGER.warning("Not found a deallocator for address " + address);
+            return;
+        }
+
+        deallocator.setAddress(null);
+
         NativeBufferUtils.destroy(buffer);
+    }
+
+    /**
+     * The byte buffer deallocator.
+     */
+    static class Deallocator extends PhantomReference<ByteBuffer> {
+
+        /**
+         * The address of byte buffer.
+         */
+        volatile Long address;
+
+        Deallocator(final ByteBuffer referent, final ReferenceQueue<? super ByteBuffer> queue, final Long address) {
+            super(referent, queue);
+            this.address = address;
+        }
+
+        /**
+         * @param address the address of byte buffer.
+         */
+        void setAddress(final Long address) {
+            this.address = address;
+        }
+
+        /**
+         * Free memory.
+         */
+        void free() {
+            if (address == null) return;
+            freeMemory();
+            DEALLOCATORS.remove(address);
+        }
+
+        void freeMemory() {
+            //TODO: NativeBufferUtils.destroy(address);
+        }
+    }
+
+    /**
+     * Free unnecessary byte buffers.
+     */
+    static void freeByteBuffers() {
+        try {
+            for (;;) {
+                final Deallocator deallocator = (Deallocator) REFERENCE_QUEUE.remove();
+                deallocator.free();
+            }
+        } catch (final InterruptedException e) {
+            LOGGER.log(Level.WARNING, "Error freeing byte buffers", e);
+        }
+    }
+
+    /**
+     * Get memory address of the buffer.
+     *
+     * @param buffer the buffer.
+     * @return the address or -1.
+     */
+    static long getAddress(final Buffer buffer) {
+
+        // TODO: NativeBufferUtils.getMemoryAdress(buffer);
+
+        return -1;
+    }
+
+    static Deallocator createDeallocator(final Long address, final ByteBuffer byteBuffer) {
+        return new Deallocator(byteBuffer, REFERENCE_QUEUE, address);
     }
 }
