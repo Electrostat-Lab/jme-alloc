@@ -164,7 +164,7 @@ public final class NativeBufferAllocator {
                 deallocator.free();
             }
         } catch (final InterruptedException e) {
-            LOGGER.log(Level.WARNING, "Error freeing byte buffers", e);
+            LOGGER.log(Level.SEVERE, "Error freeing byte buffers", e);
         }
     }
 
