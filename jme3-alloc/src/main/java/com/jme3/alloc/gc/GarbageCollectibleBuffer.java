@@ -28,7 +28,7 @@ public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     }
     
     public void deallocate() {
-        //   NativeBufferUtils.destroy(memoryAddress);
+        NativeBufferUtils.destroy(memoryAddress);
         memoryAddress = 0;
     }
     

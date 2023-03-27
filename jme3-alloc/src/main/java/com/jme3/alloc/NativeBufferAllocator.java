@@ -33,9 +33,7 @@ package com.jme3.alloc;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
-
 import com.jme3.alloc.gc.GarbageCollectibleBuffers;
-import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
  * Provides a quick implementation to the base direct buffer allocator api.

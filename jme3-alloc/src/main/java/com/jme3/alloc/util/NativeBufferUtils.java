@@ -109,6 +109,15 @@ public final class NativeBufferUtils {
     public static native void destroy(final Buffer buffer);
 
     /**
+     * Frees a buffer memory previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
+     * 
+     * @param memoryAddress a {@link java.nio.Buffer} memory address to destroy
+     * @see NativeBufferUtils#memoryAlloc(long)
+     * @see NativeBufferUtils#clearAlloc(long)
+     */
+    public static native void destroy(final long memoryAddress);
+
+    /**
      * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} in integers.
      * 
      * @param buffer a {@link java.nio.ByteBuffer} to retrieve its memory address
