@@ -142,6 +142,16 @@ static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 }
 
 /**
+ * Destroys a direct java nio buffer using its address.
+ * 
+ * @param address a buffer to destroy
+ */ 
+static inline void destroy0(JNIEnv* env, void* address) {
+	free(address);
+	address = NULL;
+}
+
+/**
  * Destroys a direct java nio buffer.
  * 
  * @param buffer a buffer to destroy
@@ -149,8 +159,7 @@ static inline jobject clearAlloc(JNIEnv* env, size_t size) {
 static inline void destroy(JNIEnv* env, jobject* buffer) {
 	void* memoryAddress = getMemoryAddress(env, buffer);
 	LOGD_DESTROYMEM(DEBUG, memoryAddress, getBufferCapacity(env, buffer));
-	free(memoryAddress);
-	memoryAddress = NULL;
+	destroy0(memoryAddress);
 }
 
 /**
