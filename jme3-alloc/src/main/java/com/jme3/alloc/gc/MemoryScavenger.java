@@ -39,7 +39,8 @@ final class MemoryScavenger extends Thread {
             try {
                 GarbageCollectibleBuffer collectible = (GarbageCollectibleBuffer) queue.remove();
                 // de-allocate the direct buffer and removes its address from the [BUFFER_ADDRESSES]
-                collectibles.deallocate(collectible.getMemoryAddress());
+                // Make a scavenger call
+                collectibles.deallocate(collectible.getMemoryAddress(), true);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Operation interrupted!", e);
             }

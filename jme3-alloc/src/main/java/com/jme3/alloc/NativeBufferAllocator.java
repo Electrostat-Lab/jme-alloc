@@ -70,6 +70,7 @@ public class NativeBufferAllocator {
      * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
      */
     public void release(final Buffer buffer) {
-        COLLECTIBLE_BUFFERS.deallocate(buffer);
+        // Make a non-scavenger call 
+        COLLECTIBLE_BUFFERS.deallocate(buffer, false);
     }
 }

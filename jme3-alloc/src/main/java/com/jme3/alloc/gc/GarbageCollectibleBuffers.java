@@ -41,12 +41,12 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param buffer the buffer memory address
      */
-    public void deallocate(Buffer buffer) {
+    public void deallocate(Buffer buffer, boolean isScavenger) {
         if (!buffer.isDirect()) {
             throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
         }
         long bufferAddress = NativeBufferUtils.getMemoryAdress(buffer);
-        deallocate(bufferAddress);
+        deallocate(bufferAddress, isScavenger);
     }
 
     /**
@@ -55,10 +55,10 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param bufferAddress the buffer memory address
      */
-    public void deallocate(long bufferAddress) {
+    public void deallocate(long bufferAddress, boolean isScavenger) {
         /* return if the buffer is not in the list of the collectibles */
         if (!BUFFER_ADDRESSES.contains(bufferAddress)) {
-            LOGGER.log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!");
+            log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!", isScavenger);
             return;
         }
         NativeBufferUtils.destroy(bufferAddress);
@@ -67,5 +67,12 @@ public final class GarbageCollectibleBuffers {
     
     public MemoryScavenger startMemoryScavenger() {
         return MemoryScavenger.start(this, COLLECTIBLES);
+    }
+
+    private void log(Level level, String msg, boolean disabled) {
+        if (disabled) {
+            return;
+        }
+        LOGGER.log(level, msg);
     }
 }
