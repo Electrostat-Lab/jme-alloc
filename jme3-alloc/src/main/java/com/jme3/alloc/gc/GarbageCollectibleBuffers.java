@@ -3,8 +3,8 @@ package com.jme3.alloc.gc;
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.jme3.alloc.util.NativeBufferUtils;
@@ -18,7 +18,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public final class GarbageCollectibleBuffers {
     private final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
-    private final List<Long> BUFFER_ADDRESSES = new ArrayList<>();
+    private final Map<Long, Long> BUFFER_ADDRESSES = new HashMap<>();
     private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
     public GarbageCollectibleBuffers() {
@@ -32,7 +32,7 @@ public final class GarbageCollectibleBuffers {
      */
     public void register(ByteBuffer buffer) {
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
-        BUFFER_ADDRESSES.add(collectibleBuffer.getMemoryAddress());
+        BUFFER_ADDRESSES.put(collectibleBuffer.getMemoryAddress(), 0L);
     }
 
     /**
@@ -57,7 +57,7 @@ public final class GarbageCollectibleBuffers {
      */
     public void deallocate(long bufferAddress, boolean isScavenger) {
         /* return if the buffer is not in the list of the collectibles */
-        if (!BUFFER_ADDRESSES.contains(bufferAddress)) {
+        if (!BUFFER_ADDRESSES.containsKey(bufferAddress)) {
             log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!", isScavenger);
             return;
         }
