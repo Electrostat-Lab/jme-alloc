@@ -35,7 +35,7 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param buffer the buffer memory address
      */
-    public static void deallocate(final ByteBuffer buffer) {
+    public static void deallocate(final Buffer buffer) {
         final long bufferAddress = NativeBufferUtils.getMemoryAdress(buffer);
         deallocate(bufferAddress);
     }

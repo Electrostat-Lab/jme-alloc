@@ -120,8 +120,8 @@ public final class NativeBufferUtils {
     /**
      * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} in integers.
      * 
-     * @param buffer a {@link java.nio.ByteBuffer} to retrieve its memory address
+     * @param buffer a {@link java.nio.Buffer} to retrieve its memory address
      * @return a 32-bit or 64-bit integer (depending on the architecture) representing the memory address of the specified buffer
      */
-    public static native long getMemoryAdress(final ByteBuffer buffer);
+    public static native long getMemoryAdress(final Buffer buffer);
 }

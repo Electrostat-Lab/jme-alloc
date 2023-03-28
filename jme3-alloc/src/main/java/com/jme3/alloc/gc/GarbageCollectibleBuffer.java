@@ -4,8 +4,6 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.util.Map;
-
 import com.jme3.alloc.util.NativeBufferUtils;
 
 public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
