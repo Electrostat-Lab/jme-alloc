@@ -10,7 +10,22 @@ import java.util.logging.Logger;
 import com.jme3.alloc.gc.memory.MemoryScavenger;
 import com.jme3.alloc.util.NativeBufferUtils;
 
+/**
+ * A collection utility of GC-registered-direct buffers, the collection is provided through
+ * the registered direct buffers addresses, direct buffers are added to a ReferenceQueue that is 
+ * registered to the GC as a part of post-mortem actions.
+ * 
+ * @author pavl_g
+ */
 public final class GarbageCollectibleBuffers {
+
+    /**
+     * Starts the memory-scavenger thread with the first item added to this collection.
+     */
+    static {
+        GarbageCollectibleBuffers.startMemoryScavenger();
+    }
+
     private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
     private static final List<Long> BUFFER_ADDRESSES = new ArrayList<>();
     private static final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
@@ -20,7 +35,7 @@ public final class GarbageCollectibleBuffers {
     
     /**
      * Registers a direct buffer as a {@link GarbageCollectibleBuffer} to the reference queue {@link GarbageCollectibleBuffers#COLLECTIBLES} 
-     * to be GC'ed as a part of the post-mortem actions.
+     * to be GC'ed as a part of post-mortem actions.
      * 
      * @param buffer a buffer to register to the GC reference queue
      */
@@ -59,7 +74,7 @@ public final class GarbageCollectibleBuffers {
         BUFFER_ADDRESSES.remove(bufferAddress);
     }
     
-    public static MemoryScavenger startMemoryScavenger() {
+    private static MemoryScavenger startMemoryScavenger() {
         return MemoryScavenger.start(COLLECTIBLES);
     }
 }

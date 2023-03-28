@@ -43,10 +43,6 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public final class NativeBufferAllocator {
-    
-    static {
-        GarbageCollectibleBuffers.startMemoryScavenger();
-    }
 
     private NativeBufferAllocator() {
     }
