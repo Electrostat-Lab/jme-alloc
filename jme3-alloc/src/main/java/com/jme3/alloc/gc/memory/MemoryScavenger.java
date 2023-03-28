@@ -2,6 +2,8 @@ package com.jme3.alloc.gc.memory;
 
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import com.jme3.alloc.gc.GarbageCollectibleBuffer;
 import com.jme3.alloc.gc.GarbageCollectibleBuffers;
 
@@ -9,8 +11,9 @@ import com.jme3.alloc.gc.GarbageCollectibleBuffers;
  * @author pavl_g
  */
 public final class MemoryScavenger extends Thread {
+    private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
     private final ReferenceQueue<? super Buffer> queue;
-     
+    
     private MemoryScavenger(ReferenceQueue<? super Buffer> queue) {
          super(MemoryScavenger.class.getName());
          setDaemon(true);
@@ -33,7 +36,7 @@ public final class MemoryScavenger extends Thread {
                 // de-allocate the direct buffer and removes its address from the [BUFFER_ADDRESSES]
                 GarbageCollectibleBuffers.deallocate(collectible.getMemoryAddress());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Operation interrupted!", e);
             }
          }
     }

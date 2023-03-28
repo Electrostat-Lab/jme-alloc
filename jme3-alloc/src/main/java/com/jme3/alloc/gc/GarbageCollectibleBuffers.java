@@ -5,10 +5,13 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import com.jme3.alloc.gc.memory.MemoryScavenger;
 import com.jme3.alloc.util.NativeBufferUtils;
 
 public final class GarbageCollectibleBuffers {
+    private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
     private static final List<Long> BUFFER_ADDRESSES = new ArrayList<>();
     private static final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
@@ -23,7 +26,7 @@ public final class GarbageCollectibleBuffers {
      */
     public static void register(ByteBuffer buffer) {
         if (!buffer.isDirect()) {
-                throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
+            throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
         }
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
         BUFFER_ADDRESSES.add(collectibleBuffer.getMemoryAddress());
@@ -49,6 +52,7 @@ public final class GarbageCollectibleBuffers {
     public static void deallocate(long bufferAddress) {
         /* return if the buffer is not in the list of the collectibles */
         if (!BUFFER_ADDRESSES.contains(bufferAddress)) {
+            LOGGER.log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!");
             return;
         }
         NativeBufferUtils.destroy(bufferAddress);
