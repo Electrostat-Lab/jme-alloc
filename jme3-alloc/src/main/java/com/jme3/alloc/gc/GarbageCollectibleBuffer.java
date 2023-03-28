@@ -4,6 +4,8 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.Map;
+
 import com.jme3.alloc.util.NativeBufferUtils;
 
 public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
@@ -14,22 +16,11 @@ public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
         this.memoryAddress = NativeBufferUtils.getMemoryAdress(referent);
     }
 
-    public static ByteBuffer from(final ByteBuffer buffer, final ReferenceQueue<? super Buffer> queue) {
+    public static GarbageCollectibleBuffer from(final ByteBuffer buffer, final ReferenceQueue<? super Buffer> queue) {
         if (!buffer.isDirect()) {
-                throw new UnSupportedBufferException("Target Buffer isnot a direct Buffer!");
+            throw new UnSupportedBufferException("Target Buffer isnot a direct Buffer!");
         }
-        new GarbageCollectibleBuffer(buffer, queue);
-        return buffer;
-    }
-    
-    public static ByteBuffer allocateDirect(final long size, final ReferenceQueue<? super Buffer> queue) {
-        final ByteBuffer buffer = NativeBufferUtils.clearAlloc(size);
-        return GarbageCollectibleBuffer.from(buffer, queue);       
-    }
-    
-    public void deallocate() {
-        NativeBufferUtils.destroy(memoryAddress);
-        memoryAddress = 0;
+        return new GarbageCollectibleBuffer(buffer, queue);
     }
     
     public long getMemoryAddress() {

@@ -3,6 +3,7 @@ package com.jme3.alloc.gc.memory;
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import com.jme3.alloc.gc.GarbageCollectibleBuffer;
+import com.jme3.alloc.gc.GarbageCollectibleBuffers;
 
 /**
  * @author pavl_g
@@ -29,7 +30,7 @@ public final class MemoryScavenger extends Thread {
              // object references are added to the queue by the GC as a part of post-mortem actions
             try {
                 GarbageCollectibleBuffer collectible = (GarbageCollectibleBuffer) queue.remove();
-                collectible.deallocate();
+                GarbageCollectibleBuffers.deallocate(collectible.getMemoryAddress());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

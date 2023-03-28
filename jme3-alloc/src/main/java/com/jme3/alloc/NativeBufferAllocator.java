@@ -34,6 +34,7 @@ package com.jme3.alloc;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import com.jme3.alloc.gc.GarbageCollectibleBuffers;
+import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
  * Provides a quick implementation to the base direct buffer allocator api.
@@ -58,7 +59,9 @@ public final class NativeBufferAllocator {
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
     public static ByteBuffer allocate(final long capacity) {
-        return GarbageCollectibleBuffers.allocate(capacity);
+        final ByteBuffer buffer = NativeBufferUtils.clearAlloc(capacity);
+        GarbageCollectibleBuffers.register(buffer);
+        return buffer;
     }
     
     /**
