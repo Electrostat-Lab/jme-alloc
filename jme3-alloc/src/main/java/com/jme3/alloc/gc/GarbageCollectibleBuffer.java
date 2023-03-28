@@ -9,12 +9,12 @@ import com.jme3.alloc.util.NativeBufferUtils;
 public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     private long memoryAddress;
     
-    private GarbageCollectibleBuffer(final ByteBuffer referent, final ReferenceQueue<? super Buffer> queue) {
+    private GarbageCollectibleBuffer(ByteBuffer referent, ReferenceQueue<? super Buffer> queue) {
         super(referent, queue);
         this.memoryAddress = NativeBufferUtils.getMemoryAdress(referent);
     }
 
-    public static GarbageCollectibleBuffer from(final ByteBuffer buffer, final ReferenceQueue<? super Buffer> queue) {
+    public static GarbageCollectibleBuffer from(ByteBuffer buffer, ReferenceQueue<? super Buffer> queue) {
         if (!buffer.isDirect()) {
             throw new UnSupportedBufferException("Target Buffer isnot a direct Buffer!");
         }

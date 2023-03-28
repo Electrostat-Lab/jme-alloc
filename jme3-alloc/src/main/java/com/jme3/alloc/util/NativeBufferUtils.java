@@ -57,7 +57,7 @@ public final class NativeBufferUtils {
      * @return a newly created un-initialized {@link java.nio.ByteBuffer} object
      * @see NativeBufferUtils#clearAlloc(long)
      */
-    public static native ByteBuffer memoryAlloc(final long size);
+    public static native ByteBuffer memoryAlloc(long size);
 
     /**
      * Allocates a buffer block of [size] bytes using [void* calloc(size_t)] provided by GNU stdlib, and initializes its elements to zero.
@@ -67,7 +67,7 @@ public final class NativeBufferUtils {
      * @return a newly created zeroed {@link java.nio.ByteBuffer} with the [size] bytes
      * @see NativeBufferUtils#memoryAlloc(long)
      */
-    public static native ByteBuffer clearAlloc(final long size);
+    public static native ByteBuffer clearAlloc(long size);
 
     /**
      * Copies the value [value] into [size] byte elements starting from the [buffer] address.
@@ -77,7 +77,7 @@ public final class NativeBufferUtils {
      * @param size the number of byte elements to set
      * @return the java-nio byte buffer for chained invocations
      */
-    public static native ByteBuffer memorySet(final ByteBuffer buffer, final int value, final long size); 
+    public static native ByteBuffer memorySet(ByteBuffer buffer, int value, long size); 
 
     /**
      * Manipulates the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.
@@ -87,7 +87,7 @@ public final class NativeBufferUtils {
      * @param size the number of elements to move
      * @see NativeBufferUtils#memoryCopy(ByteBuffer, ByteBuffer, long)
      */
-    public static native void memoryMove(final ByteBuffer to, final ByteBuffer from, final long size);
+    public static native void memoryMove(ByteBuffer to, ByteBuffer from, long size);
 
     /**
      * Copies the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.
@@ -97,7 +97,7 @@ public final class NativeBufferUtils {
      * @param size the number of elements to move
      * @see NativeBufferUtils#memoryMove(ByteBuffer, ByteBuffer, long)
      */
-    public static native void memoryCopy(final ByteBuffer to, final ByteBuffer from, final long size);
+    public static native void memoryCopy(ByteBuffer to, ByteBuffer from, long size);
 
     /**
      * Frees a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
@@ -106,7 +106,7 @@ public final class NativeBufferUtils {
      * @see NativeBufferUtils#memoryAlloc(long)
      * @see NativeBufferUtils#clearAlloc(long)
      */
-    public static native void destroy(final Buffer buffer);
+    public static native void destroy(Buffer buffer);
 
     /**
      * Frees a buffer memory previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
@@ -115,7 +115,7 @@ public final class NativeBufferUtils {
      * @see NativeBufferUtils#memoryAlloc(long)
      * @see NativeBufferUtils#clearAlloc(long)
      */
-    public static native void destroy(final long memoryAddress);
+    public static native void destroy(long memoryAddress);
 
     /**
      * Retrieves a memory address of a buffer previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} in integers.
@@ -123,5 +123,5 @@ public final class NativeBufferUtils {
      * @param buffer a {@link java.nio.Buffer} to retrieve its memory address
      * @return a 32-bit or 64-bit integer (depending on the architecture) representing the memory address of the specified buffer
      */
-    public static native long getMemoryAdress(final Buffer buffer);
+    public static native long getMemoryAdress(Buffer buffer);
 }

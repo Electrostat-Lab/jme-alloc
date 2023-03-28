@@ -11,13 +11,13 @@ import com.jme3.alloc.gc.GarbageCollectibleBuffers;
 public final class MemoryScavenger extends Thread {
     private final ReferenceQueue<? super Buffer> queue;
      
-    private MemoryScavenger(final ReferenceQueue<? super Buffer> queue) {
+    private MemoryScavenger(ReferenceQueue<? super Buffer> queue) {
          super(MemoryScavenger.class.getName());
          setDaemon(true);
          this.queue = queue;
     }
     
-    public static MemoryScavenger start(final ReferenceQueue<? super Buffer> queue) { 
+    public static MemoryScavenger start(ReferenceQueue<? super Buffer> queue) { 
          final MemoryScavenger scavenger = new MemoryScavenger(queue);
          scavenger.start();
          return scavenger;
@@ -30,6 +30,7 @@ public final class MemoryScavenger extends Thread {
              // object references are added to the queue by the GC as a part of post-mortem actions
             try {
                 GarbageCollectibleBuffer collectible = (GarbageCollectibleBuffer) queue.remove();
+                // de-allocate the direct buffer and removes its address from the [BUFFER_ADDRESSES]
                 GarbageCollectibleBuffers.deallocate(collectible.getMemoryAddress());
             } catch (InterruptedException e) {
                 e.printStackTrace();
