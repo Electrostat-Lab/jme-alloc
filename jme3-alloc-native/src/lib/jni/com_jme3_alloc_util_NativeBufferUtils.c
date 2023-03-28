@@ -74,5 +74,5 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__J
 
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
   (JNIEnv* env, jclass clazz, jobject buffer) {
-    return *((long*) getMemoryAddress(env, &buffer));
+    return getMemoryAddress(env, &buffer);
 }
