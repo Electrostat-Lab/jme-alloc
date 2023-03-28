@@ -44,7 +44,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public class NativeBufferAllocator {
 
-    private final GarbageCollectibleBuffers COLLECTIBLE_BUFFERS = new GarbageCollectibleBuffers();
+    protected final GarbageCollectibleBuffers COLLECTIBLE_BUFFERS = new GarbageCollectibleBuffers();
 
     public NativeBufferAllocator() {
         COLLECTIBLE_BUFFERS.startMemoryScavenger();
