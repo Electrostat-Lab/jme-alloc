@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.jme3.alloc.gc.memory.MemoryScavenger;
 import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
- * A collection utility of GC-registered-direct buffers, the collection is provided through
+ * A collection utility of GC-registered-direct buffers, the collection list is provided through
  * the registered direct buffers addresses, direct buffers are added to a ReferenceQueue that is 
  * registered to the GC as a part of post-mortem actions.
  * 
@@ -19,8 +18,8 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public final class GarbageCollectibleBuffers {
 
-    /**
-     * Starts the memory-scavenger thread with the first item added to this collection.
+    /*
+     * Starts the memory-scavenger thread with the first item registered to this collection.
      */
     static {
         GarbageCollectibleBuffers.startMemoryScavenger();
@@ -40,9 +39,6 @@ public final class GarbageCollectibleBuffers {
      * @param buffer a buffer to register to the GC reference queue
      */
     public static void register(ByteBuffer buffer) {
-        if (!buffer.isDirect()) {
-            throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
-        }
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
         BUFFER_ADDRESSES.add(collectibleBuffer.getMemoryAddress());
     }
@@ -54,6 +50,9 @@ public final class GarbageCollectibleBuffers {
      * @param buffer the buffer memory address
      */
     public static void deallocate(Buffer buffer) {
+        if (!buffer.isDirect()) {
+            throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
+        }
         long bufferAddress = NativeBufferUtils.getMemoryAdress(buffer);
         deallocate(bufferAddress);
     }

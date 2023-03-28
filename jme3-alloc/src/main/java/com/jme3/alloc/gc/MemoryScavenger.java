@@ -1,16 +1,19 @@
-package com.jme3.alloc.gc.memory;
+package com.jme3.alloc.gc;
 
 import java.lang.ref.ReferenceQueue;
 import java.nio.Buffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.jme3.alloc.gc.GarbageCollectibleBuffer;
-import com.jme3.alloc.gc.GarbageCollectibleBuffers;
 
 /**
+ * Provides a thread that is synchronized with the GC to de-allocate a previously 
+ * registered {@link GarbageCollectibleBuffer}, the thread blocks until the buffer 
+ * reference is added to the queue by the GC as a part of post-mortem actions, then it 
+ * acts upon the reference to de-allocate the original native memory from the native-heap.
+ * 
  * @author pavl_g
  */
-public final class MemoryScavenger extends Thread {
+final class MemoryScavenger extends Thread {
     private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
     private final ReferenceQueue<? super Buffer> queue;
     
