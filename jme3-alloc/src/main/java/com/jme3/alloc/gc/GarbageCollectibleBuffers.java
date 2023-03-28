@@ -17,19 +17,11 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public final class GarbageCollectibleBuffers {
-
-    /*
-     * Starts the memory-scavenger thread with the first item registered to this collection.
-     */
-    static {
-        GarbageCollectibleBuffers.startMemoryScavenger();
-    }
-
-    private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
-    private static final List<Long> BUFFER_ADDRESSES = new ArrayList<>();
-    private static final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
+    private final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
+    private final List<Long> BUFFER_ADDRESSES = new ArrayList<>();
+    private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
-    private GarbageCollectibleBuffers() {
+    public GarbageCollectibleBuffers() {
     }
     
     /**
@@ -38,7 +30,7 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param buffer a buffer to register to the GC reference queue
      */
-    public static void register(ByteBuffer buffer) {
+    public void register(ByteBuffer buffer) {
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
         BUFFER_ADDRESSES.add(collectibleBuffer.getMemoryAddress());
     }
@@ -49,7 +41,7 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param buffer the buffer memory address
      */
-    public static void deallocate(Buffer buffer) {
+    public void deallocate(Buffer buffer) {
         if (!buffer.isDirect()) {
             throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
         }
@@ -63,7 +55,7 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param bufferAddress the buffer memory address
      */
-    public static void deallocate(long bufferAddress) {
+    public void deallocate(long bufferAddress) {
         /* return if the buffer is not in the list of the collectibles */
         if (!BUFFER_ADDRESSES.contains(bufferAddress)) {
             LOGGER.log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!");
@@ -73,7 +65,7 @@ public final class GarbageCollectibleBuffers {
         BUFFER_ADDRESSES.remove(bufferAddress);
     }
     
-    private static MemoryScavenger startMemoryScavenger() {
-        return MemoryScavenger.start(COLLECTIBLES);
+    public MemoryScavenger startMemoryScavenger() {
+        return MemoryScavenger.start(this, COLLECTIBLES);
     }
 }

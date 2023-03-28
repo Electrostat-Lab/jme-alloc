@@ -15,16 +15,18 @@ import java.util.logging.Logger;
  */
 final class MemoryScavenger extends Thread {
     private static final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
+    private final GarbageCollectibleBuffers collectibles;
     private final ReferenceQueue<? super Buffer> queue;
     
-    private MemoryScavenger(ReferenceQueue<? super Buffer> queue) {
+    private MemoryScavenger(GarbageCollectibleBuffers collectibles, ReferenceQueue<? super Buffer> queue) {
          super(MemoryScavenger.class.getName());
          setDaemon(true);
+         this.collectibles = collectibles;
          this.queue = queue;
     }
     
-    public static MemoryScavenger start(ReferenceQueue<? super Buffer> queue) { 
-         final MemoryScavenger scavenger = new MemoryScavenger(queue);
+    public static MemoryScavenger start(GarbageCollectibleBuffers collectibles, ReferenceQueue<? super Buffer> queue) { 
+         final MemoryScavenger scavenger = new MemoryScavenger(collectibles, queue);
          scavenger.start();
          return scavenger;
     }
@@ -37,7 +39,7 @@ final class MemoryScavenger extends Thread {
             try {
                 GarbageCollectibleBuffer collectible = (GarbageCollectibleBuffer) queue.remove();
                 // de-allocate the direct buffer and removes its address from the [BUFFER_ADDRESSES]
-                GarbageCollectibleBuffers.deallocate(collectible.getMemoryAddress());
+                collectibles.deallocate(collectible.getMemoryAddress());
             } catch (InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Operation interrupted!", e);
             }

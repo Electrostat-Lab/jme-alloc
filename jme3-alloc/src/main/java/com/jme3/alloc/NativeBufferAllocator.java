@@ -42,9 +42,12 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @see com.jme3.alloc.util.NativeBufferUtils
  * @author pavl_g
  */
-public final class NativeBufferAllocator {
+public class NativeBufferAllocator {
 
-    private NativeBufferAllocator() {
+    private final GarbageCollectibleBuffers COLLECTIBLE_BUFFERS = new GarbageCollectibleBuffers();
+
+    public NativeBufferAllocator() {
+        COLLECTIBLE_BUFFERS.startMemoryScavenger();
     }
 
     /**
@@ -54,9 +57,9 @@ public final class NativeBufferAllocator {
      * @return a new direct byte buffer object of capacity [capacity] in bytes
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
-    public static ByteBuffer allocate(final long capacity) {
+    public ByteBuffer allocate(final long capacity) {
         final ByteBuffer buffer = NativeBufferUtils.clearAlloc(capacity);
-        GarbageCollectibleBuffers.register(buffer);
+        COLLECTIBLE_BUFFERS.register(buffer);
         return buffer;
     }
     
@@ -66,7 +69,7 @@ public final class NativeBufferAllocator {
      * @param buffer the buffer reference to release its memory.
      * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
      */
-    public static void release(final Buffer buffer) {
-        GarbageCollectibleBuffers.deallocate(buffer);
+    public void release(final Buffer buffer) {
+        COLLECTIBLE_BUFFERS.deallocate(buffer);
     }
 }

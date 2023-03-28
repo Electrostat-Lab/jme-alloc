@@ -6,7 +6,7 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import com.jme3.alloc.util.NativeBufferUtils;
 
-public class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
+final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     private long memoryAddress;
     
     private GarbageCollectibleBuffer(ByteBuffer referent, ReferenceQueue<? super Buffer> queue) {
