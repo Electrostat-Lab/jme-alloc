@@ -18,7 +18,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public final class GarbageCollectibleBuffers {
     private final Logger LOGGER = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
-    private final Map<Long, Long> BUFFER_ADDRESSES = new HashMap<>();
+    private final Map<Long, GarbageCollectibleBuffer> BUFFER_ADDRESSES = new HashMap<>();
     private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
     public GarbageCollectibleBuffers() {
@@ -32,7 +32,7 @@ public final class GarbageCollectibleBuffers {
      */
     public void register(ByteBuffer buffer) {
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
-        BUFFER_ADDRESSES.put(collectibleBuffer.getMemoryAddress(), 0L);
+        BUFFER_ADDRESSES.put(collectibleBuffer.getMemoryAddress(), collectibleBuffer);
     }
 
     /**
