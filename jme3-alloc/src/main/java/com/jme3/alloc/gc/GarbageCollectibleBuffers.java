@@ -17,7 +17,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public final class GarbageCollectibleBuffers {
-    private final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
+    private final Logger LOGGER = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
     private final Map<Long, Long> BUFFER_ADDRESSES = new HashMap<>();
     private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
