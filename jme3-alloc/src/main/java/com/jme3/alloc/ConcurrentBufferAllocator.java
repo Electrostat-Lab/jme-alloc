@@ -41,11 +41,22 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author pavl_g
  */
 public class ConcurrentBufferAllocator extends NativeBufferAllocator {
+    
     /**
      * A reentrant mutual exclusion Lock with the same basic behavior and semantics 
      * as the implicit monitor lock accessed using synchronized.
      */
     protected final ReentrantLock reentrantLock = new ReentrantLock();
+    
+    /**
+     * Instantiates a thread-safe buffer allocator with the buffer collections {@link NativeBufferAllocator#COLLECTIBLE_BUFFERS}.
+     * 
+     * @see ConcurrentBufferAllocator#allocate(long)
+     * @see ConcurrentBufferAllocator#release(Buffer)
+     */
+    public ConcurrentBufferAllocator() {
+        super();
+    }
     
     @Override
     public ByteBuffer allocate(long capacity) {

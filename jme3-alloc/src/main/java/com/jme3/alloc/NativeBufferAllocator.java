@@ -37,7 +37,7 @@ import com.jme3.alloc.gc.GarbageCollectibleBuffers;
 import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
- * Provides a quick implementation to the base direct buffer allocator api.
+ * Provides a non-thread-safe quick implementation to the base direct buffer allocator api.
  * 
  * @see com.jme3.alloc.util.NativeBufferUtils
  * @author pavl_g
@@ -46,6 +46,12 @@ public class NativeBufferAllocator {
 
     protected final GarbageCollectibleBuffers COLLECTIBLE_BUFFERS = new GarbageCollectibleBuffers();
 
+    /**
+     * Instantiates a new allocator with a collection of {@link GarbageCollectibleBuffers}.
+     * 
+     * @see NativeBufferAllocator#allocate(long)
+     * @see NativeBufferAllocator#release(Buffer)
+     */
     public NativeBufferAllocator() {
         COLLECTIBLE_BUFFERS.startMemoryScavenger();
     }
