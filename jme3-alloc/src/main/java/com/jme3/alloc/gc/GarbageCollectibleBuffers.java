@@ -52,6 +52,12 @@ public final class GarbageCollectibleBuffers {
     private final Map<Long, GarbageCollectibleBuffer> BUFFER_ADDRESSES = new HashMap<>();
     private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
     
+    /**
+     * Instantiates a collection of direct buffers that will be registered to be GC'ed.
+     * To start the cleaner thread use {@link GarbageCollectibleBuffers#startMemoryScavenger()}.
+     * 
+     * @see GarbageCollectibleBuffers#register(ByteBuffer)
+     */
     public GarbageCollectibleBuffers() {
     }
     
@@ -96,8 +102,13 @@ public final class GarbageCollectibleBuffers {
         BUFFER_ADDRESSES.remove(bufferAddress);
     }
     
-    public MemoryScavenger startMemoryScavenger() {
-        return MemoryScavenger.start(this, COLLECTIBLES);
+    /**
+     * Starts the cleaner thread that is blocked until a buffer reference is available at the queue 
+     * {@link GarbageCollectibleBuffers#COLLECTIBLES} by the GC as a part of post-morterm actions to 
+     * deallocate a direct buffer.
+     */
+    public void startMemoryScavenger() {
+        MemoryScavenger.start(this, COLLECTIBLES);
     }
 
     private void log(Level level, String msg, boolean disabled) {

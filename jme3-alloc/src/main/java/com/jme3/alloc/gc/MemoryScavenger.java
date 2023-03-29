@@ -56,10 +56,15 @@ final class MemoryScavenger extends Thread {
          this.queue = queue;
     }
     
-    public static MemoryScavenger start(GarbageCollectibleBuffers collectibles, ReferenceQueue<Buffer> queue) { 
+    /**
+     * Starts the cleaner thread with [GarbageCollectibleBuffers] collection and a GC queue.
+     * 
+     * @param collectibles the collection of direct buffers, registered to be GC'ed.
+     * @param queue the reference queue to which the collectible buffers are added to by the GC.
+     */
+    public static void start(GarbageCollectibleBuffers collectibles, ReferenceQueue<Buffer> queue) { 
          final MemoryScavenger scavenger = new MemoryScavenger(collectibles, queue);
          scavenger.start();
-         return scavenger;
     }
     
     @Override

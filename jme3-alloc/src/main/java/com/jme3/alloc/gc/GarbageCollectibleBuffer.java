@@ -37,6 +37,12 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import com.jme3.alloc.util.NativeBufferUtils;
 
+/**
+ * A direct buffer wrapper that registers a direct buffer to be GC'ed by adding 
+ * it to a reference queue. 
+ * 
+ * @author pavl_g.
+ */
 final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     private long memoryAddress;
     
@@ -45,6 +51,14 @@ final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
         this.memoryAddress = NativeBufferUtils.getMemoryAdress(referent);
     }
 
+    /**
+     * Instantiates an object from a direct buffer and a GC reference queue.
+     * 
+     * @param buffer the buffer to register.
+     * @param queue the reference queue that the buffer is added to once GC starts.
+     * @return a new object of type [GarbageCollectibleBuffer].
+     * @throws UnSupportedBufferException if the buffer is not a direct buffer.
+     */
     public static GarbageCollectibleBuffer from(ByteBuffer buffer, ReferenceQueue<Buffer> queue) {
         if (!buffer.isDirect()) {
             throw new UnSupportedBufferException("Target Buffer isnot a direct Buffer!");
@@ -52,6 +66,11 @@ final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
         return new GarbageCollectibleBuffer(buffer, queue);
     }
     
+    /**
+     * Retrieves the memory address of this direct buffer.
+     * 
+     * @return direct buffer memory address in long format.
+     */
     public long getMemoryAddress() {
          return memoryAddress;
     }

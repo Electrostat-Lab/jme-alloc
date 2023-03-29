@@ -32,9 +32,17 @@
 package com.jme3.alloc.gc;
 
 /**
+ * Thrown whenever a target buffer isnot supported by the operation.
+ * 
  * @author pavl_g
  */
 public class UnSupportedBufferException extends UnsupportedOperationException {
+
+    /**
+     * Instantiates a non-supported exception type with a message.
+     * 
+     * @param msg an exception concomitant message
+     */
     public UnSupportedBufferException(String msg) {
         super(msg);
     }
