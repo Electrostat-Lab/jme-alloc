@@ -77,6 +77,8 @@ public final class GarbageCollectibleBuffers {
      * from the list.
      * 
      * @param buffer the buffer memory address
+     * @param isScavenger true if the stack-caller is the {@link MemoryScavenger} thread 
+     *                    associated with this collection, false otherwise.
      */
     public void deallocate(Buffer buffer, boolean isScavenger) {
         if (!buffer.isDirect()) {
@@ -91,6 +93,8 @@ public final class GarbageCollectibleBuffers {
      * from the list.
      * 
      * @param bufferAddress the buffer memory address
+     * @param isScavenger true if the stack-caller is the {@link MemoryScavenger} thread 
+     *                    associated with this collection, false otherwise.
      */
     public void deallocate(long bufferAddress, boolean isScavenger) {
         /* return if the buffer is not in the list of the collectibles */
