@@ -68,6 +68,16 @@ tasks.register("TestDisableAutoLoad") {
     application.mainClass = 'com.jme3.alloc.examples.TestDisableAutoLoad'
 }
 
+/** Runs the [TestConcurrentBufferAllocator] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestConcurrentBufferAllocator :jme3-alloc-examples:run */
+tasks.register("TestConcurrentBufferAllocator") {
+    application.mainClass = 'com.jme3.alloc.examples.TestConcurrentBufferAllocator'
+}
+
+/** Runs the [TestGarbageCollectibleBuffers] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestGarbageCollectibleBuffers :jme3-alloc-examples:run */
+tasks.register("TestGarbageCollectibleBuffers") {
+    application.mainClass = 'com.jme3.alloc.examples.TestGarbageCollectibleBuffers'
+}
+
 /** Runs the [StressLauncher] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:StressLauncher :jme3-alloc-examples:run */
 tasks.register("StressLauncher") {
     application.mainClass = 'com.jme3.alloc.examples.StressLauncher'

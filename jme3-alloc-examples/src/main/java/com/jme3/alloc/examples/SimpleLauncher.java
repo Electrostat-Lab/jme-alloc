@@ -49,5 +49,11 @@ public final class SimpleLauncher {
         Thread.sleep(1500);
         System.out.println();
         TestMemorySet.main(args);
+        System.out.println();
+        Thread.sleep(1500);
+        TestConcurrentBufferAllocator.main(args);
+        System.out.println();
+        Thread.sleep(1500);
+        TestGarbageCollectibleBuffers.main(args);
     }
 }
