@@ -67,7 +67,7 @@ public final class GarbageCollectibleBuffers {
      * 
      * @param buffer a buffer to register to the GC reference queue
      */
-    public void register(ByteBuffer buffer) {
+    public void register(Buffer buffer) {
         GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
         BUFFER_ADDRESSES.put(collectibleBuffer.getMemoryAddress(), collectibleBuffer);
     }
