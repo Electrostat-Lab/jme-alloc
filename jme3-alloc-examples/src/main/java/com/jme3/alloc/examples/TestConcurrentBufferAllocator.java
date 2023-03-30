@@ -55,7 +55,5 @@ public final class TestConcurrentBufferAllocator {
     public static void main(String[] args) throws InterruptedException {
         ALLOCATOR.start();
         FORCE_GC.start();
-
-        while (true); /* Block the application from exiting! */
     }
 }
