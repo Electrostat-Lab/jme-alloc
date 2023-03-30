@@ -84,7 +84,7 @@ public final class GarbageCollectibleBuffers {
         if (!buffer.isDirect()) {
             throw new UnSupportedBufferException("Buffer isn't a direct buffer!");
         }
-        long bufferAddress = NativeBufferUtils.getMemoryAdress(buffer);
+        long bufferAddress = NativeBufferUtils.getMemoryAddress(buffer);
         deallocate(bufferAddress, isScavenger);
     }
 

@@ -47,7 +47,7 @@ final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     
     private GarbageCollectibleBuffer(Buffer referent, ReferenceQueue<Buffer> queue) {
         super(referent, queue);
-        this.memoryAddress = NativeBufferUtils.getMemoryAdress(referent);
+        this.memoryAddress = NativeBufferUtils.getMemoryAddress(referent);
     }
 
     /**
