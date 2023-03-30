@@ -180,6 +180,15 @@ jobs:
               name: jme3-alloc-desktop-release
               path: jme3-alloc/build/libs/
 
+          - name: Run com.jme3.alloc.examples.TestConcurrentBufferAllocator
+            run: ./gradlew :jme3-alloc-examples:TestConcurrentBufferAllocator :jme3-alloc-examples:run
+
+          - name: API Logs
+            run: |
+               #!/bin/bash
+               cat ./jme3-alloc-examples/jme3-alloc-debug.log
+               rm -f ./jme3-alloc-examples/jme3-alloc-debug.log
+
           - name: Run com.jme3.alloc.examples.TestDisableAutoLoad
             run: ./gradlew :jme3-alloc-examples:TestDisableAutoLoad :jme3-alloc-examples:run
           
@@ -187,7 +196,8 @@ jobs:
             run: ./gradlew :jme3-alloc-examples:run
 
           - name: API Logs
-            run: |
-               #!/bin/bash
-               cat ./jme3-alloc-examples/jme3-alloc-debug.log
+          run: |
+              #!/bin/bash
+              cat ./jme3-alloc-examples/jme3-alloc-debug.log
+              rm -f ./jme3-alloc-examples/jme3-alloc-debug.log
 
