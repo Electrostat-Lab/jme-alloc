@@ -1,0 +1,193 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Debug and Test jme-alloc
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+    compile-java:
+      # runner images with architectures (variants)
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ 'ubuntu-latest' ]
+      name: Compile java 
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        - name: Checkout Job
+          uses: actions/checkout@v3
+
+        - name: Setup Oracle-JDK-19
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'oracle' 
+            java-version: '19'
+
+        - name: Compiling java
+          run: ./gradlew --console="verbose" :jme3-alloc:compileJava
+
+        - name: Archive byte code 
+          uses: actions/upload-artifact@v3
+          with:
+            name: byte-code
+            path: jme3-alloc/build/classes/java/main/
+
+        - name: Archive jni headers
+          uses: actions/upload-artifact@v3
+          with:
+            name: jni-headers
+            path: jme3-alloc-native/src/include/
+
+    compile-natives:
+        # runner images with architectures (variants)
+        runs-on: ${{ matrix.os }}
+        needs: compile-java
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
+        name: Compile natives on ${{ matrix.os }} for x86-64 and x86
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - name: Checkout Job
+            uses: actions/checkout@v3
+          
+          - name: Setup Oracle-JDK-19
+            uses: actions/setup-java@v3
+            with:
+              distribution: 'oracle' 
+              java-version: '19'
+
+          - name: Download jni headers
+            uses: actions/download-artifact@v3
+            with:
+              name: jni-headers
+              path: jme3-alloc-native/src/include/
+          
+          - name: Prepare build directory
+            run: ./gradlew --console="verbose" :jme3-alloc-native:prepareDesktopOutputDirectory
+          
+          - name: Compiling x86-64 on ${{ matrix.os }}
+            run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86_64_debug 
+          
+          - name: Install gcc-multilib 
+            run: bash ./helper-scripts/abstract/install-gcc-multilib.sh
+          
+          - name: Compiling x86 on ${{ matrix.os }}
+            run: ./gradlew --console="verbose" :jme3-alloc-native:compileX86_debug
+          
+          - name: Archive libjmealloc.so
+            uses: actions/upload-artifact@v3
+            with:
+              name: libjmealloc-${{ matrix.os }}
+              path: jme3-alloc-native/build/
+
+    assemble-desktop:
+        # runner images with architectures (variants)
+        runs-on: ${{ matrix.os }}
+        needs: compile-natives
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest' ]
+        name: Assemble jme3-alloc-desktop
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - name: Checkout Job 
+            uses: actions/checkout@v3
+
+          - name: Setup Oracle-JDK-19
+            uses: actions/setup-java@v3
+            with:
+                distribution: 'oracle' 
+                java-version: '19'
+              
+          - name: Downloading libjmealloc-ubuntu-latest
+            uses: actions/download-artifact@v3
+            with:
+              name: libjmealloc-ubuntu-latest
+              path: jme3-alloc-native/build/
+
+          - name: Downloading libjmealloc-macos-latest
+            uses: actions/download-artifact@v3
+            with:
+              name: libjmealloc-macos-latest
+              path: jme3-alloc-native/build/
+
+          - name: Downloading libjmealloc-windows-latest
+            uses: actions/download-artifact@v3
+            with:
+              name: libjmealloc-windows-latest
+              path: jme3-alloc-native/build/
+
+          - name: Downloading byte code
+            uses: actions/download-artifact@v3
+            with:
+              name: byte-code
+              path: jme3-alloc/build/classes/java/main/
+            
+          - name: Copying natives
+            run: ./gradlew --console="verbose" :jme3-alloc-native:copyNatives
+            
+          - name: List build
+            run: tree jme3-alloc/build/classes/java/main/
+
+          - name: Assemble 
+            run: ./gradlew --console="verbose" :jme3-alloc:desktop && ./gradlew --console="verbose" :jme3-alloc:assemble
+
+          - name: Log jar
+            run: tree jme3-alloc/build/libs/
+          
+          - name: Archive release
+            uses: actions/upload-artifact@v3
+            with:
+              name: jme3-alloc-desktop-release
+              path: jme3-alloc/build/libs/*.jar
+
+    test:
+        # runner images with architectures (variants)
+        runs-on: ${{ matrix.os }}
+        needs: assemble-desktop
+        strategy:
+          matrix:
+            os: [ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]
+        name: Testing jme3-alloc on ${{ matrix.os }} for x86-64
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          - name: Checkout Job
+            uses: actions/checkout@v3
+          
+          - name: Setup Oracle-JDK-19
+            uses: actions/setup-java@v3
+            with:
+              distribution: 'oracle' 
+              java-version: '19'
+          
+          - name: Download jme3-alloc.jar library
+            uses: actions/download-artifact@v3
+            with:
+              name: jme3-alloc-desktop-release
+              path: jme3-alloc/build/libs/
+
+          - name: Run com.jme3.alloc.examples.TestDisableAutoLoad
+            run: ./gradlew :jme3-alloc-examples:TestDisableAutoLoad :jme3-alloc-examples:run
+          
+          - name: Run com.jme3.alloc.examples.Launcher
+            run: ./gradlew :jme3-alloc-examples:run
+
+          - name: API Logs
+            run: |
+               #!/bin/bash
+               cat ./jme3-alloc-examples/build/libs/jme3-alloc-debug.log
+
