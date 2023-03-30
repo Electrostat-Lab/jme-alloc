@@ -60,7 +60,11 @@ desktop_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-desktop.pom
 android_pomFile="./helper-scripts/project-impl/publishing/jme3-alloc-android.pom"
 passphrase="jme-alloc"
 
-artifactIds=("${java_module}-desktop" "${java_module}-android")
+desktop_artifactId_release="${java_module}-desktop"
+android_artifactId_release="${java_module}-android"
+
+desktop_artifactId_debug="${desktop_artifactId_release}-debug"
+android_artifactId_debug="${android_artifactId_release}-debug"
 
 settings="./helper-scripts/project-impl/publishing/maven-settings.xml"
 build_dir="./jme3-alloc/build/libs"
