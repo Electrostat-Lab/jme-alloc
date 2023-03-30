@@ -33,6 +33,7 @@ package com.jme3.alloc.examples;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.jme3.alloc.ConcurrentBufferAllocator;
 
