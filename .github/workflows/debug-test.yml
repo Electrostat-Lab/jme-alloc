@@ -187,7 +187,5 @@ jobs:
             run: ./gradlew :jme3-alloc-examples:run
 
           - name: API Logs
-            run: |
-               #!/bin/bash
-               cat ./jme3-alloc-examples/build/libs/jme3-alloc-debug.log
+            run: cat ./jme3-alloc-examples/build/libs/jme3-alloc-debug.log
 
