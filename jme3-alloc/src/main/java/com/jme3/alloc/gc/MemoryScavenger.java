@@ -45,7 +45,7 @@ import java.util.logging.Logger;
  * @author pavl_g
  */
 final class MemoryScavenger extends Thread {
-    private final Logger LOGGER = Logger.getLogger(MemoryScavenger.class.getName());
+    private final Logger logger = Logger.getLogger(MemoryScavenger.class.getName());
     private final GarbageCollectibleBuffers collectibles;
     private final ReferenceQueue<Buffer> queue;
     
@@ -78,7 +78,7 @@ final class MemoryScavenger extends Thread {
                 // Make a scavenger call
                 collectibles.deallocate(collectible.getMemoryAddress(), true);
             } catch (InterruptedException e) {
-                LOGGER.log(Level.SEVERE, "Operation interrupted!", e);
+                logger.log(Level.SEVERE, "Operation interrupted!", e);
             }
          }
     }

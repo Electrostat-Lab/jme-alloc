@@ -48,9 +48,9 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public final class GarbageCollectibleBuffers {
-    private final Logger LOGGER = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
-    private final Map<Long, GarbageCollectibleBuffer> BUFFER_ADDRESSES = new HashMap<>();
-    private final ReferenceQueue<Buffer> COLLECTIBLES = new ReferenceQueue<>();
+    private final Logger logger = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
+    private final Map<Long, GarbageCollectibleBuffer> bufferAddresses = new HashMap<>();
+    private final ReferenceQueue<Buffer> collectibles = new ReferenceQueue<>();
     
     /**
      * Instantiates a collection of direct buffers that will be registered to be GC'ed.
@@ -62,14 +62,14 @@ public final class GarbageCollectibleBuffers {
     }
     
     /**
-     * Registers a direct buffer as a {@link GarbageCollectibleBuffer} to the reference queue {@link GarbageCollectibleBuffers#COLLECTIBLES} 
+     * Registers a direct buffer as a {@link GarbageCollectibleBuffer} to the reference queue {@link GarbageCollectibleBuffers#collectibles} 
      * to be GC'ed as a part of post-mortem actions.
      * 
      * @param buffer a buffer to register to the GC reference queue
      */
     public void register(Buffer buffer) {
-        GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, COLLECTIBLES);
-        BUFFER_ADDRESSES.put(collectibleBuffer.getMemoryAddress(), collectibleBuffer);
+        GarbageCollectibleBuffer collectibleBuffer = GarbageCollectibleBuffer.from(buffer, collectibles);
+        bufferAddresses.put(collectibleBuffer.getMemoryAddress(), collectibleBuffer);
     }
 
     /**
@@ -98,27 +98,27 @@ public final class GarbageCollectibleBuffers {
      */
     public void deallocate(long bufferAddress, boolean isScavenger) {
         /* return if the buffer is not in the list of the collectibles */
-        if (!BUFFER_ADDRESSES.containsKey(bufferAddress)) {
+        if (!bufferAddresses.containsKey(bufferAddress)) {
             log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!", isScavenger);
             return;
         }
         NativeBufferUtils.destroy(bufferAddress);
-        BUFFER_ADDRESSES.remove(bufferAddress);
+        bufferAddresses.remove(bufferAddress);
     }
     
     /**
      * Starts the cleaner thread that is blocked until a buffer reference is available at the queue 
-     * {@link GarbageCollectibleBuffers#COLLECTIBLES} by the GC as a part of post-morterm actions to 
+     * {@link GarbageCollectibleBuffers#collectibles} by the GC as a part of post-morterm actions to 
      * deallocate a direct buffer.
      */
     public void startMemoryScavenger() {
-        MemoryScavenger.start(this, COLLECTIBLES);
+        MemoryScavenger.start(this, collectibles);
     }
 
     private void log(Level level, String msg, boolean disabled) {
         if (disabled) {
             return;
         }
-        LOGGER.log(level, msg);
+        logger.log(level, msg);
     }
 }
