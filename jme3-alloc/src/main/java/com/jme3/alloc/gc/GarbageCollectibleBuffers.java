@@ -56,7 +56,7 @@ public final class GarbageCollectibleBuffers {
      * Instantiates a collection of direct buffers that will be registered to be GC'ed.
      * To start the cleaner thread use {@link GarbageCollectibleBuffers#startMemoryScavenger()}.
      * 
-     * @see GarbageCollectibleBuffers#register(ByteBuffer)
+     * @see GarbageCollectibleBuffers#register(Buffer)
      */
     public GarbageCollectibleBuffers() {
     }
