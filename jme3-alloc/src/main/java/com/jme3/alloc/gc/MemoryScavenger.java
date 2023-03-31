@@ -45,7 +45,7 @@ import java.util.logging.Logger;
  * @author pavl_g
  */
 final class MemoryScavenger extends Thread {
-    private final Logger logger = Logger.getLogger(MemoryScavenger.class.getName());
+    private static final Logger logger = Logger.getLogger(MemoryScavenger.class.getName());
     private final GarbageCollectibleBuffers collectibles;
     private final ReferenceQueue<Buffer> queue;
     

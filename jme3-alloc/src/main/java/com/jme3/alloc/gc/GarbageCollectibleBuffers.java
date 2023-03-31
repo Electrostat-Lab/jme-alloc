@@ -48,7 +48,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public final class GarbageCollectibleBuffers {
-    private final Logger logger = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
+    private static final Logger logger = Logger.getLogger(GarbageCollectibleBuffers.class.getName());
     private final Map<Long, GarbageCollectibleBuffer> bufferAddresses = new HashMap<>();
     private final ReferenceQueue<Buffer> collectibles = new ReferenceQueue<>();
     
