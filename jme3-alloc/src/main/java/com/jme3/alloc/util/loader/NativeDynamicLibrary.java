@@ -69,6 +69,10 @@ public enum NativeDynamicLibrary {
 
     private final String library;
     private final String directory;
+    
+    /**
+     * Represents the native library base name on this syllable [lib-basename-.extension].
+     */
     public static String LIBRARY_BASE_NAME = "jmealloc";
 
     /**
