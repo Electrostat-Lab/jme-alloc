@@ -44,6 +44,12 @@ import com.jme3.alloc.util.NativeBufferUtils;
  */
 public class NativeBufferAllocator {
     
+    /**
+     * A collection of direct {@link Buffer}s to register them to be GC'ed and deallocated as a part of 
+     * post-mortem actions or by explicitly forcing GC.
+     * 
+     * @see NativeBufferAllocator#allocate(long) to allocate and register a new direct buffer.
+     */
     protected final GarbageCollectibleBuffers collectibles = new GarbageCollectibleBuffers();
 
     /**
