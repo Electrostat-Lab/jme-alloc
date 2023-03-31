@@ -49,7 +49,7 @@ public class ConcurrentBufferAllocator extends NativeBufferAllocator {
     protected final ReentrantLock reentrantLock = new ReentrantLock();
     
     /**
-     * Instantiates a thread-safe buffer allocator with the buffer collections {@link NativeBufferAllocator#COLLECTIBLE_BUFFERS}.
+     * Instantiates a thread-safe buffer allocator with the buffer collections {@link NativeBufferAllocator#collectibles}.
      * 
      * @see ConcurrentBufferAllocator#allocate(long)
      * @see ConcurrentBufferAllocator#release(Buffer)

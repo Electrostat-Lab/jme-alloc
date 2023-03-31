@@ -43,8 +43,8 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g
  */
 public class NativeBufferAllocator {
-
-    protected final GarbageCollectibleBuffers COLLECTIBLE_BUFFERS = new GarbageCollectibleBuffers();
+    
+    protected final GarbageCollectibleBuffers collectibles = new GarbageCollectibleBuffers();
 
     /**
      * Instantiates a new allocator with a collection of {@link GarbageCollectibleBuffers}.
@@ -53,7 +53,7 @@ public class NativeBufferAllocator {
      * @see NativeBufferAllocator#release(Buffer)
      */
     public NativeBufferAllocator() {
-        COLLECTIBLE_BUFFERS.startMemoryScavenger();
+        collectibles.startMemoryScavenger();
     }
 
     /**
@@ -65,7 +65,7 @@ public class NativeBufferAllocator {
      */
     public ByteBuffer allocate(final long capacity) {
         final ByteBuffer buffer = NativeBufferUtils.clearAlloc(capacity);
-        COLLECTIBLE_BUFFERS.register(buffer);
+        collectibles.register(buffer);
         return buffer;
     }
     
@@ -77,6 +77,6 @@ public class NativeBufferAllocator {
      */
     public void release(final Buffer buffer) {
         // Make a non-scavenger call 
-        COLLECTIBLE_BUFFERS.deallocate(buffer, false);
+        collectibles.deallocate(buffer, false);
     }
 }
