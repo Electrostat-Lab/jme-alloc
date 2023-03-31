@@ -99,7 +99,9 @@ public final class GarbageCollectibleBuffers {
     public void deallocate(long bufferAddress, boolean isScavenger) {
         /* return if the buffer is not in the list of the collectibles */
         if (!bufferAddresses.containsKey(bufferAddress)) {
-            log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!", isScavenger);
+            if (!isScavenger) {
+                logger.log(Level.SEVERE, "Buffer " + bufferAddress + " is not found!");
+            }
             return;
         }
         NativeBufferUtils.destroy(bufferAddress);
@@ -113,12 +115,5 @@ public final class GarbageCollectibleBuffers {
      */
     public void startMemoryScavenger() {
         MemoryScavenger.start(this, collectibles);
-    }
-
-    private void log(Level level, String msg, boolean disabled) {
-        if (disabled) {
-            return;
-        }
-        logger.log(level, msg);
     }
 }
