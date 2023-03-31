@@ -43,7 +43,7 @@ import com.jme3.alloc.util.NativeBufferUtils;
  * @author pavl_g.
  */
 final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
-    private long memoryAddress;
+    private final long memoryAddress;
     
     private GarbageCollectibleBuffer(Buffer referent, ReferenceQueue<Buffer> queue) {
         super(referent, queue);
