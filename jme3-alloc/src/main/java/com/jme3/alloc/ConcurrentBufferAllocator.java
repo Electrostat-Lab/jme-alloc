@@ -53,8 +53,8 @@ public class ConcurrentBufferAllocator extends GarbageCollectibleBufferAllocator
      * Instantiates a thread-safe buffer allocator with the buffer collections.
      * 
      * @see ConcurrentBufferAllocator#allocate(long)
-     * @see ConcurrentBufferAllocator#deallocate(long, boolean)
-     * @see ConcurrentBufferAllocator#deallocate(Buffer, boolean)
+     * @see ConcurrentBufferAllocator#deallocate(long)
+     * @see ConcurrentBufferAllocator#deallocate(Buffer)
      */
     public ConcurrentBufferAllocator() {
         super();

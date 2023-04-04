@@ -54,7 +54,6 @@ public class GarbageCollectibleBufferAllocator {
     
     /**
      * Instantiates a collection of direct buffers that will be registered to be GC'ed.
-     * To start the cleaner thread use {@link GarbageCollectibleBufferAllocator#()}.
      * 
      * @see GarbageCollectibleBufferAllocator#register(Buffer)
      */
@@ -123,6 +122,7 @@ public class GarbageCollectibleBufferAllocator {
 
     /**
      * De-allocates a direct buffer using a {@link GarbageCollectibleBuffer} reference.
+     * Note: operations resulting from this 
      * 
      * @param collectible the GarbageCollectibleBuffer instance
      */
