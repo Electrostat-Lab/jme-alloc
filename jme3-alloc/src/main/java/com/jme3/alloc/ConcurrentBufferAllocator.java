@@ -31,6 +31,7 @@
  */
 package com.jme3.alloc;
 
+import com.jme3.alloc.gc.GarbageCollectibleBufferAllocator;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
@@ -40,7 +41,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 
  * @author pavl_g
  */
-public class ConcurrentBufferAllocator extends NativeBufferAllocator {
+public class ConcurrentBufferAllocator extends GarbageCollectibleBufferAllocator {
     
     /**
      * A reentrant mutual exclusion Lock with the same basic behavior and semantics 
@@ -49,10 +50,11 @@ public class ConcurrentBufferAllocator extends NativeBufferAllocator {
     protected final ReentrantLock reentrantLock = new ReentrantLock();
     
     /**
-     * Instantiates a thread-safe buffer allocator with the buffer collections {@link NativeBufferAllocator#collectibles}.
+     * Instantiates a thread-safe buffer allocator with the buffer collections.
      * 
      * @see ConcurrentBufferAllocator#allocate(long)
-     * @see ConcurrentBufferAllocator#release(Buffer)
+     * @see ConcurrentBufferAllocator#deallocate(long, boolean)
+     * @see ConcurrentBufferAllocator#deallocate(Buffer, boolean)
      */
     public ConcurrentBufferAllocator() {
         super();
@@ -63,8 +65,7 @@ public class ConcurrentBufferAllocator extends NativeBufferAllocator {
         reentrantLock.lock();
         try {
             /* CRITICAL-SECTION STARTS*/
-            ByteBuffer buffer = super.allocate(capacity);
-            return buffer;
+            return super.allocate(capacity);
         } finally {
             reentrantLock.unlock();
             /* CRITICAL-SECTION ENDS*/
@@ -72,11 +73,11 @@ public class ConcurrentBufferAllocator extends NativeBufferAllocator {
     }
 
     @Override
-    public void release(Buffer buffer) {
+    public void deallocate(Buffer buffer) {
         reentrantLock.lock();
         try {
             /* CRITICAL-SECTION STARTS*/
-            super.release(buffer);
+            super.deallocate(buffer);
         } finally {
             reentrantLock.unlock();
             /* CRITICAL-SECTION ENDS*/

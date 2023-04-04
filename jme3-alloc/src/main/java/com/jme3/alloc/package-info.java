@@ -31,6 +31,6 @@
  */
 
  /**
-  * Provides the root package for the jme3-alloc api, jMonkeyEngine applications can directly call the {@link com.jme3.alloc.NativeBufferAllocator}.
+  * Provides the root package for the jme3-alloc api, jMonkeyEngine applications can directly call the {@link com.jme3.alloc.gc.NativeBufferAllocator}.
   */
 package com.jme3.alloc;
