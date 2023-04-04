@@ -73,4 +73,13 @@ final class GarbageCollectibleBuffer extends PhantomReference<Buffer> {
     public long getMemoryAddress() {
          return memoryAddress;
     }
+
+    /**
+     * Sets the memory address for this buffer.
+     * 
+     * @param memoryAddress the memory address in long.
+     */
+    public void setMemoryAddress(long memoryAddress) {
+        this.memoryAddress = memoryAddress;
+    }
 }

@@ -34,6 +34,6 @@
  * Provides jme3-alloc with an additional ability to hook allocated direct buffers
  * to the GC calls.
  * 
- * @see com.jme3.alloc.gc.GarbageCollectibleBuffers for implementation
+ * @see com.jme3.alloc.gc.GarbageCollectibleBufferAllocator for implementation
  */
 package com.jme3.alloc.gc;

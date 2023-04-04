@@ -46,37 +46,37 @@ import java.util.logging.Logger;
  */
 final class MemoryScavenger extends Thread {
     private static final Logger logger = Logger.getLogger(MemoryScavenger.class.getName());
-    private final GarbageCollectibleBuffers collectibles;
+    private final GarbageCollectibleBufferAllocator allocator;
     private final ReferenceQueue<Buffer> queue;
     
-    private MemoryScavenger(GarbageCollectibleBuffers collectibles, ReferenceQueue<Buffer> queue) {
+    private MemoryScavenger(GarbageCollectibleBufferAllocator allocator, ReferenceQueue<Buffer> queue) {
          super(MemoryScavenger.class.getName());
          setDaemon(true);
-         this.collectibles = collectibles;
+         this.allocator = allocator;
          this.queue = queue;
     }
     
     /**
      * Starts the cleaner thread with [GarbageCollectibleBuffers] collection and a GC queue.
      * 
-     * @param collectibles the collection of direct buffers, registered to be GC'ed.
+     * @param allocator the collection of direct buffers, registered to be GC'ed.
      * @param queue the reference queue to which the collectible buffers are added to by the GC.
      */
-    public static void start(GarbageCollectibleBuffers collectibles, ReferenceQueue<Buffer> queue) { 
-         final MemoryScavenger scavenger = new MemoryScavenger(collectibles, queue);
+    public static void start(GarbageCollectibleBufferAllocator allocator, ReferenceQueue<Buffer> queue) {
+         final MemoryScavenger scavenger = new MemoryScavenger(allocator, queue);
          scavenger.start();
     }
     
     @Override
     public void run() {
          for (;;) {
-             // blocks until an object is available in the queue before returning and removing it
-             // object references are added to the queue by the GC as a part of post-mortem actions
+            // blocks until an object is available in the queue before returning and removing it
+            // object references are added to the queue by the GC as a part of post-mortem actions
             try {
                 GarbageCollectibleBuffer collectible = (GarbageCollectibleBuffer) queue.remove();
                 // de-allocate the direct buffer and removes its address from the [BUFFER_ADDRESSES]
                 // Make a scavenger call
-                collectibles.deallocate(collectible.getMemoryAddress(), true);
+                allocator.deallocate(collectible);
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, "Operation interrupted!", e);
             }
