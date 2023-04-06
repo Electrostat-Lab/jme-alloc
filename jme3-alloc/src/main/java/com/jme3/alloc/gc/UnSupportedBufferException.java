@@ -29,31 +29,21 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.alloc.gc;
 
 /**
- * The main entry point to the [jme3-alloc-examples] examples module.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:run.
+ * Thrown whenever a target buffer isnot supported by the operation.
  * 
  * @author pavl_g
  */
-public final class SimpleLauncher {
-    public static void main(String[] args) throws InterruptedException {
-        TestNativeBufferUtils.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestDirtyMultithreading.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemoryCopy.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemorySet.main(args);
-        System.out.println();
-        Thread.sleep(1500);
-        TestConcurrentBufferAllocator.main(args);
-        System.out.println();
-        Thread.sleep(1500);
-        TestGarbageCollectibleBuffers.main(args);
+public class UnSupportedBufferException extends UnsupportedOperationException {
+
+    /**
+     * Instantiates a non-supported exception type with a message.
+     * 
+     * @param msg an exception concomitant message
+     */
+    public UnSupportedBufferException(String msg) {
+        super(msg);
     }
 }

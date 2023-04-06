@@ -29,31 +29,58 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc.examples;
+package com.jme3.alloc;
+
+import com.jme3.alloc.gc.GarbageCollectibleBufferAllocator;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * The main entry point to the [jme3-alloc-examples] examples module.
- * Note: to run type: └──╼ $./gradlew :jme3-alloc-examples:run.
+ * A thread-safe direct buffer allocator through using critical sections and mutexes.  
  * 
  * @author pavl_g
  */
-public final class SimpleLauncher {
-    public static void main(String[] args) throws InterruptedException {
-        TestNativeBufferUtils.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestDirtyMultithreading.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemoryCopy.main(args);
-        Thread.sleep(1500);
-        System.out.println();
-        TestMemorySet.main(args);
-        System.out.println();
-        Thread.sleep(1500);
-        TestConcurrentBufferAllocator.main(args);
-        System.out.println();
-        Thread.sleep(1500);
-        TestGarbageCollectibleBuffers.main(args);
+public class ConcurrentBufferAllocator extends GarbageCollectibleBufferAllocator {
+    
+    /**
+     * A reentrant mutual exclusion Lock with the same basic behavior and semantics 
+     * as the implicit monitor lock accessed using synchronized.
+     */
+    protected final ReentrantLock reentrantLock = new ReentrantLock();
+    
+    /**
+     * Instantiates a thread-safe buffer allocator with the buffer collections.
+     * 
+     * @see ConcurrentBufferAllocator#allocate(long)
+     * @see ConcurrentBufferAllocator#deallocate(long)
+     * @see ConcurrentBufferAllocator#deallocate(Buffer)
+     */
+    public ConcurrentBufferAllocator() {
+        super();
+    }
+    
+    @Override
+    public ByteBuffer allocate(long capacity) {
+        reentrantLock.lock();
+        try {
+            /* CRITICAL-SECTION STARTS*/
+            return super.allocate(capacity);
+        } finally {
+            reentrantLock.unlock();
+            /* CRITICAL-SECTION ENDS*/
+        }
+    }
+
+    @Override
+    public void deallocate(Buffer buffer) {
+        reentrantLock.lock();
+        try {
+            /* CRITICAL-SECTION STARTS*/
+            super.deallocate(buffer);
+        } finally {
+            reentrantLock.unlock();
+            /* CRITICAL-SECTION ENDS*/
+        }
     }
 }

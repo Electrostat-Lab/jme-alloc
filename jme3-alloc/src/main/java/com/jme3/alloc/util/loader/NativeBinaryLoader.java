@@ -47,8 +47,8 @@ import java.lang.UnsatisfiedLinkError;
  */
 public final class NativeBinaryLoader {
     
-    private static final Logger LOGGER = Logger.getLogger(NativeBinaryLoader.class.getName());
-    private static final ReentrantLock LOCK = new ReentrantLock();
+    private static final Logger logger = Logger.getLogger(NativeBinaryLoader.class.getName());
+    private static final ReentrantLock lock = new ReentrantLock();
     private static final int EOF = -1;
     private static boolean enabled = true;
 
@@ -61,14 +61,14 @@ public final class NativeBinaryLoader {
      */
     public static void loadLibraryIfEnabled() {
         if (!NativeBinaryLoader.isEnabled()) {
-            LOGGER.log(Level.WARNING, "Stock Jme3-alloc-NativeBinaryLoader is not enabled!");
+            logger.log(Level.WARNING, "Stock Jme3-alloc-NativeBinaryLoader is not enabled!");
             return;
         }
         try {
             /* extracts and loads the system specific library */
             NativeBinaryLoader.loadLibrary();
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Binary Not Found!", e);
+            logger.log(Level.SEVERE, "Binary Not Found!", e);
         }
     }
 
@@ -238,7 +238,7 @@ public final class NativeBinaryLoader {
      */
     private static void cleanExtractBinary(final NativeDynamicLibrary library) throws IOException {
         /* CRITICAL SECTION STARTS */
-        LOCK.lock();
+        lock.lock();
         final InputStream nativeLib = NativeBinaryLoader.class.getClassLoader().getResourceAsStream(library.getAbsoluteLibraryLocation());
         final FileOutputStream fos = new FileOutputStream(getAbsoluteLibraryDirectory(library));  
         try {
@@ -252,7 +252,7 @@ public final class NativeBinaryLoader {
             nativeLib.close();
             fos.close();
             loadBinary(library, RetryCriteria.RETRY_WITH_CLEAN_EXTRACTION);
-            LOCK.unlock();
+            lock.unlock();
             /* CRITICAL SECTION ENDS */
         }
     }

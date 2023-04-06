@@ -29,41 +29,11 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jme3.alloc;
-
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import com.jme3.alloc.util.NativeBufferUtils;
 
 /**
- * Provides a quick implementation to the base direct buffer allocator api.
+ * Provides jme3-alloc with an additional ability to hook allocated direct buffers
+ * to the GC calls.
  * 
- * @see com.jme3.alloc.util.NativeBufferUtils
- * @author pavl_g
+ * @see com.jme3.alloc.gc.GarbageCollectibleBufferAllocator for implementation
  */
-public final class NativeBufferAllocator {
-    
-    private NativeBufferAllocator() {
-    }
-
-    /**
-     * Creates a new direct byte buffer explicitly with a specific [capacity] in bytes.
-     *
-     * @param capacity the buffer capacity in bytes units
-     * @return a new direct byte buffer object of capacity [capacity] in bytes
-     * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
-     */
-    public static ByteBuffer allocate(final long capacity) {
-        return NativeBufferUtils.clearAlloc(capacity);
-    }
-    
-    /**
-     * Releases the memory of a direct buffer using a buffer object reference.
-     *
-     * @param buffer the buffer reference to release its memory.
-     * @see com.jme3.alloc.util.NativeBufferUtils#destroy(java.nio.Buffer)
-     */
-    public static void release(final Buffer buffer) {
-        NativeBufferUtils.destroy(buffer);
-    }
-}
+package com.jme3.alloc.gc;

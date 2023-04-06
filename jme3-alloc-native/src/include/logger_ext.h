@@ -258,6 +258,20 @@ static inline void LOGD_DESTROYMEM(const char* level, void* address, size_t size
 }
 
 /**
+ * A quick implementation to log the destruction of a buffer with size on the [jme3-alloc-debug.log].
+ * 
+ * @param level the log level in string
+ * @param address the newly created buffer address to log
+ */
+static inline void LOGD_DESTROYMEM_BY_ADDRESS(const char* level, void* address) {
+    #ifdef __ENABLE_DEBUG_LOGGER
+        const char* memAddress = pointerToString(address);
+        LOGD(level, DEFAULT_BUFFER_SIZE, 3, "Destructed buffer = [ Address = ", memAddress, " ]");
+        free((void*) memAddress);
+    #endif
+}
+
+/**
  * A quick implementation to log a buffer with size on the [stdout] as [info].
  * 
  * @param address the newly created buffer address to log

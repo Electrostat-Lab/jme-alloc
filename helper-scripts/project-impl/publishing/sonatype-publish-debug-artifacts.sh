@@ -11,8 +11,8 @@ android_artifact="${build_dir}/jme3-alloc-android-${version}.jar"
 sources_jar="${build_dir}/${java_module}-${version}-sources.jar"
 javadoc_jar="${build_dir}/${java_module}-${version}-javadoc.jar"
 
-generateGenericPom ${groupId} ${desktop_artifactId_release} ${version} "${desktop_pomFile}"
-generateGenericPom ${groupId} ${android_artifactId_release} ${version} "${android_pomFile}"
+generateGenericPom ${groupId} ${desktop_artifactId_debug} ${version} "${desktop_pomFile}"
+generateGenericPom ${groupId} ${android_artifactId_debug} ${version} "${android_pomFile}"
 # publish 'android' and 'desktop' builds to maven sonatype
-publishBuild "${desktop_artifactId_release}" "${desktop_artifact}" "${version}" "${javadoc_jar}" "${sources_jar}" "${desktop_pomFile}"
-publishBuild "${android_artifactId_release}" "${android_artifact}" "${version}" "${javadoc_jar}" "${sources_jar}" "${android_pomFile}"
+publishBuild "${desktop_artifactId_debug}" "${desktop_artifact}" "${version}" "${javadoc_jar}" "${sources_jar}" "${desktop_pomFile}"
+publishBuild "${android_artifactId_debug}" "${android_artifact}" "${version}" "${javadoc_jar}" "${sources_jar}" "${android_pomFile}"
