@@ -68,6 +68,11 @@ tasks.register("TestDisableAutoLoad") {
     application.mainClass = 'com.jme3.alloc.examples.TestDisableAutoLoad'
 }
 
+/** Runs the [TestReleaseDirectMemory] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestReleaseDirectMemory :jme3-alloc-examples:run */
+tasks.register("TestReleaseDirectMemory") {
+    application.mainClass = 'com.jme3.alloc.examples.TestReleaseDirectMemory'
+}
+
 /** Runs the [TestConcurrentBufferAllocator] class only, to use type: └──╼ $./gradlew :jme3-alloc-examples:TestConcurrentBufferAllocator :jme3-alloc-examples:run */
 tasks.register("TestConcurrentBufferAllocator") {
     application.mainClass = 'com.jme3.alloc.examples.TestConcurrentBufferAllocator'
@@ -132,6 +137,14 @@ task createJar(type : Jar, dependsOn : copyLibs){
     with jar
 }
 
+/* select your platform here */
+String platform = "desktop"
+String binaryType = "debug"
+
 dependencies {
-    implementation files("../jme3-alloc/build/libs/${dependencyName}")
+    implementation files("../jme3-alloc/build/libs/jme3-alloc-desktop-SNAPSHOT.jar")
+    // implementation "io.github.software-hardware-codesign:jme3-alloc-${platform}-${binaryType}:1.0.0-pre-gamma"
+    implementation "org.jmonkeyengine:jme3-core:3.6.0-stable"
+    implementation "org.jmonkeyengine:jme3-desktop:3.6.0-stable"
+    implementation "org.jmonkeyengine:jme3-lwjgl3:3.6.0-stable"
 }
