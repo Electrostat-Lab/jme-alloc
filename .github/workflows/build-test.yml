@@ -30,7 +30,7 @@ jobs:
         - name: Setup Oracle-JDK-19
           uses: actions/setup-java@v3
           with:
-            distribution: 'oracle' 
+            distribution: 'temurin' 
             java-version: '19'
 
         - name: Compiling java
@@ -65,7 +65,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-              distribution: 'oracle' 
+              distribution: 'temurin' 
               java-version: '19'
 
           - name: Download jni headers
@@ -109,7 +109,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-                distribution: 'oracle' 
+                distribution: 'temurin' 
                 java-version: '19'
               
           - name: Downloading libjmealloc-ubuntu-latest
@@ -170,7 +170,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-              distribution: 'oracle' 
+              distribution: 'temurin' 
               java-version: '19'
 
           - name: Generate javadoc
@@ -199,7 +199,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-              distribution: 'oracle' 
+              distribution: 'temurin' 
               java-version: '19'
           
           - name: Download jme3-alloc.jar library
@@ -231,7 +231,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-              distribution: 'oracle' 
+              distribution: 'temurin' 
               java-version: '19'
 
           - name: Download jni headers
@@ -269,7 +269,7 @@ jobs:
           - name: Setup Oracle-JDK-19
             uses: actions/setup-java@v3
             with:
-              distribution: 'oracle' 
+              distribution: 'temurin' 
               java-version: '19'
 
           - name: Downloading libjmealloc-android
