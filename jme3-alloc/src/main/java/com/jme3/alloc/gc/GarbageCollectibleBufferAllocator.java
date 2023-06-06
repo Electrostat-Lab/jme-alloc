@@ -70,7 +70,7 @@ public class GarbageCollectibleBufferAllocator {
      * @see com.jme3.alloc.util.NativeBufferUtils#clearAlloc(long)
      */
     public ByteBuffer allocate(final long capacity) {
-        final ByteBuffer buffer = NativeBufferUtils.clearAlloc(capacity);
+        final ByteBuffer buffer = NativeBufferUtils.phantomClearAlloc(capacity);
         register(buffer);
         return buffer;
     }
@@ -106,7 +106,7 @@ public class GarbageCollectibleBufferAllocator {
      * 
      * @param bufferAddress the buffer memory address
      */
-    public synchronized void deallocate(long bufferAddress) {
+    public void deallocate(long bufferAddress) {
         /* return if the buffer is not in the list of the referenceQueue */
         GarbageCollectibleBuffer collectible = collectibles.get(bufferAddress);
         if (collectible == null) {
@@ -115,9 +115,7 @@ public class GarbageCollectibleBufferAllocator {
             }
             return;
         }
-        NativeBufferUtils.destroy(bufferAddress);
-        collectible.setMemoryAddress(0);
-        collectibles.remove(bufferAddress);
+        releaseResources(collectible);
     }
 
     /**
@@ -126,14 +124,8 @@ public class GarbageCollectibleBufferAllocator {
      * 
      * @param collectible the GarbageCollectibleBuffer instance
      */
-    protected synchronized void deallocate(GarbageCollectibleBuffer collectible) {
-        long address = collectible.getMemoryAddress();
-        if (address == 0) {
-            return;
-        }
-        NativeBufferUtils.destroy(address);
-        collectible.setMemoryAddress(0);
-        collectibles.remove(address);
+    protected void deallocate(GarbageCollectibleBuffer collectible) {
+        releaseResources(collectible);
     }
 
     /**
@@ -143,5 +135,15 @@ public class GarbageCollectibleBufferAllocator {
      */
     protected void startMemoryScavenger(GarbageCollectibleBufferAllocator allocator) {
         MemoryScavenger.start(allocator, referenceQueue);
+    }
+
+    private synchronized void releaseResources(GarbageCollectibleBuffer collectible) {
+        long address = collectible.getMemoryAddress();
+        if (address == 0) {
+            return;
+        }
+        NativeBufferUtils.destroy(address);
+        collectible.setMemoryAddress(0);
+        collectibles.remove(address);
     }
 }
