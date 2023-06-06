@@ -82,6 +82,11 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__J
     destroy0((void*) memaddress);
 }
 
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_removeGlobalReference
+  (JNIEnv* env, jclass clazz, jobject buffer) {
+    (*env)->DeleteGlobalRef(env, buffer);
+}
+
 JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAddress
   (JNIEnv* env, jclass clazz, jobject buffer) {
     return (jlong) getMemoryAddress(env, &buffer);
