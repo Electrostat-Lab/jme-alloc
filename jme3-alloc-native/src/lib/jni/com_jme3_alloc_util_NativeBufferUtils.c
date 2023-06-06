@@ -37,6 +37,16 @@
 #include<jni/com_jme3_alloc_util_NativeBufferUtils.h>
 #include<jmealloc.h>
 
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_phantomMemoryAlloc
+  (JNIEnv* env, jclass clazz, jlong size) {
+    return (*env)->NewWeakGlobalRef(env, memoryAlloc(env, size));
+}
+
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_phantomClearAlloc
+  (JNIEnv* env, jclass clazz, jlong size) {
+    return (*env)->NewWeakGlobalRef(env, clearAlloc(env, size));
+}
+
 JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
   (JNIEnv* env, jclass clazz, jlong size) {
     return memoryAlloc(env, size);

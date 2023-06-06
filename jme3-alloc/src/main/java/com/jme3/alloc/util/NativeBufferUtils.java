@@ -50,6 +50,34 @@ public final class NativeBufferUtils {
     }
 
     /**
+     * Allocates a buffer of [size] bytes using [void* malloc(size_t)] provided by GNU stdlib and 
+     * returns a weak reference to that allocated buffer.
+     * 
+     * <p>
+     * Note: Maximum size is (2^32) for 32-bit architectures and (2^64) for 64-bit architectures.
+     * </p>
+     * 
+     * @param size the size of the newly created buffer in bytes 
+     * @return a newly created un-initialized weak reference to a {@link java.nio.ByteBuffer} object
+     * @see NativeBufferUtils#phantomClearAlloc(long)
+     */
+    public static native ByteBuffer phantomMemoryAlloc(long size);
+
+    /**
+     * Allocates a buffer block of [size] bytes using [void* calloc(size_t)] provided by GNU stdlib, and initializes its elements to zero 
+     * and returns a weak reference to that allocated buffer.
+     * 
+     * <p>
+     * Note: Maximum size is (2^32) for 32-bit architectures and (2^64) for 64-bit architectures.
+     * </p>
+     * 
+     * @param size the size of the byte buffer in bytes units
+     * @return a newly created zeroed weak reference to a {@link java.nio.ByteBuffer} with the [size] bytes
+     * @see NativeBufferUtils#phantomMemoryAlloc(long)
+     */
+    public static native ByteBuffer phantomClearAlloc(long size);
+
+    /**
      * Allocates a buffer of [size] bytes using [void* malloc(size_t)] provided by GNU stdlib.
      * Note: Maximum size is (2^32) for 32-bit architectures and (2^64) for 64-bit architectures.
      * 
@@ -107,6 +135,13 @@ public final class NativeBufferUtils {
      * @see NativeBufferUtils#clearAlloc(long)
      */
     public static native void destroy(Buffer buffer);
+
+    /**
+     * Removes a Global reference from the java heap.
+     * 
+     * @param buffer the reference to be removed
+     */
+    public static native void removeGlobalReference(Buffer buffer);
 
     /**
      * Frees a buffer memory previously allocated by {@link NativeBufferUtils#memoryAlloc(long)} and destroys (nullifies) the memory reference. 
