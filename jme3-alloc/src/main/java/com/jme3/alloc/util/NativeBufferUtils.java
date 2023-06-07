@@ -103,9 +103,10 @@ public final class NativeBufferUtils {
      * @param buffer a {@link java.nio.ByteBuffer} to set its elements
      * @param value an 8-bit value to set the memory blocks (buffer elements) with, starting from the buffer address
      * @param size the number of byte elements to set
-     * @return the java-nio byte buffer for chained invocations
+     * @see NativeBufferUtils#clearAlloc(long)
+     * @see NativeBufferUtils#phantomClearAlloc(long)
      */
-    public static native ByteBuffer memorySet(ByteBuffer buffer, int value, long size); 
+    public static native void memorySet(ByteBuffer buffer, int value, long size); 
 
     /**
      * Manipulates the values of byte elements [size] starting from the buffers addresses, from a bytebuffer to another.

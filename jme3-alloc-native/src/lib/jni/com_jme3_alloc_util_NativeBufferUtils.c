@@ -52,9 +52,9 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryAlloc
     return memoryAlloc(env, size);
 }
 
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
   (JNIEnv* env, jclass clazz, jobject buffer, jint value, jlong size) {
-    return *(memorySet(env, &buffer, value, size));
+    memorySet(env, &buffer, value, size);
 }
 
 JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memoryMove
