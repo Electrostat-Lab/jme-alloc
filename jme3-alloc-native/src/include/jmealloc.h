@@ -89,13 +89,11 @@ static inline jobject memoryAlloc(JNIEnv* env, size_t size) {
  * @param buffer a buffer block to set its elements
  * @param value an 8-bit value to set the memory blocks (buffer elements) with, starting from the buffer address
  * @param size the number of byte elements to set
- * @return a pointer to the jobject that represents this ByteBuffer
  */
-static inline jobject* memorySet(JNIEnv* env, jobject* buffer, int value, size_t size) {
+static inline void memorySet(JNIEnv* env, jobject* buffer, int value, size_t size) {
 	void* memAddress = getMemoryAddress(env, buffer);
 	memset(memAddress, value, size);
 	LOGD_SETMEM(DEBUG, memAddress, size, value);
-	return buffer;
 }
 
 /**

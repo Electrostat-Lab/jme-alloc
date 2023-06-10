@@ -9,6 +9,22 @@ extern "C" {
 #endif
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
+ * Method:    phantomMemoryAlloc
+ * Signature: (J)Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_phantomMemoryAlloc
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jme3_alloc_util_NativeBufferUtils
+ * Method:    phantomClearAlloc
+ * Signature: (J)Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_phantomClearAlloc
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    memoryAlloc
  * Signature: (J)Ljava/nio/ByteBuffer;
  */
@@ -26,9 +42,9 @@ JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_clearAlloc
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    memorySet
- * Signature: (Ljava/nio/ByteBuffer;IJ)Ljava/nio/ByteBuffer;
+ * Signature: (Ljava/nio/ByteBuffer;IJ)V
  */
-JNIEXPORT jobject JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_memorySet
   (JNIEnv *, jclass, jobject, jint, jlong);
 
 /*
@@ -57,6 +73,14 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__Ljava
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
+ * Method:    removeGlobalReference
+ * Signature: (Ljava/nio/Buffer;)V
+ */
+JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_removeGlobalReference
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     com_jme3_alloc_util_NativeBufferUtils
  * Method:    destroy
  * Signature: (J)V
  */
@@ -65,10 +89,10 @@ JNIEXPORT void JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_destroy__J
 
 /*
  * Class:     com_jme3_alloc_util_NativeBufferUtils
- * Method:    getMemoryAdress
+ * Method:    getMemoryAddress
  * Signature: (Ljava/nio/Buffer;)J
  */
-JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAdress
+JNIEXPORT jlong JNICALL Java_com_jme3_alloc_util_NativeBufferUtils_getMemoryAddress
   (JNIEnv *, jclass, jobject);
 
 #ifdef __cplusplus
